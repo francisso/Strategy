@@ -8,6 +8,8 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
+//Базовые взаимодействия игрока (человека или компьютера)
+//с картой
 class Player {
 public:
 	Player();

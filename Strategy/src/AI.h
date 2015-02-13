@@ -10,6 +10,8 @@
 
 #include "Player.h"
 
+//В будущем этот класс будет отвечать за
+//Искусственный интелект противника
 class AI: public Player {
 public:
 	AI();

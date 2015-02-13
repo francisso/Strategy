@@ -16,3 +16,11 @@ Engine::~Engine() {
 	// TODO Auto-generated destructor stub
 }
 
+bool Engine::AddDrawable(Drawable* drawable) {
+	return false; //Ошибка при при добавлении
+}
+
+bool Engine::DeleteDrawable(Drawable* drawable) {
+	return false;	//Ошбика при удалении
+}
+

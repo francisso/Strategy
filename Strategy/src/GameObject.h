@@ -10,6 +10,7 @@
 
 #include "Drawable.h"
 
+//Базовый класс для юнитов, зданий, и т.д.
 class GameObject: public Drawable {
 public:
 	GameObject();

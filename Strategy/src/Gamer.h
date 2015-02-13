@@ -10,6 +10,8 @@
 
 #include "Player.h"
 
+//Описывает игрока - человека
+//Отвечает за обработку ввода
 class Gamer: public Player {
 public:
 	Gamer();

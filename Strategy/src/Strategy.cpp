@@ -6,14 +6,23 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
+#include <exception>
 #include <iostream>
 
+#include "Engine.h"
 #include "Game.h"
-#include  "Engine.h"
-using namespace std;
 
 int main() {
-	//Engine* context = new Engine();
-	//Game* game = new Game(context);
+	std::cout << "I'm working fine";
+	try
+	{
+		Engine* context = new Engine();
+		Game* game = new Game(context);
+		game->Start();
+	}
+	catch (std::exception e)
+	{
+		std::cout << e.what();
+	}
 	return 0;
 }
