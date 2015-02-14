@@ -1,18 +1,18 @@
 /*
- * InputProcesser.cpp
+ * EngineInput.cpp
  *
  *  Created on: 14 февр. 2015 г.
  *      Author: anton
  */
 
-#include "InputProcesser.h"
+#include "EngineInput.h"
 
-InputProcesser::InputProcesser() {
+EngineInput::EngineInput() {
 	// TODO Auto-generated constructor stub
 
 }
 
-InputProcesser::~InputProcesser() {
+EngineInput::~EngineInput() {
 	// TODO Auto-generated destructor stub
 }
 

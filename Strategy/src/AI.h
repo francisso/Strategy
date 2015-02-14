@@ -8,11 +8,10 @@
 #ifndef AI_H_
 #define AI_H_
 
-#include "Player.h"
 
 //В будущем этот класс будет отвечать за
 //Искусственный интелект противника
-class AI: public Player {
+class AI {
 public:
 	AI();
 	virtual ~AI();
