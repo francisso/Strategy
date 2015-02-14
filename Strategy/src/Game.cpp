@@ -7,7 +7,7 @@
 
 #include "Game.h"
 
-Game::Game(Engine* context) {
+Game::Game() {
 	// TODO Auto-generated constructor stub
 	LoadResources();
 }

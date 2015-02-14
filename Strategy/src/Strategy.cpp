@@ -16,8 +16,7 @@ int main() {
 	std::cout << "I'm working fine";
 	try
 	{
-		Engine* context = new Engine();
-		Game* game = new Game(context);
+		Game* game = new Game();
 		game->Start();
 	}
 	catch (std::exception e)

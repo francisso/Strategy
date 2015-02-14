@@ -15,6 +15,8 @@ class GameObject: public Drawable {
 public:
 	GameObject();
 	virtual ~GameObject();
+	//Обновляет положение объекта на основе прошедшего времени
+	virtual void UpdatePosition(float time);
 };
 
 #endif /* GAMEOBJECT_H_ */

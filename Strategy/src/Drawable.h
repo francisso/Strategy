@@ -8,9 +8,7 @@
 #ifndef DRAWABLE_H_
 #define DRAWABLE_H_
 
-//Временные типы, переопределить по необходимости
-typedef int CoordinateType;
-typedef int Bitmap;
+#include "Types.h"
 
 //Базовый интерфейс для любого объекта,
 //который может быть отрисован
@@ -18,9 +16,14 @@ class  Drawable {
 public:
 	Drawable();
 	virtual ~Drawable();
-	virtual Bitmap getImage() = 0;
-	virtual CoordinateType getX() = 0;
-	virtual CoordinateType getY() = 0;
+	virtual Bitmap GetImage() = 0;
+	virtual CoordinateType X() {return x;};
+	virtual CoordinateType Y() {return y;};
+	virtual CoordinateType GetWidth() = 0;
+	virtual CoordinateType GetHeight() = 0;
+private:
+	CoordinateType x;
+	CoordinateType y;
 };
 
 #endif /* DRAWABLE_H_ */

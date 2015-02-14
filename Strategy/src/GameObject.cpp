@@ -16,3 +16,6 @@ GameObject::~GameObject() {
 	// TODO Auto-generated destructor stub
 }
 
+void GameObject::UpdatePosition(float time) {
+	//TODO implement function
+}
