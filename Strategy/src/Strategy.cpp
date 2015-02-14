@@ -16,8 +16,6 @@ int main() {
 	std::cout << "I'm working fine";
 	try
 	{
-		//Game* game = new Game();
-		//game->Start();
 		View* view = new View();
 		// TODO load view from file
 		// Загружаем из файла интерфейс
