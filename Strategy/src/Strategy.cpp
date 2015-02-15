@@ -12,11 +12,8 @@
 #include "Engine/Engine.h"
 #include "View.h"
 
-
 int main() {
 	std::cout << "I'm working fine";
-
-
 	try
 	{
 		View* view = new View();
@@ -26,10 +23,11 @@ int main() {
 		Engine* engine = new Engine();
 		engine->SetView(view);
 		engine->Run();
+
 	}
 	catch (std::exception* e)
 	{
-		std::cout << e->what();
+		std::cout << e->Swhat();
 	}
 	return 0;
 }
