@@ -22,6 +22,9 @@ public:
 	GameObject* GetGameObjectAtCell(int x, int y);
 	GameObject* GetGameObjectAtCoorinates(int x, int y);
 
+private:
+	GameObject* field[CELL_X_NUMBER][CELL_Y_NUMBER];
+
 };
 
 #endif /* GAMEFIELD_H_ */

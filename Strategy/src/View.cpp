@@ -16,8 +16,8 @@ View::~View() {
 	// TODO Auto-generated destructor stub
 }
 
-template <class UnaryFunction>
-void View::Draw(UnaryFunction f) {
+
+void View::Draw(std::function<void (Drawable*)> f) {
 	// TODO implement function
 }
 
@@ -25,6 +25,6 @@ void View::onClick(SDL_Event event) {
 	// TODO implement function
 }
 
-void View::UpdatePosition(Time t) {
+void View::Update(Time t) {
 	//TODO implement function
 }

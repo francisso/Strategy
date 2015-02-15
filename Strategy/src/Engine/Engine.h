@@ -26,14 +26,9 @@ public:
 
 private:
 
-	struct ToDraw {
-		EngineGraphic* graphic;
-		View* view;
-	} toDraw;
-
 
 	//Классы, сожержащие функции вывода изображений
-	// и первичной обработки ввода
+	// и обнаружения ввода
 	EngineGraphic* graphics;
 	EngineInput* input;
 	//Активное окно
@@ -49,10 +44,12 @@ private:
 	void thread_Update();
 	//Постоянно отрисовывает игровое поле
 	// - toDraw - локальный член класса
-	void thread_Draw(ToDraw toDraw);
+	void thread_Draw(View view);
 	//Поток, обрабатывающий ввод
 	void thread_Input(View* view);
 
+	//Отрисовывает окно
+	void DrawView(View view);
 
 
 };

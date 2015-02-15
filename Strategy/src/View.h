@@ -9,13 +9,17 @@
 #define VIEW_H_
 
 #include <vector>
+#include <functional>
+#include <SDL/SDL.h>
 
 #include "Types.h"
 #include "GameField.h"
+#include "GameObject.h"
+#include "Drawable.h"
 
 
 //Класс окна, отображающегося на экране
-class View {
+class View : public GameObject{
 public:
 	View();
 	virtual ~View();
@@ -24,31 +28,29 @@ public:
 	// для отрисовки окна
 	//Engine вызывает Draw с функцией, отрисовывающей Drawable
 	// и мы применяем эту функцию ко всем Drawable этого класса
-	template <class UnaryFunction>
-	void Draw(UnaryFunction f);
+	// TODO choose only one function
+	void Draw(std::function<void (Drawable*)> f);
 
 	//Функции, к которым обращается Engine
-	// при клику
+	// по клику
 	virtual void onClick(SDL_Event event);
 
-	//Обновить по плану положения - состояния всего
-	// t - время, прошедшее с последнего вызова
-	virtual void UpdatePosition(Time t);
+	virtual void Update(Time t);
+
+
+	//Функции для составления view
+	void AddText(char* text, CoordinateType x, CoordinateType y, int size);
+
+	void SetBackground(SDL_Surface* image, CoordinateType height, CoordinateType width);
+
+	void AddView(View* view, CoordinateType x, CoordinateType y);
+
+	void AddDrawable(Drawable* drawable);
 
 private:
-	//Ссылки на другие View
+	//То, что view отображает
 	std::vector<View*> views;
-	//Игровое поле
-	GameField* gameField = nullptr;
-	//Размеры этого view
-	CoordinateType x;
-	CoordinateType y;
-	CoordinateType height;
-	CoordinateType width;
-
-	//Картинка самого View
-	GameObject* background;
-
+	std::vector<Drawable*> drawables;
 };
 
 #endif /* VIEW_H_ */

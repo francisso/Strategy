@@ -26,3 +26,12 @@ void Engine::FreeResources(){
 void Engine::Run(){
 	// TODO implement function
 }
+
+//
+void Engine::DrawView(View view) {
+	//Передаем view функцию, при помощи которой можно
+	// рисовать SDL_Surface
+	view.Draw([this] (Drawable* drawable) {
+			this->graphics->Draw(drawable);
+			});
+}
