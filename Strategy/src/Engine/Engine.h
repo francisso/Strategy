@@ -9,7 +9,7 @@
 #define ENGINE_ENGINE_H_
 
 #include "EngineGraphic.h"
-#include "EngineInput.h"
+
 
 #include "../View.h"
 
@@ -27,10 +27,11 @@ public:
 private:
 
 
-	//Классы, сожержащие функции вывода изображений
-	// и обнаружения ввода
+	//Класс, сожержащий функцию вывода изображения
+	//graphics = new graphics(...);
+	//graphics.Draw(drawable*)
 	EngineGraphic* graphics;
-	EngineInput* input;
+
 	//Активное окно
 	View* view;
 

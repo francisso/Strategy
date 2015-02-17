@@ -19,7 +19,7 @@
 
 
 //Класс окна, отображающегося на экране
-class View : public GameObject{
+class View {
 public:
 	View();
 	virtual ~View();
@@ -28,12 +28,11 @@ public:
 	// для отрисовки окна
 	//Engine вызывает Draw с функцией, отрисовывающей Drawable
 	// и мы применяем эту функцию ко всем Drawable этого класса
-	// TODO choose only one function
-	void Draw(std::function<void (Drawable*)> f);
+	virtual void Draw(std::function<void (Drawable*)> f);
 
 	//Функции, к которым обращается Engine
-	// по клику
-	virtual void onClick(SDL_Event event);
+	// в случае события
+	virtual void onEvent(SDL_Event event);
 
 	virtual void Update(Time t);
 
@@ -41,7 +40,7 @@ public:
 	//Функции для составления view
 	void AddText(char* text, CoordinateType x, CoordinateType y, int size);
 
-	void SetBackground(SDL_Surface* image, CoordinateType height, CoordinateType width);
+	void SetImage(Drawable* image);
 
 	void AddView(View* view, CoordinateType x, CoordinateType y);
 
@@ -51,6 +50,9 @@ private:
 	//То, что view отображает
 	std::vector<View*> views;
 	std::vector<Drawable*> drawables;
+
+	//Фоновое изображение для данного View.
+	Drawable* image;
 };
 
 #endif /* VIEW_H_ */

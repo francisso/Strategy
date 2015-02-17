@@ -18,10 +18,14 @@ View::~View() {
 
 
 void View::Draw(std::function<void (Drawable*)> f) {
-	// TODO implement function
+	f(image);
+	for(auto d : drawables)
+		f(d);
+	for(auto v: views)
+		v->Draw(f);
 }
 
-void View::onClick(SDL_Event event) {
+void View::onEvent(SDL_Event event) {
 	// TODO implement function
 }
 

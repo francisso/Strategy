@@ -33,5 +33,6 @@ void Engine::DrawView(View view) {
 	// рисовать SDL_Surface
 	view.Draw([this] (Drawable* drawable) {
 			this->graphics->Draw(drawable);
-			});
+			}
+	);
 }

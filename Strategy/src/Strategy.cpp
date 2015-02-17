@@ -27,7 +27,7 @@ int main() {
 	}
 	catch (std::exception* e)
 	{
-		std::cout << e->Swhat();
+		std::cout << e->what();
 	}
 	return 0;
 }

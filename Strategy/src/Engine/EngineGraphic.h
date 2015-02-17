@@ -26,11 +26,10 @@ class EngineGraphic {
 public:
 	EngineGraphic();
 	virtual ~EngineGraphic();
-	bool Draw(Drawable* drawable);
 
-	//Создает SDL_Surface с заданным текстом, готовую для отрисовки на экран
-	//набор аргументов приблизительный
-	static SDL_Surface* GetSurfaceFromText(char* text, int size);
+	//возвращет true, если отрисовка удачна.
+	//Возможно, void будет удобнее
+	bool Draw(Drawable* drawable);
 
 private:
 	//Поверхность, на которую осуществляется отрисовка
