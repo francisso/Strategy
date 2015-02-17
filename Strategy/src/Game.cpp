@@ -7,7 +7,6 @@
 
 #include "Game.h"
 
-using namespace std;
 Game::Game() {
 	// TODO Auto-generated constructor stub
 }
