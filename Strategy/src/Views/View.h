@@ -13,17 +13,17 @@
 #include <SDL/SDL.h>
 #include <inttypes.h>
 
-#include "Types.h"
+#include "../Types.h"
 #include "GameField.h"
-#include "GameObject.h"
-#include "Drawable.h"
+#include "../GameObject.h"
+#include "../Drawable.h"
 
 
 //Класс окна, отображающегося на экране
 class View {
 public:
-	View();
-	virtual ~View();
+	View()=default;
+	virtual ~View()=default;
 
 	//Функции, к которым обращается Engine
 	// для отрисовки окна

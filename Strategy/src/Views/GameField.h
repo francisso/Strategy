@@ -8,8 +8,8 @@
 #ifndef GAMEFIELD_H_
 #define GAMEFIELD_H_
 
-#include "Constants.h"
-#include "GameObject.h"
+#include "../Constants.h"
+#include "../GameObject.h"
 
 
 //Содержит все игровые объекты

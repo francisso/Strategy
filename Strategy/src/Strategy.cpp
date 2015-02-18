@@ -10,7 +10,8 @@
 #include <iostream>
 
 #include "Engine/Engine.h"
-#include "View.h"
+#include "Views/View.h"
+
 
 int main() {
 	std::cout << "I'm working fine";
@@ -19,6 +20,7 @@ int main() {
 		View* view = new View();
 		// TODO load view from file
 		// Загружаем из файла интерфейс
+
 
 		Engine* engine = new Engine();
 		engine->SetView(view);

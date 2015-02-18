@@ -8,11 +8,6 @@
 #include "View.h"
 
 
-View::~View() {
-	// TODO Auto-generated destructor stub
-}
-
-
 void View::Update(Time t) {
 	for(auto v: views)
 		v->Update(t);
