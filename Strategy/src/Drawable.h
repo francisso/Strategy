@@ -27,6 +27,9 @@ public:
 	virtual SDL_Rect* GetSrcRect() = 0;
 	virtual SDL_Rect* GetDestRect() = 0;
 
+	//returns true if this Drawable contains coordinates
+	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) = 0;
+
 };
 
 #endif /* DRAWABLE_H_ */

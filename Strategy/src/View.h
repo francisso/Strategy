@@ -11,6 +11,7 @@
 #include <vector>
 #include <functional>
 #include <SDL/SDL.h>
+#include <inttypes.h>
 
 #include "Types.h"
 #include "GameField.h"
@@ -32,19 +33,20 @@ public:
 
 	//Функции, к которым обращается Engine
 	// в случае события
-	virtual void onEvent(SDL_Event event);
+	virtual void onEvent(SDL_Event* event);
 
 	virtual void Update(Time t);
 
 
 	//Функции для составления view
-	void AddText(char* text, CoordinateType x, CoordinateType y, int size);
-
 	void SetImage(Drawable* image);
 
-	void AddView(View* view, CoordinateType x, CoordinateType y);
+	void AddView(View* view);
 
 	void AddDrawable(Drawable* drawable);
+
+	//returns true если координаты принадлежат этому view
+	bool ContainsCoordinates(Uint16 x, Uint16 y);
 
 private:
 	//То, что view отображает
@@ -52,7 +54,7 @@ private:
 	std::vector<Drawable*> drawables;
 
 	//Фоновое изображение для данного View.
-	Drawable* image;
+	Drawable* image = nullptr;
 };
 
 #endif /* VIEW_H_ */

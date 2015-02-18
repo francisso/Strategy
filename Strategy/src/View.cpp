@@ -7,28 +7,57 @@
 
 #include "View.h"
 
-View::View() {
-	// TODO Auto-generated constructor stub
-
-}
 
 View::~View() {
 	// TODO Auto-generated destructor stub
 }
 
 
+void View::Update(Time t) {
+	for(auto v: views)
+		v->Update(t);
+}
+
 void View::Draw(std::function<void (Drawable*)> f) {
-	f(image);
+	//Сначала рисуем фон
+	if (image != nullptr)
+		f(image);
+	//Потом все drawables
 	for(auto d : drawables)
 		f(d);
+	//Потом все view
 	for(auto v: views)
 		v->Draw(f);
 }
 
-void View::onEvent(SDL_Event event) {
-	// TODO implement function
+void View::onEvent(SDL_Event* event) {
+	//Если произошло нажатие мышки, то отправляем только одному view
+	if (event->type == SDL_EventType::SDL_MOUSEBUTTONUP ||
+			event->type == SDL_EventType::SDL_MOUSEBUTTONDOWN) {
+		for(auto v: views)
+			if (v->ContainsCoordinates(event->button.x, event->button.y))
+				v->onEvent(event);
+	}
+	//Если не мышь - информируем всех
+	else
+		for(auto v: views)
+			v->onEvent(event);
+
 }
 
-void View::Update(Time t) {
-	//TODO implement function
+bool View::ContainsCoordinates(Uint16 x, Uint16 y) {
+	return image->ContainsCoordinates(x, y);
 }
+
+void View::AddDrawable(Drawable* drawable) {
+	drawables.push_back(drawable);
+}
+
+void View::AddView(View* view) {
+	views.push_back(view);
+}
+
+void View::SetImage(Drawable* image) {
+	this->image = image;
+}
+
