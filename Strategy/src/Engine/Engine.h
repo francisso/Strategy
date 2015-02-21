@@ -8,7 +8,6 @@
 #ifndef ENGINE_ENGINE_H_
 #define ENGINE_ENGINE_H_
 
-#include "EngineGraphic.h"
 
 
 #include "../Views/View.h"
@@ -26,15 +25,9 @@ public:
 
 private:
 
-
-	//Класс, сожержащий функцию вывода изображения
-	//graphics = new graphics(...);
-	//graphics.Draw(drawable*)
-	EngineGraphic* graphics;
-
 	//Активное окно
 	View* view;
-
+	SDL_Surface* screen;
 
 	//Constructor initializes all the resources
 	void LoadResources();
@@ -51,7 +44,7 @@ private:
 
 	//Отрисовывает окно
 	void DrawView(View view);
-
+	void Draw(Drawable* drawable);
 
 };
 #endif /* ENGINE_ENGINE_H_ */

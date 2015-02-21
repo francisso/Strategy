@@ -13,7 +13,8 @@
 //Базовый класс для юнитов, зданий, и т.д.
 class GameObject: public Drawable {
 public:
-	GameObject();
+	GameObject() = default;
+	GameObject(SDL_Rect *src, const char *name_file_image);
 	virtual ~GameObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
@@ -25,12 +26,14 @@ public:
 	virtual CoordinateType Y();
 	virtual CoordinateType GetWidth();
 	virtual CoordinateType GetHeight();
-	virtual SDL_Rect* GetSrcRect();
-	virtual SDL_Rect* GetDestRect();
+	virtual SDL_Rect* GetSrcRect(); // куда нужно наложить картинку
+	virtual SDL_Rect* GetDestRect(); // прямоугольник, который накладывается
 
 private:
 	CoordinateType x;
 	CoordinateType y;
+	CoordinateType sx; // откуда брать
+	CoordinateType sy; // откуда брать
 	CoordinateType width;
 	CoordinateType height;
 	SDL_Surface* image;

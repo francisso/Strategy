@@ -1,4 +1,5 @@
 /*
+ /*
  * GameObject.cpp
  *
  *  Created on: 12.02.2015
@@ -7,13 +8,19 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject() {
-	// TODO Auto-generated constructor stub
-
+GameObject::GameObject(SDL_Rect *src, const char *name_file_image) {
+	x = src->x;
+	y = src->y;
+	width = src->w;
+	height = src->h;
+	sx = 0;
+	sy = 0;
+	image = SDL_LoadBMP(name_file_image);
+	SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format,255, 0, 255));
 }
 
 GameObject::~GameObject() {
-	// TODO Auto-generated destructor stub
+	SDL_FreeSurface(image);
 }
 
 void GameObject::Update(float time) {
@@ -22,8 +29,7 @@ void GameObject::Update(float time) {
 }
 
 SDL_Surface* GameObject::GetImage() {
-	//TODO implement function
-	return nullptr;
+	return image;
 }
 CoordinateType GameObject::X() {return x;}
 
@@ -34,10 +40,18 @@ CoordinateType GameObject::GetWidth() {return width;}
 CoordinateType GameObject::GetHeight() {return height;}
 
 SDL_Rect* GameObject::GetSrcRect() {
-	//TODO implement function
-	return nullptr;
+	SDL_Rect src;
+	src.x = sx;
+	src.y = sy;
+	src.w = width;
+	src.h = height;
+	return &src;
 }
 SDL_Rect* GameObject::GetDestRect() {
-	//TODO implement function
-	return nullptr;
+	SDL_Rect desc;
+	desc.x = x;
+	desc.y = y;
+	desc.w = width;
+	desc.h = height;
+	return &desc;
 }

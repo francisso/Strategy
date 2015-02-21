@@ -8,7 +8,17 @@
 #include "Engine.h"
 
 Engine::Engine() {
-	// TODO Auto-generated constructor stub
+	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+	{
+	        printf( "Unable to init SDL: %s", SDL_GetError());
+	        return;
+	}
+	screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	if (!screen)
+	{
+	    printf("Can't set videomode: %s", SDL_GetError());
+	    return;
+	}
 }
 
 Engine::~Engine() {
@@ -28,11 +38,18 @@ void Engine::Run(){
 }
 
 //
+void Engine::Draw(Drawable* drawable)
+{
+	SDL_BlitSurface(drawable->GetImage(),
+			drawable->GetSrcRect(),
+			screen,
+			drawable->GetDestRect());
+}
 void Engine::DrawView(View view) {
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
-	view.Draw([this] (Drawable* drawable) {
-			this->graphics->Draw(drawable);
-			}
-	);
+	auto f = [this] (Drawable* drawable) {
+		this->Draw(drawable);
+	};
+	view.Draw(f);
 }
