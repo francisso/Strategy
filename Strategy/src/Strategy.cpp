@@ -10,37 +10,31 @@
 #include <iostream>
 #include <string>
 
+
 #include "Engine/Engine.h"
 #include "Views/View.h"
+#include "Views/ViewCreator.h"
 
 
 int main() {
-	std::cout << "I'm working fine";
+	std::cout << "I'm working" << std::endl;
 	try
 	{
-		View* view = new View();
-		SDL_Rect rect = {0,0,450,550};
-		//в этой строчке происходит ошибка
-		//путь у меня абсолютный, на всякий случай
-		//auto d = new GameObject(&rect, "/home/anton/git/Coursework/Strategy/res/images/test.bmp");
-		//в общем, путь должен быть каким-то таким
-		//auto d = new GameObject(&rect, "../res/images/test.bmp");
-		//view->AddDrawable(d);
-
-		// TODO load view from file
-		// Загружаем из файла интерфейс
-
-
+		View* view = ViewCreator::CreateView("Views/MainView.xml");
 		Engine* engine = new Engine();
 		engine->SetView(view);
 		engine->Run();
 		//зацикливаемся, чтобы не закрылось открывшеяся окно
 		while(1);
-
 	}
 	catch (std::exception* e)
 	{
-		std::cout << e->what();
+		std::cout << e->what() <<std::endl;
+	}
+	catch (const char* e)
+	{
+		std::cout << "An error has occurred" <<std::endl;
+		std::cout << e <<std::endl;
 	}
 	return 0;
 }

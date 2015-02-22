@@ -19,6 +19,7 @@ Engine::Engine() {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
 	}
+	view = nullptr;
 }
 
 Engine::~Engine() {
@@ -47,10 +48,14 @@ void Engine::Draw(Drawable* drawable)
 			drawable->GetDestRect());
 }
 void Engine::DrawView(View* view) {
+	if (view == nullptr)
+		throw("Engine view is null");
+
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
 	auto f = [this] (Drawable* drawable) {
 		this->Draw(drawable);
 	};
 	view->Draw(f);
+	SDL_Flip(screen);
 }

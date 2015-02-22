@@ -1,5 +1,5 @@
 /*
- /*
+ *
  * GameObject.cpp
  *
  *  Created on: 12.02.2015
@@ -8,24 +8,29 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject(SDL_Rect *src, const char *name_file_image) {
-	x = src->x;
-	y = src->y;
-	width = src->w;
-	height = src->h;
-	sx = 0;
-	sy = 0;
+GameObject::GameObject(SDL_Rect src, const char *name_file_image) {
+	srcRect = new SDL_Rect(src);
+	destRect = new SDL_Rect(src);
+	x = src.x;
+	y = src.y;
+	width = src.w;
+	height = src.h;
+	imageX = 0;
+	imageY = 0;
 	image = SDL_LoadBMP(name_file_image);
+	if (!image)
+		throw("GameObject cannot open image");
 	SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format,255, 0, 255));
 }
 
 GameObject::~GameObject() {
 	SDL_FreeSurface(image);
+	delete(srcRect);
+	delete(destRect);
 }
 
 void GameObject::Update(float time) {
 	//TODO implement function
-
 }
 
 SDL_Surface* GameObject::GetImage() {
@@ -39,22 +44,10 @@ CoordinateType GameObject::GetWidth() {return width;}
 
 CoordinateType GameObject::GetHeight() {return height;}
 
-SDL_Rect* GameObject::GetSrcRect() {
-	SDL_Rect src;
-	src.x = sx;
-	src.y = sy;
-	src.w = width;
-	src.h = height;
-	return &src;
-}
-SDL_Rect* GameObject::GetDestRect() {
-	SDL_Rect desc;
-	desc.x = x;
-	desc.y = y;
-	desc.w = width;
-	desc.h = height;
-	return &desc;
-}
+SDL_Rect* GameObject::GetSrcRect() { return srcRect;}
+
+SDL_Rect* GameObject::GetDestRect() { return destRect;}
+
 
 bool GameObject::ContainsCoordinates(Uint16 x, Uint16 y) {
 	auto relativeX = x - this->x;

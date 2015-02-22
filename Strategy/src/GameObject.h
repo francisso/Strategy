@@ -14,7 +14,7 @@
 class GameObject: public Drawable {
 public:
 	GameObject() = default;
-	GameObject(SDL_Rect *src, const char *name_file_image);
+	GameObject(SDL_Rect src, const char *name_file_image);
 	virtual ~GameObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
@@ -34,12 +34,18 @@ public:
 	virtual bool ContainsCoordinates(Uint16 x, Uint16 y);
 
 private:
+	//Координаты на поле
 	CoordinateType x;
 	CoordinateType y;
-	CoordinateType sx; // откуда брать
-	CoordinateType sy; // откуда брать
+	//Координаты верхнего левого угла прямоугольника,
+	// который будет отрисован, на кратинке
+	CoordinateType imageX;
+	CoordinateType imageY;
 	CoordinateType width;
 	CoordinateType height;
+	//Прямоугольники, дублирующие верхние переменные
+	SDL_Rect* srcRect;
+	SDL_Rect* destRect;
 	SDL_Surface* image;
 };
 
