@@ -35,6 +35,7 @@ void Engine::FreeResources(){
 
 void Engine::Run(){
 	// TODO implement function
+	DrawView(view);
 }
 
 //
@@ -45,11 +46,11 @@ void Engine::Draw(Drawable* drawable)
 			screen,
 			drawable->GetDestRect());
 }
-void Engine::DrawView(View view) {
+void Engine::DrawView(View* view) {
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
 	auto f = [this] (Drawable* drawable) {
 		this->Draw(drawable);
 	};
-	view.Draw(f);
+	view->Draw(f);
 }

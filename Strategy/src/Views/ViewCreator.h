@@ -8,7 +8,7 @@
 #ifndef VIEWS_VIEWCREATOR_H_
 #define VIEWS_VIEWCREATOR_H_
 
-#include "../lib/rapidxml-1.13/rapidxml.hpp"
+#include "../../lib/rapidxml-1.13/rapidxml.hpp"
 
 //Создает объект View, считывая из
 // xml файла

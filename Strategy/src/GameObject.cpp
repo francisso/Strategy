@@ -55,3 +55,10 @@ SDL_Rect* GameObject::GetDestRect() {
 	desc.h = height;
 	return &desc;
 }
+
+bool GameObject::ContainsCoordinates(Uint16 x, Uint16 y) {
+	auto relativeX = x - this->x;
+	auto relativeY = y - this->y;
+	return (relativeX >=0 && relativeY >=0 &&
+			relativeX <= width && relativeY <= height);
+}

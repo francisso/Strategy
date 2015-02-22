@@ -26,8 +26,12 @@ public:
 	virtual CoordinateType Y();
 	virtual CoordinateType GetWidth();
 	virtual CoordinateType GetHeight();
-	virtual SDL_Rect* GetSrcRect(); // куда нужно наложить картинку
-	virtual SDL_Rect* GetDestRect(); // прямоугольник, который накладывается
+	// прямоугольник, куда нужно наложить картинку
+	virtual SDL_Rect* GetSrcRect();
+	// прямоугольник, который накладывается
+	virtual SDL_Rect* GetDestRect();
+
+	virtual bool ContainsCoordinates(Uint16 x, Uint16 y);
 
 private:
 	CoordinateType x;

@@ -43,7 +43,7 @@ private:
 	void thread_Input(View* view);
 
 	//Отрисовывает окно
-	void DrawView(View view);
+	void DrawView(View* view);
 	void Draw(Drawable* drawable);
 
 };

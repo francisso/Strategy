@@ -20,7 +20,7 @@ public:
 	//returns true if addition was successful
 	bool AddGameObject(GameObject* addingObject, int type);
 	GameObject* GetGameObjectAtCell(int x, int y);
-	GameObject* GetGameObjectAtCoorinates(int x, int y);
+	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
 
 private:
 	GameObject* field[CELL_X_NUMBER][CELL_Y_NUMBER];

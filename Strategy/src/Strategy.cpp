@@ -8,6 +8,7 @@
 
 #include <exception>
 #include <iostream>
+#include <string>
 
 #include "Engine/Engine.h"
 #include "Views/View.h"
@@ -18,6 +19,14 @@ int main() {
 	try
 	{
 		View* view = new View();
+		SDL_Rect rect = {0,0,450,550};
+		//в этой строчке происходит ошибка
+		//путь у меня абсолютный, на всякий случай
+		//auto d = new GameObject(&rect, "/home/anton/git/Coursework/Strategy/res/images/test.bmp");
+		//в общем, путь должен быть каким-то таким
+		//auto d = new GameObject(&rect, "../res/images/test.bmp");
+		//view->AddDrawable(d);
+
 		// TODO load view from file
 		// Загружаем из файла интерфейс
 
@@ -25,6 +34,8 @@ int main() {
 		Engine* engine = new Engine();
 		engine->SetView(view);
 		engine->Run();
+		//зацикливаемся, чтобы не закрылось открывшеяся окно
+		while(1);
 
 	}
 	catch (std::exception* e)

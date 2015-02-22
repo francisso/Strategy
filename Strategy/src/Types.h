@@ -9,8 +9,9 @@
 #define TYPES_H_
 
 #include <SDL/SDL_events.h>
+#include <inttypes.h>
 //Временные типы, переопределить по необходимости
-typedef int CoordinateType;
+typedef Uint16 CoordinateType;
 typedef int Bitmap;
 typedef int Time;
 
