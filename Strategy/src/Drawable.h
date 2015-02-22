@@ -17,6 +17,7 @@
 //который может быть отрисован
 class  Drawable {
 public:
+	virtual ~Drawable()=default;
 	virtual SDL_Surface* GetImage() = 0;
 	virtual CoordinateType X() =0;
 	virtual CoordinateType Y() =0;

@@ -7,11 +7,6 @@
 
 #include "Unit.h"
 
-Unit::Unit() {
-	// TODO Auto-generated constructor stub
-
-}
-
 Unit::~Unit() {
 	// TODO Auto-generated destructor stub
 }

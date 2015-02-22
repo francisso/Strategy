@@ -12,7 +12,6 @@
 
 class Unit : public GameObject{
 public:
-	Unit();
 	virtual ~Unit();
 };
 

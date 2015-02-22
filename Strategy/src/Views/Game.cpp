@@ -9,6 +9,7 @@
 
 Game::Game() {
 	// TODO Auto-generated constructor stub
+	field = new GameField();
 }
 
 Game::~Game() {

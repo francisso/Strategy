@@ -7,11 +7,6 @@
 
 #include "Archers.h"
 
-Archers::Archers() {
-	// TODO Auto-generated constructor stub
-
-}
-
 Archers::~Archers() {
 	// TODO Auto-generated destructor stub
 }

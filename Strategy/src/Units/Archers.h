@@ -14,7 +14,6 @@ typedef int Bitmap;
 
 class Archers: public Unit {
 public:
-	Archers();
 	virtual ~Archers();
 private:
 	static Bitmap archerImage;
