@@ -16,6 +16,10 @@ GameObject::GameObject(SDL_Rect *src, const char *name_file_image) {
 	sx = 0;
 	sy = 0;
 	image = SDL_LoadBMP(name_file_image);
+	if (!image) {
+		std::cout << "Error: " << SDL_GetError() << "\n";
+		return;
+	}
 	SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format,255, 0, 255));
 }
 

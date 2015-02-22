@@ -19,13 +19,17 @@ int main() {
 	try
 	{
 		View* view = new View();
-		SDL_Rect rect = {0,0,450,550};
+		SDL_Rect rect ;
+		rect.x = 0;
+		rect.y = 0;
+		rect.w = 100;
+		rect.h = 100;
 		//в этой строчке происходит ошибка
 		//путь у меня абсолютный, на всякий случай
 		//auto d = new GameObject(&rect, "/home/anton/git/Coursework/Strategy/res/images/test.bmp");
 		//в общем, путь должен быть каким-то таким
-		//auto d = new GameObject(&rect, "../res/images/test.bmp");
-		//view->AddDrawable(d);
+		auto d = new GameObject(&rect, "test.bmp");
+		view->AddDrawable(d);
 
 		// TODO load view from file
 		// Загружаем из файла интерфейс

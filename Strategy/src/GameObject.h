@@ -9,6 +9,7 @@
 #define GAMEOBJECT_H_
 
 #include "Drawable.h"
+#include <iostream>
 
 //Базовый класс для юнитов, зданий, и т.д.
 class GameObject: public Drawable {

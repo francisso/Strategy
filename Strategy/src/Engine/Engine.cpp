@@ -19,6 +19,7 @@ Engine::Engine() {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
 	}
+	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 0, 0, 0));
 }
 
 Engine::~Engine() {
@@ -35,7 +36,19 @@ void Engine::FreeResources(){
 
 void Engine::Run(){
 	// TODO implement function
-	DrawView(view);
+	//DrawView(view);
+	SDL_Surface* im = SDL_LoadBMP("test.bmp");
+	SDL_Rect src, desc;
+	src.x = 0;
+	src.y = 0;
+	src.w = 100;
+	src.h = 100;
+	desc.x = 0;
+	desc.y = 0;
+	desc.w = 100;
+	desc.h = 100;
+	SDL_BlitSurface(im, &src, screen, &desc);
+	SDL_Flip(screen);
 }
 
 //
