@@ -43,9 +43,9 @@ void Engine::Run(){
 void Engine::Draw(Drawable* drawable)
 {
 	SDL_BlitSurface(drawable->GetImage(),
-			drawable->GetSrcRect(),
+			drawable->GetDestRect(),
 			screen,
-			drawable->GetDestRect());
+			drawable->GetSrcRect());
 }
 void Engine::DrawView(View* view) {
 	if (view == nullptr)

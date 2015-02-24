@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <View>
-    <Drawable path="res/images/test.bmp" x="0" y="0" width="450" height="550"/>
+    <Drawable path="res/images/mytest.bmp" x="0" y="0" width="450" height="550"/>
     <Drawable path="res/images/test.bmp" x="0" y="0" width="450" height="550"/>
     <View>
-    	<Drawable path="res/images/test.bmp" x="0" y="0" width="550" height="450"/>
+    	<Drawable path="res/images/mytest.bmp" x="470" y="200" width="550" height="450"/>
     </View>
 </View>

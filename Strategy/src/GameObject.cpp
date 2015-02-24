@@ -11,6 +11,8 @@
 GameObject::GameObject(SDL_Rect src, const char *name_file_image) {
 	srcRect = new SDL_Rect(src);
 	destRect = new SDL_Rect(src);
+	destRect->x = 0;
+	destRect->y = 0;
 	x = src.x;
 	y = src.y;
 	width = src.w;
