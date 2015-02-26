@@ -21,7 +21,9 @@ int main() {
 	try
 	{
 		View* view = ViewCreator::CreateView("Views/MainView.xml");
+		//TODO make resource initializator
 		Engine* engine = new Engine();
+
 		engine->SetView(view);
 		engine->Run();
 		//зацикливаемся, чтобы не закрылось открывшеяся окно

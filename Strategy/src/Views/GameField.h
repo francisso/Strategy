@@ -23,7 +23,12 @@ public:
 	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
 
 private:
-	GameObject* field[CELL_X_NUMBER][CELL_Y_NUMBER];
+
+	enum CellType{ NOTHING, UNIT, BUILDING, WATER};
+	struct Cell {
+		CellType type;
+		GameObject* object;};
+	Cell* field[CELL_X_NUMBER][CELL_Y_NUMBER];
 
 };
 

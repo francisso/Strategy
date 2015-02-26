@@ -11,7 +11,7 @@
 //Число клеток по горизонтали
 #define CELL_X_NUMBER 100
 //Число клеток по вертикали
-#define CELL_Y_NUMBER 100
+#define CELL_Y_NUMBER 80
 
 
 //Количество пикселей в клетке
