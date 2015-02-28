@@ -24,7 +24,7 @@ public:
 
 private:
 
-	enum CellType{ NOTHING, UNIT, BUILDING, WATER};
+	enum CellType{ NOTHING, UNIT, BUILDING, WATERs};
 	struct Cell {
 		CellType type;
 		GameObject* object;};

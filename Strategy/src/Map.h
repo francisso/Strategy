@@ -10,16 +10,16 @@
 
 
 #include <functional>
-
+#include "Constants.h"
 #include "Drawable.h"
 
 class Map {
 public:
-	Map();
+	Map(std::function<void (Drawable*)> f, SDL_Surface *screen);
 	virtual ~Map();
 	void Draw(std::function<void (Drawable*)> f);
-	enum TextureTypes { GROUND, WATER, SAND, FOREST, MOUNTIAN, SWAMP};
 	static Drawable* textures[6];
+	SDL_Surface * background;
 
 };
 

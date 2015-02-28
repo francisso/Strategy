@@ -42,6 +42,16 @@ CoordinateType GameObject::X() {return x;}
 
 CoordinateType GameObject::Y() {return y;}
 
+void GameObject::setX(CoordinateType X) {
+	x = X;
+	srcRect->x = X;
+}
+
+void GameObject::setY(CoordinateType Y) {
+	y = Y;
+	srcRect->y = Y;
+}
+
 CoordinateType GameObject::GetWidth() {return width;}
 
 CoordinateType GameObject::GetHeight() {return height;}

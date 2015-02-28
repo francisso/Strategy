@@ -18,8 +18,12 @@
 #define CELL_X 10
 #define CELL_Y 10
 
-
-
-
+// текстуры для карты
+#define GROUND   0
+#define WATER    1
+#define SAND     2
+#define FOREST   3
+#define MOUNTIAN 4
+#define SWAMP    5
 
 #endif /* CONSTANTS_H_ */

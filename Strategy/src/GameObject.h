@@ -24,6 +24,8 @@ public:
 	virtual SDL_Surface* GetImage();
 	virtual CoordinateType X();
 	virtual CoordinateType Y();
+	virtual void setX(CoordinateType x);
+	virtual void setY(CoordinateType y);
 	virtual CoordinateType GetWidth();
 	virtual CoordinateType GetHeight();
 	// прямоугольник, куда нужно наложить картинку
