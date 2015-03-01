@@ -8,10 +8,10 @@
 #include "Game.h"
 #include "../Constants.h"
 
-Game::Game(Map* map) {
+Game::Game(Drawable* Background) {
 	// TODO Auto-generated constructor stub
 	field = new GameField();
-	this->map = map;
+	background = Background;
 }
 
 Game::~Game() {
@@ -19,10 +19,10 @@ Game::~Game() {
 }
 
 void Game::Draw(std::function<void (Drawable*)> f) {
-	map->Draw(f);
+	f(background);
 	for (int i = 0; i < CELL_X_NUMBER; i++)
-		for (int k = 0; k < CELL_Y_NUMBER; k++)
-			f(field->GetGameObjectAtCell(i,k));
+	for (int k = 0; k < CELL_Y_NUMBER; k++)
+			f(field->field[i][k].object);
 }
 
 void Game::Update(Time t) {

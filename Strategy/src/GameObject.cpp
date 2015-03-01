@@ -38,6 +38,11 @@ void GameObject::Update(float time) {
 SDL_Surface* GameObject::GetImage() {
 	return image;
 }
+/*
+void GameObject::SetImage(SDL_Surface* Image) {
+	image = Image;
+}
+*/
 CoordinateType GameObject::X() {return x;}
 
 CoordinateType GameObject::Y() {return y;}

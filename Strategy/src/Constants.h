@@ -26,4 +26,9 @@
 #define MOUNTIAN 4
 #define SWAMP    5
 
+// состояния клетки
+#define NOTHING  0
+#define UNIT     1
+#define BUILDING 2
+
 #endif /* CONSTANTS_H_ */

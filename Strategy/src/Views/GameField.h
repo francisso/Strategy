@@ -13,22 +13,22 @@
 
 
 //Содержит все игровые объекты
-class GameField {
-public:
-	GameField();
-	virtual ~GameField();
+struct GameField {
+
 	//returns true if addition was successful
-	bool AddGameObject(GameObject* addingObject, int type);
-	GameObject* GetGameObjectAtCell(int x, int y);
-	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
+//	bool AddGameObject(GameObject* addingObject, int type);
+//	GameObject* GetGameObjectAtCell(int x, int y);
+//	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
 
-private:
-
-	enum CellType{ NOTHING, UNIT, BUILDING, WATERs};
+	struct CellType {
+		int texstura;
+		int think;
+	};
 	struct Cell {
 		CellType type;
-		GameObject* object;};
-	Cell* field[CELL_X_NUMBER][CELL_Y_NUMBER];
+		GameObject* object;
+	};
+	Cell field[CELL_X_NUMBER][CELL_Y_NUMBER];
 
 };
 

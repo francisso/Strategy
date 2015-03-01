@@ -22,6 +22,7 @@ public:
 
 	//Реализация Drawable:
 	virtual SDL_Surface* GetImage();
+//	virtual void SetImage(SDL_Surface* image);
 	virtual CoordinateType X();
 	virtual CoordinateType Y();
 	virtual void setX(CoordinateType x);

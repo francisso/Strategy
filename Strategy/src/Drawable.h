@@ -19,6 +19,7 @@ class  Drawable {
 public:
 	virtual ~Drawable()=default;
 	virtual SDL_Surface* GetImage() = 0;
+//	virtual void SetImage(SDL_Surface* image) = 0;
 	virtual CoordinateType X() = 0;
 	virtual CoordinateType Y() = 0;
 	virtual void setX(CoordinateType x) = 0;

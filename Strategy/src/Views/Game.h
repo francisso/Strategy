@@ -12,19 +12,18 @@
 
 #include "../Drawable.h"
 #include "View.h"
-#include "../Map.h"
 
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
 //  (атака 1 юнита на другой, например)
 class Game: public View {
 public:
-	Game(Map* background);
+	Game(Drawable* Background);
 	virtual ~Game();
 
 private:
 	GameField* field;
-	Map* map;
+	Drawable* background;
 	virtual void Draw(std::function<void (Drawable*)> f);
 	virtual void Update(Time t);
 };

@@ -28,6 +28,7 @@ private:
 	//Активное окно
 	View* view;
 	SDL_Surface* screen;
+	Drawable* texture[6];
 
 	//Constructor initializes all the resources
 	void LoadResources();
@@ -45,6 +46,9 @@ private:
 	//Отрисовывает окно
 	void DrawView(View* view);
 	void Draw(Drawable* drawable);
+	// создание карты
+	Drawable* CreateBackgroung(GameField* field);
+
 
 };
 #endif /* ENGINE_ENGINE_H_ */
