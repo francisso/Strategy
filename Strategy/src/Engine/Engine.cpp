@@ -30,12 +30,12 @@ Engine::~Engine() {
 
 void Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X, CELL_Y};
-	texture[GROUND] = new GameObject(src, "../../res/images/ground.bmp");
-	texture[WATER]  = new GameObject(src, "../../res/images/water.bmp");
-	texture[SAND]   = new GameObject(src, "../../res/images/send.bmp");
-	texture[FOREST] = new GameObject(src, "../../res/images/forest.bmp");
-	texture[MOUNTIAN] = new GameObject(src, "../../res/images/mountian.bmp");
-	texture[SWAMP]  = new GameObject(src, "../../res/images/swamp.bmp");
+	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
+	texture[WATER]  = new GameObject(src, "res/images/water.bmp");
+	texture[SAND]   = new GameObject(src, "res/images/sand.bmp");
+	texture[FOREST] = new GameObject(src, "res/images/forest.bmp");
+	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
+	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
 }
 
 void Engine::FreeResources(){
@@ -80,9 +80,9 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 		Draw(texture[field->field[i][j].type.texstura]);
 	}
 
-	SDL_SaveBMP(screen, "../../res/images/background.bmp");
+	SDL_SaveBMP(screen, "res/images/background.bmp");
 	SDL_Rect src = {0, 0, CELL_X_NUMBER*CELL_X, CELL_Y_NUMBER*CELL_Y};
-	GameObject* background = new GameObject(src, "../../res/images/background.bmp");
+	GameObject* background = new GameObject(src, "res/images/background.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;

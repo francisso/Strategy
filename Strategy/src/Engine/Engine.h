@@ -23,6 +23,14 @@ public:
 	//Начинаем рутину (все потоки запсукаются)
 	void Run();
 
+	// создание карты
+	Drawable* CreateBackgroung(GameField* field);
+
+	//Constructor initializes all the resources
+		void LoadResources();
+		//Destructor frees resources
+		void FreeResources();
+
 private:
 
 	//Активное окно
@@ -30,10 +38,7 @@ private:
 	SDL_Surface* screen;
 	Drawable* texture[6];
 
-	//Constructor initializes all the resources
-	void LoadResources();
-	//Destructor frees resources
-	void FreeResources();
+
 	//Вычисляет, сколько времени прошло с последнего такта
 	//И обновляет положения всех объектов
 	void thread_Update();
@@ -46,8 +51,7 @@ private:
 	//Отрисовывает окно
 	void DrawView(View* view);
 	void Draw(Drawable* drawable);
-	// создание карты
-	Drawable* CreateBackgroung(GameField* field);
+
 
 
 };
