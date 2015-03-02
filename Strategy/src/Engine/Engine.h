@@ -9,7 +9,10 @@
 #define ENGINE_ENGINE_H_
 
 #include <exception>
+#include <thread>
+#include <time.h>
 
+#include "../Constants.h"
 #include "../Views/View.h"
 
 class Engine {
@@ -27,9 +30,9 @@ public:
 	Drawable* CreateBackgroung(GameField* field);
 
 	//Constructor initializes all the resources
-		void LoadResources();
-		//Destructor frees resources
-		void FreeResources();
+	void LoadResources();
+	//Destructor frees resources
+	void FreeResources();
 
 private:
 
@@ -38,21 +41,17 @@ private:
 	SDL_Surface* screen;
 	Drawable* texture[6];
 
-
 	//Вычисляет, сколько времени прошло с последнего такта
 	//И обновляет положения всех объектов
-	void thread_Update();
+	static void ThreadUpdate(View* view);
 	//Постоянно отрисовывает игровое поле
 	// - toDraw - локальный член класса
-	void thread_Draw(View view);
+	static void ThreadDraw(View* view, SDL_Surface* screen);
 	//Поток, обрабатывающий ввод
-	void thread_Input(View* view);
+	static void ThreadInput(View* view);
 
 	//Отрисовывает окно
-	void DrawView(View* view);
-	void Draw(Drawable* drawable);
-
-
-
+	static void DrawView(View* view, SDL_Surface* screen);
+	static void Draw(Drawable* drawable, SDL_Surface* screen);
 };
 #endif /* ENGINE_ENGINE_H_ */

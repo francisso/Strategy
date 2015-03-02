@@ -13,7 +13,7 @@
 //Временные типы, переопределить по необходимости
 typedef Uint16 CoordinateType;
 typedef int Bitmap;
-typedef int Time;
+typedef float Time;
 
 
 

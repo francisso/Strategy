@@ -8,16 +8,14 @@
 
 #include <exception>
 #include <iostream>
-#include <string>
-#include <random>
 
-
-#include "Constants.h"
 #include "Engine/Engine.h"
 #include "Views/View.h"
 #include "Views/ViewCreator.h"
 #include "Views/GameField.h"
 #include "FieldBuilder.h"
+
+
 
 int main() {
 	std::cout << "I'm working" << std::endl;

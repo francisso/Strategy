@@ -6,7 +6,7 @@
  */
 
 #include "Engine.h"
-#include "../Constants.h"
+
 
 Engine::Engine() {
 	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
@@ -42,13 +42,36 @@ void Engine::FreeResources(){
 	// TODO implement function
 }
 
-void Engine::Run(){
-	// TODO implement function
-	DrawView(view);
+void nothin() {
+	return;
 }
 
-//
-void Engine::Draw(Drawable* drawable)
+
+void Engine::Run(){
+	std::thread threadDraw(ThreadDraw, std::ref(view), std::ref(screen));
+	//необходимо отсоединять потоки, чтобы не было проблем по выходу за область видимости
+	threadDraw.detach();
+	std::thread threadUpdate(ThreadUpdate, std::ref(view));
+	threadUpdate.detach();
+}
+
+void Engine::ThreadDraw(View* view, SDL_Surface* screen) {
+	while(1)
+		DrawView(view, screen);
+}
+
+void Engine::ThreadUpdate(View* view) {
+	auto lastCalled = clock();
+	clock_t currentTime;
+	while (1) {
+		currentTime = clock();
+		Time delta = (currentTime-lastCalled)*1.0/CLOCKS_PER_SEC;
+		lastCalled=currentTime;
+		view->Update(delta);
+	}
+}
+
+void Engine::Draw(Drawable* drawable, SDL_Surface* screen)
 {
 	if (drawable == nullptr)
 		return;
@@ -57,14 +80,15 @@ void Engine::Draw(Drawable* drawable)
 			screen,
 			drawable->GetSrcRect());
 }
-void Engine::DrawView(View* view) {
+
+void Engine::DrawView(View* view, SDL_Surface* screen) {
 	if (view == nullptr)
 		throw("Engine view is null");
 
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
-	auto f = [this] (Drawable* drawable) {
-		this->Draw(drawable);
+	auto f = [&screen] (Drawable* drawable) {
+		Draw(drawable, screen);
 	};
 	view->Draw(f);
 	SDL_Flip(screen);
@@ -77,7 +101,7 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 	{
 		texture[field->field[i][j].type.texstura]->setX(i * CELL_X);
 		texture[field->field[i][j].type.texstura]->setY(j * CELL_Y);
-		Draw(texture[field->field[i][j].type.texstura]);
+		Draw(texture[field->field[i][j].type.texstura], screen);
 	}
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");
