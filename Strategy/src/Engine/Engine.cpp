@@ -116,9 +116,9 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int j = 0; j < CELL_Y_NUMBER; j++)
 	{
-		texture[field->field[i][j].type.texstura]->setX(i * CELL_X);
-		texture[field->field[i][j].type.texstura]->setY(j * CELL_Y);
-		Draw(texture[field->field[i][j].type.texstura], screen);
+		texture[field->field[i][j].type.textureType]->setX(i * CELL_X);
+		texture[field->field[i][j].type.textureType]->setY(j * CELL_Y);
+		Draw(texture[field->field[i][j].type.textureType], screen);
 	}
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");

@@ -21,8 +21,8 @@ struct GameField {
 //	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
 
 	struct CellType {
-		int texstura;
-		int think;
+		int textureType;
+		int objectType;
 	};
 	struct Cell {
 		CellType type;
