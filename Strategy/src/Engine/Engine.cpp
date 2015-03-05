@@ -48,26 +48,43 @@ void nothin() {
 
 
 void Engine::Run(){
-	std::thread threadDraw(ThreadDraw, std::ref(view), std::ref(screen));
-	//необходимо отсоединять потоки, чтобы не было проблем по выходу за область видимости
-	threadDraw.detach();
-	std::thread threadUpdate(ThreadUpdate, std::ref(view));
-	threadUpdate.detach();
+	if (MULTUTHREADING) {
+		std::thread threadDraw(ThreadDraw, std::ref(view), std::ref(screen));
+		//необходимо отсоединять потоки, чтобы не было проблем по выходу за область видимости
+		threadDraw.detach();
+		std::thread threadUpdate(ThreadUpdate, std::ref(view));
+		threadUpdate.detach();
+	}
+	else {
+		GameCycle();
+	}
 }
 
 void Engine::ThreadDraw(View* view, SDL_Surface* screen) {
-	while(1)
+	clock_t lastCalled = clock();
+	clock_t currentTime;
+	const clock_t min_delta = CLOCKS_PER_SEC/DRAW_FPS;
+	while(1) {
+		currentTime = clock();
+		if (currentTime-lastCalled < min_delta)
+			continue;
 		DrawView(view, screen);
+		lastCalled = currentTime;
+	}
+
 }
 
 void Engine::ThreadUpdate(View* view) {
 	auto lastCalled = clock();
 	clock_t currentTime;
+	const clock_t min_delta = CLOCKS_PER_SEC/UPDATE_FPS;
 	while (1) {
 		currentTime = clock();
-		Time delta = (currentTime-lastCalled)*1.0/CLOCKS_PER_SEC;
+		clock_t delta = (currentTime-lastCalled);
+		if (delta < min_delta)
+			continue;
 		lastCalled=currentTime;
-		view->Update(delta);
+		view->Update(delta*1.0/CLOCKS_PER_SEC);
 	}
 }
 
@@ -110,4 +127,26 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;
+}
+
+
+void Engine::GameCycle() {
+	const int TICKS_PER_SECOND = 25;
+	const int SKIP_TICKS = CLOCKS_PER_SEC / TICKS_PER_SECOND;
+	const int MAX_FRAMESKIP = 5;
+	clock_t next_game_tick = clock();
+	int loops;
+	float interpolation;
+	bool game_is_running = true;
+	while( game_is_running ) {
+        loops = 0;
+        while( clock() > next_game_tick && loops < MAX_FRAMESKIP) {
+        	interpolation = float( clock() + SKIP_TICKS - next_game_tick )
+	    		                        / float( SKIP_TICKS );
+	    	view->Update(interpolation);
+	    	next_game_tick += SKIP_TICKS;
+	    	loops++;
+	    }
+	    DrawView(view, screen);
+	}
 }
