@@ -9,14 +9,14 @@
 #define CONSTANTS_H_
 
 //Число клеток по горизонтали
-#define CELL_X_NUMBER 100
+#define CELL_X_NUMBER 14
 //Число клеток по вертикали
-#define CELL_Y_NUMBER 80
+#define CELL_Y_NUMBER 10
 
 
 //Количество пикселей в клетке
-#define CELL_X 10
-#define CELL_Y 10
+#define CELL_X 80
+#define CELL_Y 80
 
 // текстуры для карты
 #define GROUND   0

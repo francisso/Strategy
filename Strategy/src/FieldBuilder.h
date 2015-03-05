@@ -18,7 +18,7 @@ private:
 	static const int ZONES_COUNT= 6;
 	//минимальное расстояние между зонами
 	//если задать слишком большое, алгоритм может не завершиться
-	static const int MIN_DISTANCE= 20;
+	static const int MIN_DISTANCE= 5;
 
 	struct Point{ int x; int y;};
 
