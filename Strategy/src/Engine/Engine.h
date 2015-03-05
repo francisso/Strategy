@@ -35,6 +35,11 @@ public:
 	void FreeResources();
 
 private:
+	//Выполняем многопоточно или используем игровой цикл
+	const bool MULTUTHREADING = false;
+	//FPS для многопоточного исполнения
+	static const int DRAW_FPS = 30;
+	static const int UPDATE_FPS = 100;
 
 	//Активное окно
 	View* view;
@@ -53,5 +58,7 @@ private:
 	//Отрисовывает окно
 	static void DrawView(View* view, SDL_Surface* screen);
 	static void Draw(Drawable* drawable, SDL_Surface* screen);
+
+	void GameCycle();
 };
 #endif /* ENGINE_ENGINE_H_ */
