@@ -22,7 +22,7 @@ void Game::Draw(std::function<void (Drawable*)> f) {
 	f(background);
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int k = 0; k < CELL_Y_NUMBER; k++)
-			f(field->field[i][k].object);
+			f(field->grid[i][k].object);
 }
 
 void Game::Update(Time t) {

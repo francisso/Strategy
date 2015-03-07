@@ -14,12 +14,6 @@
 
 //Содержит все игровые объекты
 struct GameField {
-
-	//returns true if addition was successful
-//	bool AddGameObject(GameObject* addingObject, int type);
-//	GameObject* GetGameObjectAtCell(int x, int y);
-//	GameObject* GetGameObjectAtCoorinates(CoordinateType x, CoordinateType y);
-
 	struct CellType {
 		int textureType;
 		int objectType;
@@ -28,8 +22,7 @@ struct GameField {
 		CellType type;
 		GameObject* object;
 	};
-	Cell field[CELL_X_NUMBER][CELL_Y_NUMBER];
-
+	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 };
 
 #endif /* GAMEFIELD_H_ */

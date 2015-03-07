@@ -37,7 +37,6 @@ public:
 
 	virtual void Update(Time t);
 
-
 	//Функции для составления view
 	void SetImage(Drawable* image);
 

@@ -50,7 +50,7 @@ GameField* FieldBuilder::CreateField() {
 	//Определяем тип текстуры в каждой клетке
 	for (int x = 0; x < CELL_X_NUMBER; x++)
 		for(int y = 0; y < CELL_Y_NUMBER; y++) {
-			field->field[x][y].type.textureType= FindNearest(x, y, points);
+			field->grid[x][y].type.textureType= FindNearest(x, y, points);
 	}
 	return field;
 }

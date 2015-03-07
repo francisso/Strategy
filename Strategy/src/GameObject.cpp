@@ -50,11 +50,13 @@ CoordinateType GameObject::Y() {return y;}
 void GameObject::setX(CoordinateType X) {
 	x = X;
 	srcRect->x = X;
+#warning "Не destRect ли здесь нужно менять?"
 }
 
 void GameObject::setY(CoordinateType Y) {
 	y = Y;
 	srcRect->y = Y;
+#warning "Не destRect ли здесь нужно менять?"
 }
 
 CoordinateType GameObject::GetWidth() {return width;}

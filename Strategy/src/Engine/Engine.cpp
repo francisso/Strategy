@@ -14,7 +14,7 @@ Engine::Engine() {
 	        printf( "Unable to init SDL: %s", SDL_GetError());
 	        return;
 	}
-	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X, CELL_Y_NUMBER*CELL_Y, 16,
+	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 16,
 								SDL_HWSURFACE | SDL_DOUBLEBUF);
 	if (!screen)
 	{
@@ -29,7 +29,7 @@ Engine::~Engine() {
 }
 
 void Engine::LoadResources(){
-	SDL_Rect src = {0, 0, CELL_X, CELL_Y};
+	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
 	texture[WATER]  = new GameObject(src, "res/images/water.bmp");
 	texture[SAND]   = new GameObject(src, "res/images/sand.bmp");
@@ -114,15 +114,14 @@ void Engine::DrawView(View* view, SDL_Surface* screen) {
 Drawable* Engine::CreateBackgroung(GameField* field)
 {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
-	for (int j = 0; j < CELL_Y_NUMBER; j++)
-	{
-		texture[field->field[i][j].type.textureType]->setX(i * CELL_X);
-		texture[field->field[i][j].type.textureType]->setY(j * CELL_Y);
-		Draw(texture[field->field[i][j].type.textureType], screen);
+	for (int j = 0; j < CELL_Y_NUMBER; j++) {
+		texture[field->grid[i][j].type.textureType]->setX(i * CELL_X_PIXELS);
+		texture[field->grid[i][j].type.textureType]->setY(j * CELL_Y_PIXELS);
+		Draw(texture[field->grid[i][j].type.textureType], screen);
 	}
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");
-	SDL_Rect src = {0, 0, CELL_X_NUMBER*CELL_X, CELL_Y_NUMBER*CELL_Y};
+	SDL_Rect src = {0, 0, CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS};
 	GameObject* background = new GameObject(src, "res/images/background.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
