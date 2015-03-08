@@ -19,6 +19,7 @@
 class Game: public View {
 public:
 	Game(Drawable* Background);
+	Game(Drawable* background, GameField* field);
 	virtual ~Game();
 
 private:

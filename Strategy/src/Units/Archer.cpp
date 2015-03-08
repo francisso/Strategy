@@ -5,9 +5,9 @@
  *      Author: anton
  */
 
-#include "Archers.h"
+#include "Archer.h"
 
-Archers::~Archers() {
+Archer::~Archer() {
 	// TODO Auto-generated destructor stub
 }
 

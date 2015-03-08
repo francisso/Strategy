@@ -9,14 +9,13 @@
 #define ARCHERS_H_
 
 #include "Unit.h"
+#include "SDL/SDL.h"
 
-typedef int Bitmap;
-
-class Archers: public Unit {
+class Archer: public Unit {
 public:
-	virtual ~Archers();
-private:
-	static Bitmap archerImage;
+	virtual ~Archer();
+	Archer(SDL_Rect src, const char *name_file_image) : Unit(src, name_file_image) {};
+
 };
 
 #endif /* ARCHERS_H_ */
