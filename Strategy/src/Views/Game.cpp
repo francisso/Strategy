@@ -17,12 +17,14 @@ Game::~Game() {
 }
 
 void Game::Draw(std::function<void (Drawable*)> f) {
-	//f(background);
+	f(background);
 	for (int i = 0; i < CELL_X_NUMBER; i++)
-	for (int k = 0; k < CELL_Y_NUMBER; k++)
+		for (int k = 0; k < CELL_Y_NUMBER; k++)
 			f(field->grid[i][k].object);
+	this->View::Draw(f);
 }
 
 void Game::Update(Time t) {
 	// TODO implement
+	this->View::Update(t);
 }

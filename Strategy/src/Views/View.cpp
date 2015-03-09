@@ -11,6 +11,8 @@
 void View::Update(Time t) {
 	for(auto v: views)
 		v->Update(t);
+	for(auto d: drawables)
+			dynamic_cast<Unit*>(d)->Update(t);
 }
 
 void View::Draw(std::function<void (Drawable*)> f) {

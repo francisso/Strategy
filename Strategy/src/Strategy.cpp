@@ -27,7 +27,6 @@ int main() {
 		engine->LoadResources();
 		GameField* field = FieldBuilder::CreateField();
 		Drawable* back = engine->CreateBackgroung(field);
-		back = nullptr;
 		auto game = new Game(back, field);
 		SDL_Rect src = {0,0,360,360};
 		auto archer = new Archer(src, "res/images/test.bmp");

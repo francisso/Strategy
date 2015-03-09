@@ -17,6 +17,7 @@
 #include "GameField.h"
 #include "../GameObject.h"
 #include "../Drawable.h"
+#include "../Units/Unit.h"
 
 
 //Класс окна, отображающегося на экране
