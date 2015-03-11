@@ -36,11 +36,11 @@ public:
 
 private:
 	//Выполняем многопоточно или используем игровой цикл
+#warning "Multithreading works awful"
 	const bool MULTUTHREADING = false;
 	//FPS для многопоточного исполнения
-	static const int DRAW_FPS = 30;
-	static const int UPDATE_FPS = 100;
-
+	static const int DRAW_FPS = 300;
+	static const int UPDATE_FPS = 300;
 	//Активное окно
 	View* view;
 	SDL_Surface* screen;

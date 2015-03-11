@@ -11,15 +11,11 @@
 #include "../Constants.h"
 #include "../GameObject.h"
 
-
-//Содержит все игровые объекты
+//Сетка для игровых объектов
 struct GameField {
-	struct CellType {
+	struct Cell {
 		int textureType;
 		int objectType;
-	};
-	struct Cell {
-		CellType type;
 		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];

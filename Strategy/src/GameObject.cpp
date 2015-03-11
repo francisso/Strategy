@@ -9,8 +9,8 @@
 #include "GameObject.h"
 
 GameObject::GameObject(SDL_Rect src, const char *name_file_image) {
-	srcRect = new SDL_Rect(src);
 	destRect = new SDL_Rect(src);
+	srcRect = new SDL_Rect(src);
 	destRect->x = 0;
 	destRect->y = 0;
 	x = src.x;
@@ -27,48 +27,40 @@ GameObject::GameObject(SDL_Rect src, const char *name_file_image) {
 
 GameObject::~GameObject() {
 	SDL_FreeSurface(image);
-	delete(srcRect);
 	delete(destRect);
+	delete(srcRect);
 }
 
 void GameObject::Update(float time) {
 	//TODO implement function
 }
 
-SDL_Surface* GameObject::GetImage() {
-	return image;
-}
-/*
-void GameObject::SetImage(SDL_Surface* Image) {
-	image = Image;
-}
-*/
-CoordinateType GameObject::X() {return x;}
+SDL_Surface* GameObject::GetImage() {return image;}
 
-CoordinateType GameObject::Y() {return y;}
+CoordinateType GameObject::GetX() {return x;}
 
-void GameObject::setX(CoordinateType X) {
-	x = X;
-	srcRect->x = X;
-#warning "Не destRect ли здесь нужно менять?"
+CoordinateType GameObject::GetY() {return y;}
+
+void GameObject::SetX(CoordinateType x) {
+	this->x = x;
+	destRect->x = x;
 }
 
-void GameObject::setY(CoordinateType Y) {
-	y = Y;
-	srcRect->y = Y;
-#warning "Не destRect ли здесь нужно менять?"
+void GameObject::SetY(CoordinateType y) {
+	this->y = y;
+	destRect->y = y;
 }
 
 CoordinateType GameObject::GetWidth() {return width;}
 
 CoordinateType GameObject::GetHeight() {return height;}
 
-SDL_Rect* GameObject::GetSrcRect() { return srcRect;}
+SDL_Rect* GameObject::GetSrcRect() { return destRect;}
 
-SDL_Rect* GameObject::GetDestRect() { return destRect;}
+SDL_Rect* GameObject::GetDestRect() { return srcRect;}
 
 
-bool GameObject::ContainsCoordinates(Uint16 x, Uint16 y) {
+bool GameObject::ContainsCoordinates(float x, float y) {
 	auto relativeX = x - this->x;
 	auto relativeY = y - this->y;
 	return (relativeX >=0 && relativeY >=0 &&

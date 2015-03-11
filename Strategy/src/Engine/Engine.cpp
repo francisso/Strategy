@@ -42,11 +42,6 @@ void Engine::FreeResources(){
 	// TODO implement function
 }
 
-void nothin() {
-	return;
-}
-
-
 void Engine::Run(){
 	if (MULTUTHREADING) {
 		std::thread threadDraw(ThreadDraw, std::ref(view), std::ref(screen));
@@ -115,9 +110,9 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int j = 0; j < CELL_Y_NUMBER; j++) {
-		texture[field->grid[i][j].type.textureType]->setX(i * CELL_X_PIXELS);
-		texture[field->grid[i][j].type.textureType]->setY(j * CELL_Y_PIXELS);
-		Draw(texture[field->grid[i][j].type.textureType], screen);
+		texture[field->grid[i][j].textureType]->SetX(i * CELL_X_PIXELS);
+		texture[field->grid[i][j].textureType]->SetY(j * CELL_Y_PIXELS);
+		Draw(texture[field->grid[i][j].textureType], screen);
 	}
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");

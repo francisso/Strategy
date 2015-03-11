@@ -18,9 +18,4 @@
 #define CELL_X_PIXELS 80
 #define CELL_Y_PIXELS 80
 
-
-enum TextureType {GROUND, WATER, SAND, FOREST, MOUNTIAN, SWAMP};
-enum CellType{NOTHING, UNIT, BUILDING};
-
-
 #endif /* CONSTANTS_H_ */

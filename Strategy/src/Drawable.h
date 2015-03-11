@@ -20,16 +20,16 @@ public:
 	virtual ~Drawable()=default;
 	virtual SDL_Surface* GetImage() = 0;
 //	virtual void SetImage(SDL_Surface* image) = 0;
-	virtual CoordinateType X() = 0;
-	virtual CoordinateType Y() = 0;
-	virtual void setX(CoordinateType x) = 0;
-	virtual void setY(CoordinateType y) = 0;
+	virtual CoordinateType GetX() = 0;
+	virtual CoordinateType GetY() = 0;
+	virtual void SetX(CoordinateType x) = 0;
+	virtual void SetY(CoordinateType y) = 0;
 	virtual CoordinateType GetWidth() = 0;
 	virtual CoordinateType GetHeight() = 0;
 	virtual SDL_Rect* GetSrcRect() = 0;
 	virtual SDL_Rect* GetDestRect() = 0;
 	//returns true if this Drawable contains coordinates
-	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) = 0;
+	virtual bool ContainsCoordinates(float x, float y) = 0;
 };
 
 #endif /* DRAWABLE_H_ */

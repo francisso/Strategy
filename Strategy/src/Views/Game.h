@@ -12,6 +12,7 @@
 
 #include "../Drawable.h"
 #include "View.h"
+#include "../Constants.h"
 
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
@@ -21,6 +22,7 @@ public:
 	Game(Drawable* Background);
 	Game(Drawable* background, GameField* field);
 	virtual ~Game();
+	void AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
 
 private:
 	GameField* field;

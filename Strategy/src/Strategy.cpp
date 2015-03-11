@@ -16,6 +16,7 @@
 #include "Views/GameField.h"
 #include "FieldBuilder.h"
 #include "Units/Archer.h"
+#include "Constants.h"
 
 
 
@@ -28,9 +29,15 @@ int main() {
 		GameField* field = FieldBuilder::CreateField();
 		Drawable* back = engine->CreateBackgroung(field);
 		auto game = new Game(back, field);
-		SDL_Rect src = {0,0,360,360};
+		//Здесь это времеено, создание лучника.
+		SDL_Rect src = {200,200,80,80};
+		int cell_x = 5;
+		int cell_y = 3;
 		auto archer = new Archer(src, "res/images/test.bmp");
-		game->AddDrawable(archer);
+		archer->SetX(cell_x*CELL_X_PIXELS);
+		archer->SetY(cell_y*CELL_Y_PIXELS);
+		game->AddUnitAtCell(archer,cell_x, cell_y);
+
 		engine->SetView(game);
 		engine->Run();
 		//зацикливаемся, чтобы не закрылось открывшеяся окно

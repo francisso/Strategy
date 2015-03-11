@@ -18,15 +18,12 @@ public:
 	virtual ~GameObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
-
-
 	//Реализация Drawable:
 	virtual SDL_Surface* GetImage();
-//	virtual void SetImage(SDL_Surface* image);
-	virtual CoordinateType X();
-	virtual CoordinateType Y();
-	virtual void setX(CoordinateType x);
-	virtual void setY(CoordinateType y);
+	virtual CoordinateType GetX();
+	virtual CoordinateType GetY();
+	virtual void SetX(CoordinateType x);
+	virtual void SetY(CoordinateType y);
 	virtual CoordinateType GetWidth();
 	virtual CoordinateType GetHeight();
 	// прямоугольник, куда нужно наложить картинку
@@ -34,7 +31,7 @@ public:
 	// прямоугольник, который накладывается
 	virtual SDL_Rect* GetDestRect();
 
-	virtual bool ContainsCoordinates(Uint16 x, Uint16 y);
+	virtual bool ContainsCoordinates(float x, float y);
 
 private:
 	//Координаты на поле
@@ -47,8 +44,8 @@ private:
 	CoordinateType width;
 	CoordinateType height;
 	//Прямоугольники, дублирующие верхние переменные
-	SDL_Rect* srcRect;
 	SDL_Rect* destRect;
+	SDL_Rect* srcRect;
 	SDL_Surface* image;
 };
 
