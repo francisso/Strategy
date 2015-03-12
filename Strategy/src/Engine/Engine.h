@@ -18,7 +18,7 @@
 class Engine {
 public:
 	Engine();
-	virtual ~Engine();
+	virtual ~Engine()=default;
 
 	//Устанавливаем окно, которое будет отображаться
 	void SetView(View* view) {this->view = view;};
@@ -36,7 +36,7 @@ public:
 
 private:
 	//Выполняем многопоточно или используем игровой цикл
-#warning "Multithreading works awful"
+//TODO check multithreading
 	const bool MULTUTHREADING = false;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;

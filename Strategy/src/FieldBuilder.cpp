@@ -31,14 +31,14 @@ int FieldBuilder::FindNearest(int x, int y, Point points[]) {
 
 
 GameField* FieldBuilder::CreateField() {
-	srand(time(0));
+	srand(static_cast<unsigned int>(time(0)));
 	GameField* field = new GameField();
 	Point point;
 	Point points[ZONES_COUNT];
 	//Генерерием центры зон
 	for (int i = 0; i < ZONES_COUNT; i++) {
-		point.x = random() % (CELL_X_NUMBER);
-		point.y = random() % (CELL_Y_NUMBER);
+		point.x = static_cast<int>(random() % (CELL_X_NUMBER));
+		point.y = static_cast<int>(random() % (CELL_Y_NUMBER));
 		points[i] = point;
 		//проверяем, чтобы расстояние между центрами было не меньше минимального
 		for (int k = 0; k < i; k++)

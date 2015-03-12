@@ -24,10 +24,6 @@ Engine::Engine() {
 	view = nullptr;
 }
 
-Engine::~Engine() {
-	// TODO Auto-generated destructor stub
-}
-
 void Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
@@ -79,7 +75,7 @@ void Engine::ThreadUpdate(View* view) {
 		if (delta < min_delta)
 			continue;
 		lastCalled=currentTime;
-		view->Update(delta*1.0/CLOCKS_PER_SEC);
+		view->Update(static_cast<float>(delta)/CLOCKS_PER_SEC);
 	}
 }
 
@@ -110,8 +106,8 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int j = 0; j < CELL_Y_NUMBER; j++) {
-		texture[field->grid[i][j].textureType]->SetX(i * CELL_X_PIXELS);
-		texture[field->grid[i][j].textureType]->SetY(j * CELL_Y_PIXELS);
+		texture[field->grid[i][j].textureType]->SetX(static_cast<float>(i * CELL_X_PIXELS));
+		texture[field->grid[i][j].textureType]->SetY(static_cast<float>(j * CELL_Y_PIXELS));
 		Draw(texture[field->grid[i][j].textureType], screen);
 	}
 

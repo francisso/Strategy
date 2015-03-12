@@ -8,13 +8,9 @@
 #include "Game.h"
 #include "../Constants.h"
 
-Game::Game(Drawable* background) : Game(background, new GameField()) {};
+Game::Game(Drawable* background) : Game(background, new GameField()) {}
 
-Game::Game(Drawable* background, GameField* field) : field(field), background(background) { };
-
-Game::~Game() {
-	// TODO Auto-generated destructor stub
-}
+Game::Game(Drawable* background, GameField* field) : field(field), background(background) { }
 
 void Game::Draw(std::function<void (Drawable*)> f) {
 	f(background);
@@ -80,7 +76,9 @@ void Game::Update(Time t) {
 }
 
 void Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
-	//TODO check ranges
+	if (cell_x < 0 || cell_y < 0
+			|| cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
+		return;
 	auto cell = &this->field->grid[cell_x][cell_y];
 	if (cell->objectType == CellType::NOTHING) {
 		cell->objectType = CellType::UNIT;

@@ -21,7 +21,7 @@ class Game: public View {
 public:
 	Game(Drawable* Background);
 	Game(Drawable* background, GameField* field);
-	virtual ~Game();
+	virtual ~Game()=default;
 	void AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
 
 private:

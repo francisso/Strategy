@@ -15,10 +15,7 @@ Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_fil
 	action->x_speed = 1.0f;
 	action->y_speed = 0.0f;
 	this->action = action;
-}
 
-Unit::~Unit() {
-	// TODO Auto-generated destructor stub
 }
 
 Action* Unit::GetAction() {

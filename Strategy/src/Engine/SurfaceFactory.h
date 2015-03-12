@@ -16,10 +16,6 @@ public:
 	//Создает новую SDL_Surface
 	//с текстом в заданных координатах
 	//static SDL_Surface* CreateFromText(char* text, int size, Uint16 x, Uint16 y);
-
-private:
-	SurfaceFactory();
-	virtual ~SurfaceFactory();
 };
 
 #endif /* ENGINE_SURFACEFACTORY_H_ */

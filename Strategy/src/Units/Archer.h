@@ -13,7 +13,7 @@
 
 class Archer: public Unit {
 public:
-	virtual ~Archer();
+	virtual ~Archer()=default;
 	Archer(SDL_Rect src, const char *name_file_image) : Unit(src, name_file_image) {};
 
 };

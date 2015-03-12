@@ -13,7 +13,7 @@
 
 class Unit : public GameObject{
 public:
-	virtual ~Unit();
+	virtual ~Unit()=default;
 	Unit(SDL_Rect src, const char *name_file_image);
 	Action* GetAction();
 	void SetAction(Action* action);

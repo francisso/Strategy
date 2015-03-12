@@ -30,12 +30,12 @@ int main() {
 		Drawable* back = engine->CreateBackgroung(field);
 		auto game = new Game(back, field);
 		//Здесь это времеено, создание лучника.
-		SDL_Rect src = {200,200,80,80};
+		SDL_Rect src = {00,00,320,320};
 		int cell_x = 5;
 		int cell_y = 3;
 		auto archer = new Archer(src, "res/images/test.bmp");
-		archer->SetX(cell_x*CELL_X_PIXELS);
-		archer->SetY(cell_y*CELL_Y_PIXELS);
+		archer->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+		archer->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
 		game->AddUnitAtCell(archer,cell_x, cell_y);
 
 		engine->SetView(game);

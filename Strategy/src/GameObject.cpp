@@ -33,6 +33,7 @@ GameObject::~GameObject() {
 
 void GameObject::Update(float time) {
 	//TODO implement function
+	time = 1.0f*time;
 }
 
 SDL_Surface* GameObject::GetImage() {return image;}
@@ -43,12 +44,12 @@ CoordinateType GameObject::GetY() {return y;}
 
 void GameObject::SetX(CoordinateType x) {
 	this->x = x;
-	destRect->x = x;
+	destRect->x = static_cast<Sint16>(x);
 }
 
 void GameObject::SetY(CoordinateType y) {
 	this->y = y;
-	destRect->y = y;
+	destRect->y = static_cast<Sint16>(y);
 }
 
 CoordinateType GameObject::GetWidth() {return width;}
