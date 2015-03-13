@@ -17,6 +17,7 @@ void Game::Draw(std::function<void (Drawable*)> f) {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 		for (int k = 0; k < CELL_Y_NUMBER; k++)
 			f(field->grid[i][k].object);
+	f(field->selection);
 	this->View::Draw(f);
 }
 

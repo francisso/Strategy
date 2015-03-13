@@ -20,9 +20,12 @@ GameObject::GameObject(SDL_Rect src, const char *name_file_image) {
 	imageX = 0;
 	imageY = 0;
 	image = SDL_LoadBMP(name_file_image);
+
 	if (!image)
 		throw("GameObject cannot open image");
-	SDL_SetColorKey(image, SDL_SRCCOLORKEY, SDL_MapRGB(image->format,255, 0, 255));
+	//SDL_SetColorKey(image, SDL_SRCALPHA, 0x000000ff);
+	if (!strcmp(name_file_image, "res/images/selection.bmp"))
+		SDL_SetAlpha(image,SDL_SRCALPHA,150);
 }
 
 GameObject::~GameObject() {

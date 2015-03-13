@@ -13,6 +13,7 @@
 
 //Сетка для игровых объектов
 struct GameField {
+	GameObject* selection;
 	struct Cell {
 		int textureType;
 		int objectType;

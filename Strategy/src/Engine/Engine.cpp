@@ -14,8 +14,9 @@ Engine::Engine() {
 	        printf( "Unable to init SDL: %s", SDL_GetError());
 	        return;
 	}
-	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 16,
+	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 32,
 								SDL_HWSURFACE | SDL_DOUBLEBUF);
+
 	if (!screen)
 	{
 	    printf("Can't set videomode: %s", SDL_GetError());
@@ -32,6 +33,8 @@ void Engine::LoadResources(){
 	texture[FOREST] = new GameObject(src, "res/images/forest.bmp");
 	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
 	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
+	//auto x = new GameObject(src, "res/images/selection.bmp");
+
 }
 
 void Engine::FreeResources(){

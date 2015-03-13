@@ -46,6 +46,7 @@ private:
 	//Прямоугольники, дублирующие верхние переменные
 	SDL_Rect* destRect;
 	SDL_Rect* srcRect;
+public:
 	SDL_Surface* image;
 };
 
