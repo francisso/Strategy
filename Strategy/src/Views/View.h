@@ -34,7 +34,7 @@ public:
 
 	//Функции, к которым обращается Engine
 	// в случае события
-	virtual void onEvent(SDL_Event* event);
+	virtual void OnEvent(SDL_Event* event);
 
 	virtual void Update(Time t);
 

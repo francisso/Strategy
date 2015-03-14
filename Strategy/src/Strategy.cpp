@@ -30,7 +30,7 @@ int main() {
 		Drawable* back = engine->CreateBackgroung(field);
 		auto game = new Game(back, field);
 		//Здесь это времеено, создание лучника.
-		SDL_Rect src = {100,100,160,160};
+		SDL_Rect src = {100,100,80,80};
 		int cell_x = 5;
 		int cell_y = 3;
 		auto archer = new Archer(src, "res/images/test.bmp");
@@ -46,8 +46,7 @@ int main() {
 
 		engine->SetView(game);
 		engine->Run();
-		//зацикливаемся, чтобы не закрылось открывшеяся окно
-		while(1);
+
 	}
 	catch (std::exception* e)
 	{

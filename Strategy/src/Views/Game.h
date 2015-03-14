@@ -23,6 +23,7 @@ public:
 	Game(Drawable* background, GameField* field);
 	virtual ~Game()=default;
 	void AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
+	virtual void OnEvent(SDL_Event* event);
 
 private:
 	GameField* field;

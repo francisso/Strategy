@@ -14,7 +14,7 @@
 //Базовый класс для юнитов, зданий, и т.д.
 class GameObject: public Drawable {
 public:
-	GameObject(SDL_Rect src, const char *name_file_image);
+	GameObject(SDL_Rect src, const char *name_file_image, Uint8 transparency =255 );
 	virtual ~GameObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);

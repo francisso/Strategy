@@ -86,3 +86,18 @@ void Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 		cell->object = unit;
 	}
 }
+
+
+void Game::OnEvent(SDL_Event* event) {
+	switch(event->type)
+	{
+	case SDL_MOUSEMOTION:
+	{
+		int i = event->motion.x / CELL_X_PIXELS;
+		int j = event->motion.y / CELL_Y_PIXELS;
+		field->selection->SetX((float)i*CELL_X_PIXELS);
+		field->selection->SetY((float)j*CELL_Y_PIXELS);
+	}
+	}
+}
+

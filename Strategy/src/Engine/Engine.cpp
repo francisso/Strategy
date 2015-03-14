@@ -122,6 +122,17 @@ Drawable* Engine::CreateBackgroung(GameField* field)
 	return background;
 }
 
+void Engine::ProcessInput(View* view)
+{
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) // Пока есть хоть одно необработанное событие
+	    {
+	        if(event.type == SDL_QUIT)
+	        	game_is_running = false;
+	        view->OnEvent(&event);
+	    }
+
+}
 
 void Engine::GameCycle() {
 	const int TICKS_PER_SECOND = 25;
@@ -130,9 +141,9 @@ void Engine::GameCycle() {
 	clock_t next_game_tick = clock();
 	int loops;
 	float interpolation;
-	bool game_is_running = true;
 	while( game_is_running ) {
         loops = 0;
+        ProcessInput(view);
         while( clock() > next_game_tick && loops < MAX_FRAMESKIP) {
         	interpolation = float( clock() + SKIP_TICKS - next_game_tick )
 	    		                        / float( SKIP_TICKS );

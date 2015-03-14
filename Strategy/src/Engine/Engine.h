@@ -39,6 +39,7 @@ private:
 	//Выполняем многопоточно или используем игровой цикл
 //TODO check multithreading
 	const bool MULTUTHREADING = false;
+	bool game_is_running = true;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;
 	static const int UPDATE_FPS = 300;
@@ -60,6 +61,7 @@ private:
 	static void DrawView(View* view, SDL_Surface* screen);
 	static void Draw(Drawable* drawable, SDL_Surface* screen);
 
+	void ProcessInput(View* view);
 	void GameCycle();
 };
 #endif /* ENGINE_ENGINE_H_ */
