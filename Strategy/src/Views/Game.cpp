@@ -7,6 +7,8 @@
 
 #include "Game.h"
 #include "../Constants.h"
+#include <string>
+#include <iostream>
 
 Game::Game(Drawable* background) : Game(background, new GameField()) {}
 
@@ -21,23 +23,74 @@ void Game::Draw(std::function<void (Drawable*)> f) {
 	this->View::Draw(f);
 }
 
-inline int sign(float x) {
-	if (x > 0)
+inline int sign(bool IsPositive) {
+	if (IsPositive)
 		return 1;
-	if (x < 0)
+	else
 		return -1;
-	return 0;
+	//return 0;
 }
 
 void Game::Update(Time t) {
 	Action* action;
+	Unit* unit;
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 		for (int k = 0; k < CELL_Y_NUMBER; k++) {
 			//Пока что осуществляем действия только для юнитов
 			if (field->grid[i][k].objectType != CellType::UNIT)
 				continue;
-			action = dynamic_cast<Unit*>(field->grid[i][k].object)->GetAction();
-			if (action->actionType == Action::MOVE) {
+			unit=dynamic_cast<Unit*>(field->grid[i][k].object);
+			action = unit->GetAction();
+			std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
+			if (action->actionType==Action::STAY){
+				unit->NextAction();
+			}
+			if (action->actionType==Action::MOVE_VERTICAL){
+				//auto x = unit->GetX();
+				auto y = unit->GetY();
+				if(y==CELL_Y_PIXELS*k){
+					if(field->grid[i][k+sign(action->IsPositive)].objectType==CellType::NOTHING)
+						field->grid[i][k+sign(action->IsPositive)].objectType=CellType::OCCUPIED;
+					else continue;
+				} else {
+					if(y>=CELL_Y_PIXELS*(k+1) || y<=CELL_Y_PIXELS*(k-1)){
+						int y_next = k+sign(action->IsPositive);
+						field->grid[i][y_next].objectType = CellType::UNIT;
+						field->grid[i][y_next].object = unit;
+						field->grid[i][k].objectType = CellType::NOTHING;
+						field->grid[i][k].object = nullptr;
+						unit->NextAction();
+						std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
+					}
+				}
+				unit->SetY(y+t*unit->GetMaxSpeed()*(float)sign(action->IsPositive));
+			}
+			if (action->actionType==Action::MOVE_HORIZONTAL){
+				std::cout<<"Game::Update() - case MOVE_HORIZONTAL"<<std::endl;
+				auto x = unit->GetX();
+				//auto y = unit->GetY();
+				if(x==CELL_X_PIXELS*i){
+					std::cout<<"x==CELL_X_PIXELS"<<std::endl;
+					if(field->grid[i+sign(action->IsPositive)][k].objectType==CellType::NOTHING)
+						field->grid[i+sign(action->IsPositive)][k].objectType=CellType::OCCUPIED;
+					else continue;
+				} else {
+					std::cout<<"x!=CELL_X_PIXELS"<<std::endl;
+					if(x>CELL_X_PIXELS*(i+1) || x<CELL_X_PIXELS*(i-1)){
+						std::cout<<"x=="<<x<<" k=="<<k<<std::endl;
+						int x_next = i +sign(action->IsPositive);
+						field->grid[x_next][k].objectType = CellType::UNIT;
+						field->grid[x_next][k].object = unit;
+						field->grid[i][k].objectType = CellType::NOTHING;
+						field->grid[i][k].object = nullptr;
+						unit->NextAction();
+					}
+				}
+				unit->SetX(x+t*unit->GetMaxSpeed()*(float)sign(action->IsPositive));
+			}
+
+
+			/*if (action->actionType == Action::MOVE) {
 				auto move = static_cast<ActionMove*>(action);
 				auto unit = reinterpret_cast<Unit*>(action->who);
 				auto x = unit->GetX();
@@ -71,7 +124,7 @@ void Game::Update(Time t) {
 				}
 				unit->SetX(x+t*move->x_speed);
 				unit->SetY(y+t*move->y_speed);
-			}
+			}*/
 		}
 
 }
@@ -101,3 +154,13 @@ void Game::OnEvent(SDL_Event* event) {
 	}
 }
 
+std::string Game::ActionOut(Action* action){
+	std::string s;
+	if(action->actionType==Action::STAY)
+		s="STAY";
+	if(action->actionType==Action::MOVE_HORIZONTAL)
+		s="MOVE_HORIZONTAL";
+	if(action->actionType==Action::MOVE_VERTICAL)
+		s="MOVE_VERTICAL";
+	return s;
+}

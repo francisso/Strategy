@@ -16,6 +16,8 @@
 #include "Views/GameField.h"
 #include "FieldBuilder.h"
 #include "Units/Archer.h"
+#include "Units/ActionBasic.h"
+#include "Units/Action.h"
 #include "Constants.h"
 
 
@@ -36,13 +38,20 @@ int main() {
 		auto archer = new Archer(src, "res/images/test.bmp");
 		archer->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		archer->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+		/*archer->AddAction(MoveRight(),false);
+		archer->AddAction(MoveRight(),false);
+		archer->AddAction(MoveDown(),false);
+		archer->AddAction(MoveLeft(),false);
+		archer->AddAction(MoveUp(),false);
+		archer->AddAction(MoveUp(),false);*/
+		archer->MoveToCell(cell_x-3,cell_y+4);
 		game->AddUnitAtCell(archer,cell_x, cell_y);
-		cell_x = 7;
+		/*cell_x = 7;
 		cell_y = 3;
 		auto archer1 = new Archer(src, "res/images/test.bmp");
 		archer1->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		archer1->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-		game->AddUnitAtCell(archer1,cell_x, cell_y);
+		game->AddUnitAtCell(archer1,cell_x, cell_y);*/
 
 		engine->SetView(game);
 		engine->Run();

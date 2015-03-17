@@ -24,7 +24,7 @@ public:
 	virtual ~Game()=default;
 	void AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
 	virtual void OnEvent(SDL_Event* event);
-
+	std::string ActionOut(Action* action);
 private:
 	GameField* field;
 	Drawable* background;
