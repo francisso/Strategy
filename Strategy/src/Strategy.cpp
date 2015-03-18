@@ -37,13 +37,13 @@ int main() {
 		auto archer = new Archer(src, "res/images/test.bmp");
 		archer->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		archer->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-		/*archer->AddAction(MoveRight(),false);
+		archer->AddAction(MoveRight(),false);
 		archer->AddAction(MoveRight(),false);
 		archer->AddAction(MoveDown(),false);
 		archer->AddAction(MoveLeft(),false);
 		archer->AddAction(MoveUp(),false);
-		archer->AddAction(MoveUp(),false);*/
-		archer->MoveToCell(cell_x-3,cell_y+4);
+		archer->AddAction(MoveUp(),false);
+		//archer->MoveToCell(cell_x+4,cell_y);
 		game->AddUnitAtCell(archer,cell_x, cell_y);
 		/*cell_x = 7;
 		cell_y = 3;

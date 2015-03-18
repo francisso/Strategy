@@ -13,7 +13,7 @@ Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_fil
 	action->actionType= Action::STAY;
 	action->who = this;
 	this->action = action;
-	this->MaxSpeed=1.0f;
+	this->MaxSpeed=4.0f;
 }
 
 Action* Unit::GetAction() {

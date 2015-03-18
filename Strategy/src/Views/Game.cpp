@@ -41,7 +41,7 @@ void Game::Update(Time t) {
 				continue;
 			unit=dynamic_cast<Unit*>(field->grid[i][k].object);
 			action = unit->GetAction();
-			std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
+			//std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
 			if (action->actionType==Action::STAY){
 				unit->NextAction();
 			}
@@ -49,44 +49,47 @@ void Game::Update(Time t) {
 				//auto x = unit->GetX();
 				auto y = unit->GetY();
 				if(y==CELL_Y_PIXELS*k){
-					if(field->grid[i][k+sign(action->IsPositive)].objectType==CellType::NOTHING)
+					if(field->grid[i][k+sign(action->IsPositive)].objectType==CellType::NOTHING){
 						field->grid[i][k+sign(action->IsPositive)].objectType=CellType::OCCUPIED;
+						unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(sign(action->IsPositive)));
+					}
 					else continue;
 				} else {
-					if(y>=CELL_Y_PIXELS*(k+1) || y<=CELL_Y_PIXELS*(k-1)){
+					if((y+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(k-1)){
 						int y_next = k+sign(action->IsPositive);
 						field->grid[i][y_next].objectType = CellType::UNIT;
 						field->grid[i][y_next].object = unit;
 						field->grid[i][k].objectType = CellType::NOTHING;
 						field->grid[i][k].object = nullptr;
+						unit->SetY(static_cast<float>(CELL_Y_PIXELS*y_next));
 						unit->NextAction();
-						std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
+						//std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
+					} else {
+						unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(sign(action->IsPositive)));
 					}
 				}
-				unit->SetY(y+t*unit->GetMaxSpeed()*(float)sign(action->IsPositive));
 			}
 			if (action->actionType==Action::MOVE_HORIZONTAL){
-				std::cout<<"Game::Update() - case MOVE_HORIZONTAL"<<std::endl;
-				auto x = unit->GetX();
-				//auto y = unit->GetY();
-				if(x==CELL_X_PIXELS*i){
-					std::cout<<"x==CELL_X_PIXELS"<<std::endl;
-					if(field->grid[i+sign(action->IsPositive)][k].objectType==CellType::NOTHING)
+				auto x=unit->GetX();
+				if(x==CELL_X_PIXELS){
+					if(field->grid[i+sign(action->IsPositive)][k].objectType==CellType::NOTHING){
 						field->grid[i+sign(action->IsPositive)][k].objectType=CellType::OCCUPIED;
+						unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(sign(action->IsPositive)));
+					}
 					else continue;
 				} else {
-					std::cout<<"x!=CELL_X_PIXELS"<<std::endl;
-					if(x>CELL_X_PIXELS*(i+1) || x<CELL_X_PIXELS*(i-1)){
-						std::cout<<"x=="<<x<<" k=="<<k<<std::endl;
-						int x_next = i +sign(action->IsPositive);
+					if((x+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(i-1)){
+						int x_next = i+sign(action->IsPositive);
 						field->grid[x_next][k].objectType = CellType::UNIT;
 						field->grid[x_next][k].object = unit;
 						field->grid[i][k].objectType = CellType::NOTHING;
 						field->grid[i][k].object = nullptr;
+						unit->SetX(static_cast<float>(x_next*CELL_X_PIXELS));
 						unit->NextAction();
+					} else {
+						unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(sign(action->IsPositive)));
 					}
 				}
-				unit->SetX(x+t*unit->GetMaxSpeed()*(float)sign(action->IsPositive));
 			}
 
 
@@ -130,8 +133,7 @@ void Game::Update(Time t) {
 }
 
 void Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
-	if (cell_x < 0 || cell_y < 0
-			|| cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
+	if (cell_x < 0 || cell_y < 0 || cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
 		return;
 	auto cell = &this->field->grid[cell_x][cell_y];
 	if (cell->objectType == CellType::NOTHING) {
