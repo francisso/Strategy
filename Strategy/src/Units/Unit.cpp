@@ -6,6 +6,7 @@
  */
 
 #include "Unit.h"
+#include <iostream>
 
 Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_file_image) {
 	//TODO this initialization is a developer version
@@ -13,7 +14,10 @@ Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_fil
 	action->actionType= Action::STAY;
 	action->who = this;
 	this->action = action;
-	this->MaxSpeed=4.0f;
+	this->MaxSpeed=2.0f;
+	this->VirtualX=this->GetX();
+	this->VirtualY=this->GetY();
+	std::cout<<VirtualX<<"=VirtualX=GetX()="<<GetX()<<std::endl;
 }
 
 Action* Unit::GetAction() {
@@ -51,11 +55,21 @@ void Unit::NextAction(){
 	//std::cout<<"NextAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
 }
 
-void Unit::MoveToCell(int x_target,int y_target,bool replace){
-	int x_start=(int)(this->GetX()/CELL_X_PIXELS);
-	int y_start=(int)(this->GetY()/CELL_Y_PIXELS);
+void Unit::SetVirtualX(float x){this->VirtualX=x;}
+
+void Unit::SetVirtualY(float y){this->VirtualY=y;}
+
+float Unit::GetVirtualX(){return this->VirtualX;}
+
+float Unit::GetVirtualY(){return this->VirtualY;}
+
+void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
+	int x_start=static_cast<int>(this->GetVirtualX()/CELL_X_PIXELS);
+	int y_start=static_cast<int>(this->GetVirtualY()/CELL_Y_PIXELS);
+	std::cout<<"x_target="<<x_target<<" ;y_target="<<y_target<<" ;x_start="<<x_start<<" ;y_start="<<y_start<<std::endl;
 	int x_range=x_target-x_start;
 	int y_range=y_target-y_start;
+	std::cout<<"x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	if(replace){
 		this->AddAction(Stay());
 	}
@@ -78,4 +92,16 @@ void Unit::MoveToCell(int x_target,int y_target,bool replace){
 			}
 		}
 	}
+	this->SetVirtualX(static_cast<float>(x_target*CELL_X_PIXELS));
+	this->SetVirtualY(static_cast<float>(y_target*CELL_Y_PIXELS));
+}
+
+void Unit::SetX(CoordinateType x){
+	GameObject::SetX(x);
+	this->VirtualX=x;
+}
+
+void Unit::SetY(CoordinateType y){
+	GameObject::SetY(y);
+	this->VirtualY=y;
 }

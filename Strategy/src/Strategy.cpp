@@ -32,18 +32,16 @@ int main() {
 		auto game = new Game(back, field);
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src = {100,100,80,80};
-		int cell_x = 5;
-		int cell_y = 3;
+		int cell_x = 2;
+		int cell_y = 2;
+		//int x_temp=cell_x;
+		//int y_temp=cell_y;
 		auto archer = new Archer(src, "res/images/test.bmp");
 		archer->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		archer->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-		archer->AddAction(MoveRight(),false);
-		archer->AddAction(MoveRight(),false);
-		archer->AddAction(MoveDown(),false);
-		archer->AddAction(MoveLeft(),false);
-		archer->AddAction(MoveUp(),false);
-		archer->AddAction(MoveUp(),false);
-		//archer->MoveToCell(cell_x+4,cell_y);
+		archer->DirectMoveToCell(5,4);
+		//y_temp+=1;
+		archer->DirectMoveToCell(2,2,false);
 		game->AddUnitAtCell(archer,cell_x, cell_y);
 		/*cell_x = 7;
 		cell_y = 3;

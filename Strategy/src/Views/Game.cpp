@@ -43,7 +43,10 @@ void Game::Update(Time t) {
 			action = unit->GetAction();
 			//std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
 			if (action->actionType==Action::STAY){
+				unit->SetVirtualX(unit->GetX());
+				unit->SetVirtualY(unit->GetY());
 				unit->NextAction();
+				//std::cout<<unit->GetVirtualX()<<"=GetVirtualX()=GetX()="<<unit->GetX()<<std::endl;
 			}
 			if (action->actionType==Action::MOVE_VERTICAL){
 				//auto x = unit->GetX();
@@ -140,6 +143,7 @@ void Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 		cell->objectType = CellType::UNIT;
 		cell->object = unit;
 	}
+	std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetVirtualX()<<" ;GetVirtualY()="<<unit->GetVirtualY()<<std::endl;
 }
 
 
