@@ -26,9 +26,7 @@ public:
 	virtual void SetY(CoordinateType y);
 	virtual CoordinateType GetWidth();
 	virtual CoordinateType GetHeight();
-	// прямоугольник, куда нужно наложить картинку
 	virtual SDL_Rect* GetSrcRect();
-	// прямоугольник, который накладывается
 	virtual SDL_Rect* GetDestRect();
 
 	virtual bool ContainsCoordinates(float x, float y);
@@ -44,7 +42,9 @@ private:
 	CoordinateType width;
 	CoordinateType height;
 	//Прямоугольники, дублирующие верхние переменные
+	//прямоугольник, куда рисуется изображение
 	SDL_Rect* destRect;
+	//определяет, какую часть исходного изображения рисовать
 	SDL_Rect* srcRect;
 public:
 	SDL_Surface* image;

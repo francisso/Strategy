@@ -16,9 +16,11 @@ struct Action{
 	Actions actionType;
 	//this should be a pointer to a Unit but it doesn't work
 	void* who;
+	//TODO get rid of it
 	bool IsPositive;
 };
 
+// TODO сделать одну функцию на создание Action. Убрать её из глобальной области
 Action* MoveRight();
 
 Action* MoveLeft();
@@ -28,5 +30,7 @@ Action* MoveUp();
 Action* MoveDown();
 
 Action* Stay();
+
+
 
 #endif /* UNITS_ACTION_H_ */

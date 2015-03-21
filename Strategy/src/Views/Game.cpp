@@ -96,6 +96,7 @@ void Game::Update(Time t) {
 			}
 
 
+			//TODO удалить это
 			/*if (action->actionType == Action::MOVE) {
 				auto move = static_cast<ActionMove*>(action);
 				auto unit = reinterpret_cast<Unit*>(action->who);

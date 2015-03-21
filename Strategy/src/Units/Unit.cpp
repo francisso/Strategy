@@ -40,6 +40,7 @@ void Unit::AddAction(Action* action, bool replace){
 	} else {
 		ActionQueue.push(action);
 	}
+	// TODO если это нужно, то надо то дебаг вывод нужно делать через ifdef DEBUG...
 	//std::cout<<"AddAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
 }
 
@@ -52,6 +53,7 @@ void Unit::NextAction(){
 		this->ActionQueue.pop();
 		//std::cout<<"NextAction(): size!=0"<<std::endl;
 	}
+	// TODO если это нужно, то надо то дебаг вывод нужно делать через ifdef DEBUG...
 	//std::cout<<"NextAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
 }
 

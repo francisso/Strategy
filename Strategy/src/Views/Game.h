@@ -22,6 +22,8 @@ public:
 	Game(Drawable* Background);
 	Game(Drawable* background, GameField* field);
 	virtual ~Game()=default;
+	//TODO !!! добавить документацию по всем функциям.
+	//(описание, описание параметров, описание возвращаемого значения)
 	void AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);

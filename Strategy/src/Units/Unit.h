@@ -28,12 +28,15 @@ public:
 	void SetVirtualY(float y);
 	float GetVirtualX();
 	float GetVirtualY();
+	// TODO @stasltggg не ясно, что такое replace, нужны комментарии.
 	void DirectMoveToCell(int x_target,int y_target,bool replace=true);
 private:
 	struct Action* action;
 	std::queue<struct Action*> ActionQueue;
+	// TODO @stasltggg Что это? Почему не константа?
 	float MaxSpeed;
 protected:
+	// TODO @stasltggg добавить описание
 	float VirtualX,VirtualY;
 };
 

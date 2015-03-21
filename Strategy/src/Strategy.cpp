@@ -34,25 +34,14 @@ int main() {
 		SDL_Rect src = {100,100,80,80};
 		int cell_x = 2;
 		int cell_y = 2;
-		//int x_temp=cell_x;
-		//int y_temp=cell_y;
 		auto archer = new Archer(src, "res/images/test.bmp");
 		archer->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		archer->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
 		archer->DirectMoveToCell(5,4);
-		//y_temp+=1;
 		archer->DirectMoveToCell(2,2,false);
 		game->AddUnitAtCell(archer,cell_x, cell_y);
-		/*cell_x = 7;
-		cell_y = 3;
-		auto archer1 = new Archer(src, "res/images/test.bmp");
-		archer1->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-		archer1->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-		game->AddUnitAtCell(archer1,cell_x, cell_y);*/
-
 		engine->SetView(game);
 		engine->Run();
-
 	}
 	catch (std::exception* e)
 	{
