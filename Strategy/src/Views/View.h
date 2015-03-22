@@ -30,7 +30,7 @@ public:
 	// для отрисовки окна
 	//Engine вызывает Draw с функцией, отрисовывающей Drawable
 	// и мы применяем эту функцию ко всем Drawable этого класса
-	virtual void Draw(std::function<void (Drawable*)> f);
+	virtual void Draw(std::function<void (Drawable*)> f) const;
 
 	//Функции, к которым обращается Engine
 	// в случае события
@@ -46,7 +46,7 @@ public:
 	void AddDrawable(Drawable* drawable);
 
 	//returns true если координаты принадлежат этому view
-	bool ContainsCoordinates(Uint16 x, Uint16 y);
+	bool ContainsCoordinates(Uint16 x, Uint16 y) const;
 
 private:
 	//То, что view отображает

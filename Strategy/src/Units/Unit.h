@@ -18,16 +18,17 @@ class Unit : public GameObject{
 public:
 	virtual ~Unit()=default;
 	Unit(SDL_Rect src, const char *name_file_image);
-	struct Action* GetAction();
+	struct Action* GetAction() const;
+	// TODO нужны описания
 	void AddAction(struct Action* action, bool replace=true);
 	void NextAction();
-	float GetMaxSpeed();
+	float GetMaxSpeed() const;
 	void SetX(CoordinateType x);
 	void SetY(CoordinateType y);
 	void SetVirtualX(float x);
 	void SetVirtualY(float y);
-	float GetVirtualX();
-	float GetVirtualY();
+	float GetVirtualX() const;
+	float GetVirtualY() const;
 	// TODO @stasltggg не ясно, что такое replace, нужны комментарии.
 	void DirectMoveToCell(int x_target,int y_target,bool replace=true);
 private:

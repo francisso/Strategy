@@ -18,18 +18,18 @@
 class  Drawable {
 public:
 	virtual ~Drawable()=default;
-	virtual SDL_Surface* GetImage() = 0;
+	virtual SDL_Surface* GetImage() const =0;
 //	virtual void SetImage(SDL_Surface* image) = 0;
-	virtual CoordinateType GetX() = 0;
-	virtual CoordinateType GetY() = 0;
-	virtual void SetX(CoordinateType x) = 0;
-	virtual void SetY(CoordinateType y) = 0;
-	virtual CoordinateType GetWidth() = 0;
-	virtual CoordinateType GetHeight() = 0;
-	virtual SDL_Rect* GetSrcRect() = 0;
-	virtual SDL_Rect* GetDestRect() = 0;
+	virtual CoordinateType GetX() const =0;
+	virtual CoordinateType GetY() const =0;
+	virtual void SetX(CoordinateType x) =0;
+	virtual void SetY(CoordinateType y) =0;
+	virtual CoordinateType GetWidth() const =0;
+	virtual CoordinateType GetHeight() const =0;
+	virtual SDL_Rect* GetSrcRect() const =0;
+	virtual SDL_Rect* GetDestRect() const =0;
 	//returns true if this Drawable contains coordinates
-	virtual bool ContainsCoordinates(float x, float y) = 0;
+	virtual bool ContainsCoordinates(float x, float y) const =0;
 };
 
 #endif /* DRAWABLE_H_ */

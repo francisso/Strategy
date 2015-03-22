@@ -19,7 +19,7 @@
 class Engine {
 public:
 	Engine();
-	virtual ~Engine()=default;
+	virtual ~Engine();
 
 	//Устанавливаем окно, которое будет отображаться
 	void SetView(View* view) {this->view = view;};
@@ -28,7 +28,7 @@ public:
 	void Run();
 
 	// создание карты
-	Drawable* CreateBackgroung(GameField* field);
+	Drawable* CreateBackgroung(GameField* field) const;
 
 	//Constructor initializes all the resources
 	void LoadResources();
@@ -39,6 +39,9 @@ private:
 	//Выполняем многопоточно или используем игровой цикл
 //TODO check multithreading
 	const bool MULTUTHREADING = false;
+	///Запускаьт ли игру в полноэкранном режиме?
+	//возможно, const надо будет убрать.
+	const bool FULLSCREEN = false;
 	bool game_is_running = true;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;

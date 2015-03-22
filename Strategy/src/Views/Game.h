@@ -30,7 +30,7 @@ public:
 private:
 	GameField* field;
 	Drawable* background;
-	virtual void Draw(std::function<void (Drawable*)> f);
+	virtual void Draw(std::function<void (Drawable*)> f) const;
 	virtual void Update(Time t);
 };
 

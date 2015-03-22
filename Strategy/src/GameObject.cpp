@@ -37,11 +37,11 @@ void GameObject::Update(float time) {
 	time = 1.0f*time;
 }
 
-SDL_Surface* GameObject::GetImage() {return image;}
+SDL_Surface* GameObject::GetImage() const {return image;}
 
-CoordinateType GameObject::GetX() {return x;}
+CoordinateType GameObject::GetX() const {return x;}
 
-CoordinateType GameObject::GetY() {return y;}
+CoordinateType GameObject::GetY() const {return y;}
 
 void GameObject::SetX(CoordinateType x) {
 	this->x = x;
@@ -53,16 +53,16 @@ void GameObject::SetY(CoordinateType y) {
 	destRect->y = static_cast<Sint16>(y);
 }
 
-CoordinateType GameObject::GetWidth() {return width;}
+CoordinateType GameObject::GetWidth() const {return width;}
 
-CoordinateType GameObject::GetHeight() {return height;}
+CoordinateType GameObject::GetHeight() const {return height;}
 
-SDL_Rect* GameObject::GetSrcRect() { return destRect;}
+SDL_Rect* GameObject::GetSrcRect() const { return destRect;}
 
-SDL_Rect* GameObject::GetDestRect() { return srcRect;}
+SDL_Rect* GameObject::GetDestRect() const { return srcRect;}
 
 
-bool GameObject::ContainsCoordinates(float x, float y) {
+bool GameObject::ContainsCoordinates(float x, float y) const {
 	auto relativeX = x - this->x;
 	auto relativeY = y - this->y;
 	return (relativeX >=0 && relativeY >=0 &&

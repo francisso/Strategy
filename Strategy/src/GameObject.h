@@ -19,17 +19,17 @@ public:
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
 	//Реализация Drawable:
-	virtual SDL_Surface* GetImage();
-	virtual CoordinateType GetX();
-	virtual CoordinateType GetY();
+	virtual SDL_Surface* GetImage() const;
+	virtual CoordinateType GetX() const;
+	virtual CoordinateType GetY() const;
 	virtual void SetX(CoordinateType x);
 	virtual void SetY(CoordinateType y);
-	virtual CoordinateType GetWidth();
-	virtual CoordinateType GetHeight();
-	virtual SDL_Rect* GetSrcRect();
-	virtual SDL_Rect* GetDestRect();
+	virtual CoordinateType GetWidth() const;
+	virtual CoordinateType GetHeight() const;
+	virtual SDL_Rect* GetSrcRect() const;
+	virtual SDL_Rect* GetDestRect() const;
 
-	virtual bool ContainsCoordinates(float x, float y);
+	virtual bool ContainsCoordinates(float x, float y) const;
 
 private:
 	//Координаты на поле

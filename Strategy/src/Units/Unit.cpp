@@ -20,11 +20,11 @@ Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_fil
 	std::cout<<VirtualX<<"=VirtualX=GetX()="<<GetX()<<std::endl;
 }
 
-Action* Unit::GetAction() {
+Action* Unit::GetAction() const {
 	return action;
 }
 
-float Unit::GetMaxSpeed(){
+float Unit::GetMaxSpeed() const{
 	return MaxSpeed;
 }
 
@@ -44,7 +44,7 @@ void Unit::AddAction(Action* action, bool replace){
 	//std::cout<<"AddAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
 }
 
-void Unit::NextAction(){
+void Unit::NextAction() {
 	if(this->ActionQueue.size()==0){
 		this->action->actionType=Action::STAY;
 		//std::cout<<"NextAction(): size==0"<<std::endl;
@@ -61,9 +61,9 @@ void Unit::SetVirtualX(float x){this->VirtualX=x;}
 
 void Unit::SetVirtualY(float y){this->VirtualY=y;}
 
-float Unit::GetVirtualX(){return this->VirtualX;}
+float Unit::GetVirtualX() const {return this->VirtualX;}
 
-float Unit::GetVirtualY(){return this->VirtualY;}
+float Unit::GetVirtualY() const {return this->VirtualY;}
 
 void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	int x_start=static_cast<int>(this->GetVirtualX()/CELL_X_PIXELS);

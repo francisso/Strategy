@@ -15,7 +15,7 @@ void View::Update(Time t) {
 			dynamic_cast<Unit*>(d)->Update(t);
 }
 
-void View::Draw(std::function<void (Drawable*)> f) {
+void View::Draw(std::function<void (Drawable*)> f) const {
 	//Сначала рисуем фон
 	if (image != nullptr)
 		f(image);
@@ -39,10 +39,9 @@ void View::OnEvent(SDL_Event* event) {
 	else
 		for(auto v: views)
 			v->OnEvent(event);
-
 }
 
-bool View::ContainsCoordinates(Uint16 x, Uint16 y) {
+bool View::ContainsCoordinates(Uint16 x, Uint16 y) const {
 	return image->ContainsCoordinates(x, y);
 }
 

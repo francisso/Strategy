@@ -8,21 +8,25 @@
 #include "Engine.h"
 
 
-Engine::Engine() {
-	if ( SDL_Init( SDL_INIT_VIDEO ) < 0 )
+Engine::Engine() : view(nullptr) {
+	if ( SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{
 	        printf( "Unable to init SDL: %s", SDL_GetError());
 	        return;
 	}
-	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 32,
-								SDL_HWSURFACE | SDL_DOUBLEBUF);
-
-	if (!screen)
-	{
+	//Создаем окно
+	Uint32 flags =  SDL_HWSURFACE | SDL_DOUBLEBUF;
+	if (FULLSCREEN)
+		flags |= SDL_FULLSCREEN;
+	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 32, flags);
+	if (!screen) {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
 	}
-	view = nullptr;
+}
+
+Engine::~Engine() {
+	SDL_Quit();
 }
 
 void Engine::LoadResources(){
@@ -82,8 +86,7 @@ void Engine::ThreadUpdate(View* view) {
 	}
 }
 
-void Engine::Draw(Drawable* drawable, SDL_Surface* screen)
-{
+void Engine::Draw(Drawable* drawable, SDL_Surface* screen) {
 	if (drawable == nullptr)
 		return;
 	SDL_BlitSurface(drawable->GetImage(),
@@ -105,7 +108,7 @@ void Engine::DrawView(View* view, SDL_Surface* screen) {
 	SDL_Flip(screen);
 }
 
-Drawable* Engine::CreateBackgroung(GameField* field)
+Drawable* Engine::CreateBackgroung(GameField* field) const
 {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int j = 0; j < CELL_Y_NUMBER; j++) {
