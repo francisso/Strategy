@@ -129,12 +129,30 @@ void Engine::ProcessInput(View* view)
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) // Пока есть хоть одно необработанное событие
-	    {
-	        if(event.type == SDL_QUIT)
+	{
+		view->OnEvent(&event);
+		switch(event.type)
+		{
+			case SDL_QUIT:
+			{
 	        	game_is_running = false;
-	        view->OnEvent(&event);
-	    }
-
+	        	break;
+			}
+	        case SDL_KEYDOWN:
+            {
+                switch(event.key.keysym.sym)
+                {
+                    case SDLK_ESCAPE:
+                    {
+                    	game_is_running = false;
+                        break;
+                    }
+                    default:
+                    	break;
+                }
+            }
+		}
+	}
 }
 
 void Engine::GameCycle() {
