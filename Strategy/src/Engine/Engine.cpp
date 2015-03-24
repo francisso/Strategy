@@ -18,7 +18,7 @@ Engine::Engine() : view(nullptr) {
 	Uint32 flags =  SDL_HWSURFACE | SDL_DOUBLEBUF;
 	if (FULLSCREEN)
 		flags |= SDL_FULLSCREEN;
-	screen = SDL_SetVideoMode(CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS, 32, flags);
+	screen = SDL_SetVideoMode(X_SIZE_WINDOW, Y_SIZE_WINDOW, 32, flags);
 	if (!screen) {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
@@ -29,7 +29,7 @@ Engine::~Engine() {
 	SDL_Quit();
 }
 
-void Engine::LoadResources(){
+Drawable** Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
 	texture[WATER]  = new GameObject(src, "res/images/water.bmp");
@@ -38,7 +38,7 @@ void Engine::LoadResources(){
 	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
 	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
 	//auto x = new GameObject(src, "res/images/selection.bmp");
-
+	return texture;
 }
 
 void Engine::FreeResources(){
@@ -86,13 +86,18 @@ void Engine::ThreadUpdate(View* view) {
 	}
 }
 
-void Engine::Draw(Drawable* drawable, SDL_Surface* screen) {
+void Engine::Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0, CoordinateType Y0) {
 	if (drawable == nullptr)
 		return;
+	SDL_Rect src(*drawable->GetSrcRect());
+	X0 += src.x;
+	Y0 += src.y;
+	src.x = static_cast<short int>(X0);
+	src.y = static_cast<short int>(Y0);
 	SDL_BlitSurface(drawable->GetImage(),
 			drawable->GetDestRect(),
 			screen,
-			drawable->GetSrcRect());
+			&src);
 }
 
 void Engine::DrawView(View* view, SDL_Surface* screen) {
@@ -101,8 +106,8 @@ void Engine::DrawView(View* view, SDL_Surface* screen) {
 
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
-	auto f = [&screen] (Drawable* drawable) {
-		Draw(drawable, screen);
+	auto f = [&screen] (Drawable* drawable, CoordinateType X0, CoordinateType Y0) {
+		Draw(drawable, screen, X0, Y0);
 	};
 	view->Draw(f);
 	SDL_Flip(screen);
@@ -133,24 +138,24 @@ void Engine::ProcessInput(View* view)
 		view->OnEvent(&event);
 		switch(event.type)
 		{
-			case SDL_QUIT:
-			{
-	        	game_is_running = false;
-	        	break;
-			}
-	        case SDL_KEYDOWN:
+		case SDL_QUIT:
+		{
+	        game_is_running = false;
+	       	break;
+		}
+	    case SDL_KEYDOWN:
+        {
+        	switch(event.key.keysym.sym)
             {
-                switch(event.key.keysym.sym)
-                {
-                    case SDLK_ESCAPE:
-                    {
-                    	game_is_running = false;
-                        break;
-                    }
-                    default:
-                    	break;
-                }
+            case SDLK_ESCAPE:
+            {
+            	game_is_running = false;
+            	break;
             }
+            default:
+            	break;
+            }
+        }
 		}
 	}
 }

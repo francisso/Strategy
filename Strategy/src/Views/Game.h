@@ -19,8 +19,8 @@
 //  (атака 1 юнита на другой, например)
 class Game: public View {
 public:
-	Game(Drawable* Background);
-	Game(Drawable* background, GameField* field);
+	Game(Drawable** texture);
+	Game(Drawable** texture, GameField* field);
 	virtual ~Game()=default;
 	//TODO !!! добавить документацию по всем функциям.
 	//(описание, описание параметров, описание возвращаемого значения)
@@ -28,10 +28,14 @@ public:
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 private:
+	CoordinateType x;
+	CoordinateType y;
+	const CoordinateType SpeedMap = 20.0f;
 	GameField* field;
-	Drawable* background;
-	virtual void Draw(std::function<void (Drawable*)> f) const;
+	Drawable** texture;
+	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
 	virtual void Update(Time t);
+	void MotionMap(Time t);
 };
 
 #endif /* GAME_H_ */

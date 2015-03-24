@@ -15,13 +15,13 @@ void View::Update(Time t) {
 			dynamic_cast<Unit*>(d)->Update(t);
 }
 
-void View::Draw(std::function<void (Drawable*)> f) const {
+void View::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
 	//Сначала рисуем фон
 	if (image != nullptr)
-		f(image);
+		f(image, 0.0f, 0.0f);
 	//Потом все drawables
 	for(auto d : drawables)
-		f(d);
+		f(d, 0.0f, 0.0f);
 	//Потом все view
 	for(auto v: views)
 		v->Draw(f);

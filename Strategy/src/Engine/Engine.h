@@ -31,7 +31,7 @@ public:
 	Drawable* CreateBackgroung(GameField* field) const;
 
 	//Constructor initializes all the resources
-	void LoadResources();
+	Drawable** LoadResources();
 	//Destructor frees resources
 	void FreeResources();
 
@@ -41,7 +41,7 @@ private:
 	const bool MULTUTHREADING = false;
 	///Запускаьт ли игру в полноэкранном режиме?
 	//возможно, const надо будет убрать.
-	const bool FULLSCREEN = false;
+	const bool FULLSCREEN = true;
 	bool game_is_running = true;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;
@@ -62,7 +62,7 @@ private:
 
 	//Отрисовывает окно
 	static void DrawView(View* view, SDL_Surface* screen);
-	static void Draw(Drawable* drawable, SDL_Surface* screen);
+	static void Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0 = 0, CoordinateType Y0 = 0);
 
 	void ProcessInput(View* view);
 	void GameCycle();

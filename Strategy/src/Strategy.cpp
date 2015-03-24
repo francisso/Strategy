@@ -26,10 +26,10 @@ int main() {
 	try
 	{
 		Engine* engine = new Engine();
-		engine->LoadResources();
+		Drawable** texture = engine->LoadResources();
 		GameField* field = FieldBuilder::CreateField();
-		Drawable* back = engine->CreateBackgroung(field);
-		auto game = new Game(back, field);
+//		Drawable* back = engine->CreateBackgroung(field);
+		auto game = new Game(texture, field);
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src = {100,100,80,80};
 		int cell_x = 2;

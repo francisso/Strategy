@@ -10,24 +10,56 @@
 #include <string>
 #include <iostream>
 
-Game::Game(Drawable* background) : Game(background, new GameField()) {}
+Game::Game(Drawable** texture) : Game(texture, new GameField()) {}
 
-Game::Game(Drawable* background, GameField* field) : field(field), background(background) { }
+Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture) {
+	x = 0;
+	y = 0;
+}
 
-void Game::Draw(std::function<void (Drawable*)> f) const {
-	f(background);
-	for (int i = 0; i < CELL_X_NUMBER; i++)
-	for (int k = 0; k < CELL_Y_NUMBER; k++)
-		f(field->grid[i][k].object);
-	f(field->selection);
+void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
+	for (int i = (int)(x)/CELL_X_PIXELS;
+			i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
+					i < CELL_X_NUMBER; i++)
+	for (int k = (int)(y)/CELL_Y_PIXELS;
+			k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
+					k < CELL_Y_NUMBER; k++) {
+		texture[field->grid[i][k].textureType]->SetX((float)(CELL_X_PIXELS*i));
+		texture[field->grid[i][k].textureType]->SetY((float)(CELL_Y_PIXELS*k));
+		f(texture[field->grid[i][k].textureType], -x, -y);
+	}
+	for (int i = (int)(x)/CELL_X_PIXELS;
+				i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
+						i < CELL_X_NUMBER; i++)
+	for (int k = (int)(y)/CELL_Y_PIXELS;
+				k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
+						k < CELL_Y_NUMBER; k++)
+				f(field->grid[i][k].object, -x, -y);
+	f(field->selection, 0.0f, 0.0f);
 	this->View::Draw(f);
 }
 
 inline int Sign(bool isPositive) {
 	return isPositive ? 1 : -1;
 }
-
+void Game::MotionMap(Time t)
+{
+	int X = 0, Y = 0;
+	SDL_GetMouseState(&X, &Y);
+	// TODO убрать константу 5
+	if (X < 5 && x >= SpeedMap)
+		x -= SpeedMap*t;
+	if (Y < 5 && y >= SpeedMap)
+		y -= SpeedMap*t;
+	if (X > X_SIZE_WINDOW - 5 &&
+			x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - SpeedMap)
+		x += SpeedMap*t;
+	if (Y > Y_SIZE_WINDOW - 5 &&
+			y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - SpeedMap)
+		y += SpeedMap*t;
+}
 void Game::Update(Time t) {
+	MotionMap(t);
 	Action* action;
 	Unit* unit;
 	for (int i = 0; i < CELL_X_NUMBER; i++)
