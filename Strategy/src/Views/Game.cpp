@@ -18,24 +18,24 @@ Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture
 }
 
 void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
-	for (int i = (int)(x)/CELL_X_PIXELS;
+	for (int i = static_cast<int>(x)/CELL_X_PIXELS;
 			i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
 					i < CELL_X_NUMBER; i++)
-	for (int k = (int)(y)/CELL_Y_PIXELS;
+	for (int k = static_cast<int>(y)/CELL_Y_PIXELS;
 			k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
 					k < CELL_Y_NUMBER; k++) {
-		texture[field->grid[i][k].textureType]->SetX((float)(CELL_X_PIXELS*i));
-		texture[field->grid[i][k].textureType]->SetY((float)(CELL_Y_PIXELS*k));
+		texture[field->grid[i][k].textureType]->SetX(static_cast<float>(CELL_X_PIXELS*i));
+		texture[field->grid[i][k].textureType]->SetY(static_cast<float>(CELL_Y_PIXELS*k));
 		f(texture[field->grid[i][k].textureType], -x, -y);
 	}
-	for (int i = (int)(x)/CELL_X_PIXELS;
+	for (int i = static_cast<int>(x)/CELL_X_PIXELS;
 				i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
 						i < CELL_X_NUMBER; i++)
-	for (int k = (int)(y)/CELL_Y_PIXELS;
+	for (int k = static_cast<int>(y)/CELL_Y_PIXELS;
 				k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
 						k < CELL_Y_NUMBER; k++)
 				f(field->grid[i][k].object, -x, -y);
-	f(field->selection, 0.0f, 0.0f);
+	f(field->selection, -x, -y);
 	this->View::Draw(f);
 }
 
@@ -177,10 +177,12 @@ void Game::OnEvent(SDL_Event* event) {
 	{
 	case SDL_MOUSEMOTION:
 	{
-		int i = event->motion.x / CELL_X_PIXELS;
-		int j = event->motion.y / CELL_Y_PIXELS;
-		field->selection->SetX((float)i*CELL_X_PIXELS);
-		field->selection->SetY((float)j*CELL_Y_PIXELS);
+		int X = static_cast<int>(x);
+		int Y = static_cast<int>(y);
+		int i = (X + event->motion.x) / CELL_X_PIXELS;
+		int j = (Y + event->motion.y) / CELL_Y_PIXELS;
+		field->selection->SetX(static_cast<float>(i*CELL_X_PIXELS));
+		field->selection->SetY(static_cast<float>(j*CELL_Y_PIXELS));
 	}
 	}
 }
