@@ -18,11 +18,14 @@ Engine::Engine() : view(nullptr) {
 	Uint32 flags =  SDL_HWSURFACE | SDL_DOUBLEBUF;
 	if (FULLSCREEN)
 		flags |= SDL_FULLSCREEN;
-	screen = SDL_SetVideoMode(X_SIZE_WINDOW, Y_SIZE_WINDOW, 32, flags);
+	screen = SDL_SetVideoMode(0, 0, 32, flags);
 	if (!screen) {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
 	}
+	X_SIZE_WINDOW = static_cast<CoordinateType>(screen->w);
+	Y_SIZE_WINDOW = static_cast<CoordinateType>(screen->h);
+	printf("screen size: %d x %d\n", screen->w, screen->h);
 }
 
 Engine::~Engine() {
@@ -94,6 +97,9 @@ void Engine::Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0, Co
 	Y0 += src.y;
 	src.x = static_cast<short int>(X0);
 	src.y = static_cast<short int>(Y0);
+	if (src.x + src.w < 0 || src.y + src.h < 0 ||
+				src.x > X_SIZE_WINDOW || src.y > Y_SIZE_WINDOW)
+			return;
 	SDL_BlitSurface(drawable->GetImage(),
 			drawable->GetDestRect(),
 			screen,

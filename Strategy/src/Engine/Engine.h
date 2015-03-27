@@ -16,6 +16,10 @@
 #include "../Views/View.h"
 #include "../Views/GameField.h"
 
+// Размеры окна
+extern CoordinateType X_SIZE_WINDOW;
+extern CoordinateType Y_SIZE_WINDOW;
+
 class Engine {
 public:
 	Engine();
@@ -46,6 +50,7 @@ private:
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;
 	static const int UPDATE_FPS = 300;
+
 	//Активное окно
 	View* view;
 	SDL_Surface* screen;

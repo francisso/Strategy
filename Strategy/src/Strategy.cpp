@@ -19,7 +19,9 @@
 #include "Units/Action.h"
 #include "Constants.h"
 
-
+// Размеры окна
+CoordinateType X_SIZE_WINDOW;
+CoordinateType Y_SIZE_WINDOW;
 
 int main() {
 	std::cout << "I'm working" << std::endl;

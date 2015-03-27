@@ -18,22 +18,14 @@ Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture
 }
 
 void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
-	for (int i = static_cast<int>(x)/CELL_X_PIXELS;
-			i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
-					i < CELL_X_NUMBER; i++)
-	for (int k = static_cast<int>(y)/CELL_Y_PIXELS;
-			k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
-					k < CELL_Y_NUMBER; k++) {
+	for (int i = 0; i < CELL_X_NUMBER; i++)
+	for (int k = 0; k < CELL_Y_NUMBER; k++) {
 		texture[field->grid[i][k].textureType]->SetX(static_cast<float>(CELL_X_PIXELS*i));
 		texture[field->grid[i][k].textureType]->SetY(static_cast<float>(CELL_Y_PIXELS*k));
 		f(texture[field->grid[i][k].textureType], -x, -y);
 	}
-	for (int i = static_cast<int>(x)/CELL_X_PIXELS;
-				i < (x + X_SIZE_WINDOW)/CELL_X_PIXELS &&
-						i < CELL_X_NUMBER; i++)
-	for (int k = static_cast<int>(y)/CELL_Y_PIXELS;
-				k < (y + Y_SIZE_WINDOW)/CELL_Y_PIXELS &&
-						k < CELL_Y_NUMBER; k++)
+	for (int i = 0;	i < CELL_X_NUMBER; i++)
+	for (int k = 0;	k < CELL_Y_NUMBER; k++)
 				f(field->grid[i][k].object, -x, -y);
 	f(field->selection, -x, -y);
 	this->View::Draw(f);
