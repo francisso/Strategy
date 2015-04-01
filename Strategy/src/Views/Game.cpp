@@ -37,26 +37,27 @@ inline int Sign(bool isPositive) {
 void Game::MotionMap(Time t)
 {
 	int X = 0, Y = 0;
+	float delta = SpeedMap*t;
 	SDL_GetMouseState(&X, &Y);
 	// TODO убрать константу 5
 	if (X < 5) {
-		if (x >= SpeedMap*t)
-			x -= SpeedMap*t;
+		if (x >= delta)
+			x -= delta;
 		else x = 0;
 	}
 	if (Y < 5) {
-		if (y >= SpeedMap*t)
-			y -= SpeedMap*t;
+		if (y >= delta)
+			y -= delta;
 		else y = 0;
 	}
 	if (X > X_SIZE_WINDOW - 5) {
-		if (x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - SpeedMap*t)
-			x += SpeedMap*t;
+		if (x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - delta)
+			x += delta;
 		else x = CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW;
 	}
 	if (Y > Y_SIZE_WINDOW - 5) {
-		if (y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - SpeedMap*t)
-			y += SpeedMap*t;
+		if (y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - delta)
+			y += delta;
 		else y = CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW;
 	}
 }
