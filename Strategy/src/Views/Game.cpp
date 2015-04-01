@@ -39,16 +39,26 @@ void Game::MotionMap(Time t)
 	int X = 0, Y = 0;
 	SDL_GetMouseState(&X, &Y);
 	// TODO убрать константу 5
-	if (X < 5 && x >= SpeedMap)
-		x -= SpeedMap*t;
-	if (Y < 5 && y >= SpeedMap)
-		y -= SpeedMap*t;
-	if (X > X_SIZE_WINDOW - 5 &&
-			x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - SpeedMap)
-		x += SpeedMap*t;
-	if (Y > Y_SIZE_WINDOW - 5 &&
-			y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - SpeedMap)
-		y += SpeedMap*t;
+	if (X < 5) {
+		if (x >= SpeedMap*t)
+			x -= SpeedMap*t;
+		else x = 0;
+	}
+	if (Y < 5) {
+		if (y >= SpeedMap*t)
+			y -= SpeedMap*t;
+		else y = 0;
+	}
+	if (X > X_SIZE_WINDOW - 5) {
+		if (x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - SpeedMap*t)
+			x += SpeedMap*t;
+		else x = CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW;
+	}
+	if (Y > Y_SIZE_WINDOW - 5) {
+		if (y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - SpeedMap*t)
+			y += SpeedMap*t;
+		else y = CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW;
+	}
 }
 void Game::Update(Time t) {
 	MotionMap(t);
