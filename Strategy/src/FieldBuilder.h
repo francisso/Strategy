@@ -19,7 +19,7 @@ class FieldBuilder {
 public:
 	static GameField* CreateField();
 	//число областей с одной текстурой
-	static const int ZONES_COUNT=10;
+	static const int ZONES_COUNT=15;
 	//Количество текстур
 	static const int TEXTURE_COUNT= 6;
 	//минимальное расстояние между зонами

@@ -61,7 +61,7 @@ GameField* FieldBuilder::CreateField() {
 	//Инициализируем поле. Сначала случайным образом.
 	//Потом переписываем из файла нужные участки
 	InitializeRandomField(field);
-	LoadFromFile(field, MAP_PATH);
+	//LoadFromFile(field, MAP_PATH);
 	return field;
 }
 
@@ -72,10 +72,10 @@ void FieldBuilder::LoadFromFile(GameField* field, const char* path) {
 	int lineNumber=0;
 	string line;
 	while(getline(file, line) && lineNumber < CELL_Y_NUMBER){
-		lineNumber++;
 	    for(unsigned int i=0; i < line.length() && i < CELL_X_NUMBER; i++)
 	    	field->grid[i][lineNumber].textureType=
 	    			static_cast<int>(line[i])-static_cast<int>('0');
+	    lineNumber++;
 	}
 	file.close();
 }
