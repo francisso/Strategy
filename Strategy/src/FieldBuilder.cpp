@@ -7,7 +7,7 @@
 
 #include "FieldBuilder.h"
 
-
+const char* FieldBuilder::MAP_PATH = "res/maps/map1";
 
 int FieldBuilder::Distance(Point a, Point b) {
 	return abs(a.x-b.x)+abs(a.y-b.y);
@@ -29,14 +29,7 @@ int FieldBuilder::FindNearest(int x, int y, Point points[]) {
 	return num;
 }
 
-
-
-GameField* FieldBuilder::CreateField() {
-	srand(static_cast<unsigned int>(time(0)));
-	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	GameField* field = new GameField();
-	field->selection = new GameObject(src, "res/images/selection.bmp", 100);
-
+void FieldBuilder::InitializeRandomField(GameField* field) {
 	Point point;
 	Point points[ZONES_COUNT];
 	//Генерерием центры зон
@@ -53,10 +46,36 @@ GameField* FieldBuilder::CreateField() {
 	}
 	//Определяем тип текстуры в каждой клетке
 	for (int x = 0; x < CELL_X_NUMBER; x++)
-		for(int y = 0; y < CELL_Y_NUMBER; y++) {
-			field->grid[x][y].textureType= FindNearest(x, y, points);
-	}
+		for (int y = 0; y < CELL_Y_NUMBER; y++) {
+			field->grid[x][y].textureType = FindNearest(x, y, points)%TEXTURE_COUNT;
+		}
+}
+
+GameField* FieldBuilder::CreateField() {
+	//Инициализируем генератор случайных чисел
+	srand(static_cast<unsigned int>(time(0)));
+	//Загружаем картинку с выделением
+	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
+	GameField* field = new GameField();
+	field->selection = new GameObject(src, "res/images/selection.bmp", 100);
+	//Инициализируем поле. Сначала случайным образом.
+	//Потом переписываем из файла нужные участки
+	InitializeRandomField(field);
+	LoadFromFile(field, MAP_PATH);
 	return field;
 }
 
-
+void FieldBuilder::LoadFromFile(GameField* field, const char* path) {
+	if (field == NULL)
+		return;
+	std::fstream file(path);
+	int lineNumber=0;
+	string line;
+	while(getline(file, line) && lineNumber < CELL_Y_NUMBER){
+		lineNumber++;
+	    for(unsigned int i=0; i < line.length() && i < CELL_X_NUMBER; i++)
+	    	field->grid[i][lineNumber].textureType=
+	    			static_cast<int>(line[i])-static_cast<int>('0');
+	}
+	file.close();
+}
