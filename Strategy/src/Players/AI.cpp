@@ -5,7 +5,7 @@
  *      Author: anton
  */
 
-#include "AI.h"
+#include "../Players/AI.h"
 
 AI::AI() {
 	// TODO Auto-generated constructor stub

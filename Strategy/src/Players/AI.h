@@ -5,8 +5,8 @@
  *      Author: anton
  */
 
-#ifndef AI_H_
-#define AI_H_
+#ifndef PLAYERS_AI_H_
+#define PLAYERS_AI_H_
 
 
 //В будущем этот класс будет отвечать за
@@ -17,4 +17,4 @@ public:
 	virtual ~AI();
 };
 
-#endif /* AI_H_ */
+#endif /* PLAYERS_AI_H_ */

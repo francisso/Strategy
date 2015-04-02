@@ -17,4 +17,7 @@
 #define CELL_X_PIXELS 80
 #define CELL_Y_PIXELS 80
 
+//Количество золота по умолчанию
+#define GOLD_DEFAULT 100
+
 #endif /* CONSTANTS_H_ */
