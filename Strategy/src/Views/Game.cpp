@@ -133,7 +133,7 @@ int Game::AddUnit(Unit* unit){
 	int cell_x=static_cast<int>(unit->GetX()/CELL_X_PIXELS);
 	int cell_y=static_cast<int>(unit->GetY()/CELL_Y_PIXELS);
 	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
 	auto cell=&this->field->grid[cell_x][cell_y];
 	if(cell->objectType==NOTHING){
 		cell->objectType=CellType::UNIT;
