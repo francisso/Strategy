@@ -8,16 +8,15 @@
 #include "Unit.h"
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_file_image) {
+Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_file_image),MaxSpeed(2) {
 	//TODO this initialization is a developer version
 	auto action = new Action();
-	action->actionType= Action::STAY;
+	action->type=STAY;
 	action->who = this;
 	this->action = action;
-	this->MaxSpeed=2.0f;
-	this->VirtualX=this->GetX();
-	this->VirtualY=this->GetY();
-	std::cout<<VirtualX<<"=VirtualX=GetX()="<<GetX()<<std::endl;
+	this->DestinationX=this->GetX();
+	this->DestinationY=this->GetY();
+	//std::cout<<DestinationX<<"=VirtualX=GetX()="<<GetX()<<std::endl;
 }
 
 Action* Unit::GetAction() const {
@@ -46,7 +45,7 @@ void Unit::AddAction(Action* action, bool replace){
 
 void Unit::NextAction() {
 	if(this->ActionQueue.size()==0){
-		this->action->actionType=Action::STAY;
+		this->action->type=STAY;
 		//std::cout<<"NextAction(): size==0"<<std::endl;
 	} else {
 		this->action=this->ActionQueue.front();
@@ -57,53 +56,53 @@ void Unit::NextAction() {
 	//std::cout<<"NextAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
 }
 
-void Unit::SetVirtualX(float x){this->VirtualX=x;}
+void Unit::SetDestinationX(float x){this->DestinationX=x;}
 
-void Unit::SetVirtualY(float y){this->VirtualY=y;}
+void Unit::SetDestinationY(float y){this->DestinationY=y;}
 
-float Unit::GetVirtualX() const {return this->VirtualX;}
+float Unit::GetDestinationX() const {return this->DestinationX;}
 
-float Unit::GetVirtualY() const {return this->VirtualY;}
+float Unit::GetDestinationY() const {return this->DestinationY;}
 
 void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
-	int x_start=static_cast<int>(this->GetVirtualX()/CELL_X_PIXELS);
-	int y_start=static_cast<int>(this->GetVirtualY()/CELL_Y_PIXELS);
+	int x_start=static_cast<int>(this->GetDestinationX()/CELL_X_PIXELS);
+	int y_start=static_cast<int>(this->GetDestinationY()/CELL_Y_PIXELS);
 	std::cout<<"x_target="<<x_target<<" ;y_target="<<y_target<<" ;x_start="<<x_start<<" ;y_start="<<y_start<<std::endl;
 	int x_range=x_target-x_start;
 	int y_range=y_target-y_start;
 	std::cout<<"x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	if(replace){
-		this->AddAction(Stay());
+		this->AddAction(Action::CreateAction(STAY,false));
 	}
 	while(x_range!=0 || y_range!=0){
 		if (std::abs(x_range)>std::abs(y_range)){
 			if(x_range>0){
-				this->AddAction(MoveRight(),false);
+				this->AddAction(Action::CreateAction(MOVE_HORIZONTAL,true),false);
 				x_range--;
 			} else {
-				this->AddAction(MoveLeft(),false);
+				this->AddAction(Action::CreateAction(MOVE_HORIZONTAL,false),false);
 				x_range++;
 			}
 		} else {
 			if(y_range>0){
-				this->AddAction(MoveDown(),false);
+				this->AddAction(Action::CreateAction(MOVE_VERTICAL,true),false);
 				y_range--;
 			} else {
-				this->AddAction(MoveUp(),false);
+				this->AddAction(Action::CreateAction(MOVE_VERTICAL,false),false);
 				y_range++;
 			}
 		}
 	}
-	this->SetVirtualX(static_cast<float>(x_target*CELL_X_PIXELS));
-	this->SetVirtualY(static_cast<float>(y_target*CELL_Y_PIXELS));
+	this->SetDestinationX(static_cast<float>(x_target*CELL_X_PIXELS));
+	this->SetDestinationY(static_cast<float>(y_target*CELL_Y_PIXELS));
 }
 
 void Unit::SetX(CoordinateType x){
 	GameObject::SetX(x);
-	this->VirtualX=x;
+	this->DestinationX=x;
 }
 
 void Unit::SetY(CoordinateType y){
 	GameObject::SetY(y);
-	this->VirtualY=y;
+	this->DestinationY=y;
 }

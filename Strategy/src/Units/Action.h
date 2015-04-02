@@ -10,27 +10,19 @@
 
 #include "Unit.h"
 
+enum ActionType{STAY,MOVE_VERTICAL,MOVE_HORIZONTAL, ATTACK};
 
 struct Action{
-	enum Actions{STAY,MOVE_VERTICAL,MOVE_HORIZONTAL, ATTACK};
-	Actions actionType;
+	ActionType type;
 	//this should be a pointer to a Unit but it doesn't work
 	void* who;
-	//TODO get rid of it
-	bool IsPositive;
+	bool isPositive;
+
+	/**
+	 * @CreateAction возвращает указатель на нужный тип @Action
+	 * @type и @IsPositive записываются в соответствующие поля @Action
+	 */
+	static Action* CreateAction(ActionType type,bool isPositive=true);
 };
-
-// TODO сделать одну функцию на создание Action. Убрать её из глобальной области
-Action* MoveRight();
-
-Action* MoveLeft();
-
-Action* MoveUp();
-
-Action* MoveDown();
-
-Action* Stay();
-
-
 
 #endif /* UNITS_ACTION_H_ */

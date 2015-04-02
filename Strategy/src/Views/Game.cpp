@@ -73,24 +73,25 @@ void Game::Update(Time t) {
 		unit=dynamic_cast<Unit*>(field->grid[i][k].object);
 		action = unit->GetAction();
 		//std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
-		if (action->actionType==Action::STAY){
-			unit->SetVirtualX(unit->GetX());
-			unit->SetVirtualY(unit->GetY());
+		if (action->type==STAY){
+			unit->SetDestinationX(unit->GetX());
+			unit->SetDestinationY(unit->GetY());
 			unit->NextAction();
 			//std::cout<<unit->GetVirtualX()<<"=GetVirtualX()=GetX()="<<unit->GetX()<<std::endl;
 		}
-		if (action->actionType==Action::MOVE_VERTICAL){
+		if (action->type==MOVE_VERTICAL){
 			//auto x = unit->GetX();
 			auto y = unit->GetY();
 			if(y==CELL_Y_PIXELS*k){
-				if(field->grid[i][k+Sign(action->IsPositive)].objectType==CellType::NOTHING){
-					field->grid[i][k+Sign(action->IsPositive)].objectType=CellType::OCCUPIED;
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->IsPositive)));
+				//auto xNext = k + ((action->IsPositive) ? 1 : -1);
+				if(field->grid[i][k+Sign(action->isPositive)].objectType==CellType::NOTHING){
+					field->grid[i][k+Sign(action->isPositive)].objectType=CellType::OCCUPIED;
+					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 				else continue;
 			} else {
 				if((y+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(k-1)){
-					int y_next = k+Sign(action->IsPositive);
+					int y_next = k+Sign(action->isPositive);
 					field->grid[i][y_next].objectType = CellType::UNIT;
 					field->grid[i][y_next].object = unit;
 					field->grid[i][k].objectType = CellType::NOTHING;
@@ -99,21 +100,21 @@ void Game::Update(Time t) {
 					unit->NextAction();
 					//std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
 				} else {
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->IsPositive)));
+					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 			}
 		}
-		if (action->actionType==Action::MOVE_HORIZONTAL){
+		if (action->type==MOVE_HORIZONTAL){
 			auto x=unit->GetX();
 			if(x==CELL_X_PIXELS){
-				if(field->grid[i+Sign(action->IsPositive)][k].objectType==CellType::NOTHING){
-					field->grid[i+Sign(action->IsPositive)][k].objectType=CellType::OCCUPIED;
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->IsPositive)));
+				if(field->grid[i+Sign(action->isPositive)][k].objectType==CellType::NOTHING){
+					field->grid[i+Sign(action->isPositive)][k].objectType=CellType::OCCUPIED;
+					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 				else continue;
 			} else {
 				if((x+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(i-1)){
-					int x_next = i+Sign(action->IsPositive);
+					int x_next = i+Sign(action->isPositive);
 					field->grid[x_next][k].objectType = CellType::UNIT;
 					field->grid[x_next][k].object = unit;
 					field->grid[i][k].objectType = CellType::NOTHING;
@@ -121,57 +122,38 @@ void Game::Update(Time t) {
 					unit->SetX(static_cast<float>(x_next*CELL_X_PIXELS));
 					unit->NextAction();
 				} else {
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->IsPositive)));
+					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 			}
 		}
-		//TODO удалить это
-		/*if (action->actionType == Action::MOVE) {
-			auto move = static_cast<ActionMove*>(action);
-			auto unit = reinterpret_cast<Unit*>(action->who);
-			auto x = unit->GetX();
-			auto y = unit->GetY();
-			//если юнит целиком в одной клетке
-			if (x == CELL_X_PIXELS*i && y == CELL_Y_PIXELS*k) {
-				//если юнит движется вдоль осей координат
-				if (move->x_speed*move->y_speed == 0) {
-					//TODO check ranges and refactor
-					if(field->grid[i+sign(move->x_speed)][k+sign(move->y_speed)].objectType == CellType::NOTHING)
-						field->grid[i+sign(move->x_speed)][k+sign(move->y_speed)].objectType = CellType::OCCUPIED;
-					else continue;
-				}
-				}
-			else {
-				//проверка, что юнит перешел в следующую клетку
-				if (x > CELL_X_PIXELS*(i+1) || y > CELL_Y_PIXELS*(k+1) ||
-						x < CELL_X_PIXELS*(i-1) || y < CELL_Y_PIXELS*(k-1)) {
-					int x_next = i +sign(move->x_speed);
-					int y_next = k +sign(move->y_speed);
-					field->grid[x_next][y_next].objectType = CellType::UNIT;
-					field->grid[x_next][y_next].object = unit;
-					field->grid[i][k].objectType = CellType::NOTHING;
-					field->grid[i][k].object = nullptr;
-					//Just an example of action
-					auto temp = move->y_speed;
-					move->y_speed = move->x_speed*-1.0f;
-					move->x_speed = temp;
-				}
-			}
-			unit->SetX(x+t*move->x_speed);
-			unit->SetY(y+t*move->y_speed);
-		}*/
 	}
 }
 
-void Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
+int Game::AddUnit(Unit* unit){
+	int cell_x=static_cast<int>(unit->GetX()/CELL_X_PIXELS);
+	int cell_y=static_cast<int>(unit->GetY()/CELL_Y_PIXELS);
+	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	auto cell=&this->field->grid[cell_x][cell_y];
+	if(cell->objectType==NOTHING){
+		cell->objectType=CellType::UNIT;
+		cell->object=unit;
+		return 0;
+	}
+	return 1;
+}
+
+int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 	if (cell_x < 0 || cell_y < 0 || cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
-		return;
+		return 1;
 	auto cell = &this->field->grid[cell_x][cell_y];
 	if (cell->objectType == CellType::NOTHING) {
 		cell->objectType = CellType::UNIT;
 		cell->object = unit;
+		return 0;
 	}
-	std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetVirtualX()<<" ;GetVirtualY()="<<unit->GetVirtualY()<<std::endl;
+	//std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetDestinationX()<<" ;GetVirtualY()="<<unit->GetDestinationY()<<std::endl;
+	return 1;
 }
 
 
@@ -192,11 +174,11 @@ void Game::OnEvent(SDL_Event* event) {
 
 std::string Game::ActionOut(Action* action){
 	std::string s;
-	if(action->actionType==Action::STAY)
+	if(action->type==STAY)
 		s="STAY";
-	if(action->actionType==Action::MOVE_HORIZONTAL)
+	if(action->type==MOVE_HORIZONTAL)
 		s="MOVE_HORIZONTAL";
-	if(action->actionType==Action::MOVE_VERTICAL)
+	if(action->type==MOVE_VERTICAL)
 		s="MOVE_VERTICAL";
 	return s;
 }

@@ -25,20 +25,30 @@ public:
 	float GetMaxSpeed() const;
 	void SetX(CoordinateType x);
 	void SetY(CoordinateType y);
-	void SetVirtualX(float x);
-	void SetVirtualY(float y);
-	float GetVirtualX() const;
-	float GetVirtualY() const;
-	// TODO @stasltggg не ясно, что такое replace, нужны комментарии.
+	void SetDestinationX(float x);
+	void SetDestinationY(float y);
+	float GetDestinationX() const;
+	float GetDestinationY() const;
+	/**
+	 * @DirectMoveToCell добавлет в ActionQueue последовательность элементарных действий, чтобы добраться к цели
+	 * Путь получается максимально короткий, без учета проходимости промежуточных ячеек
+	 * @x_target - горизонтальные координаты целевой ячейки
+	 * @y_target - вертикальные координаты целевой ячейки
+	 * @replace - при значении true перед добавлением новой последовательности действий удаляет все текущие, прерывая их выполнение
+	 */
 	void DirectMoveToCell(int x_target,int y_target,bool replace=true);
 private:
 	struct Action* action;
 	std::queue<struct Action*> ActionQueue;
-	// TODO @stasltggg Что это? Почему не константа?
-	float MaxSpeed;
+	//модуль скорости юнита
+	const float MaxSpeed;
 protected:
-	// TODO @stasltggg добавить описание
-	float VirtualX,VirtualY;
+	/**
+	 * @DestinationX и @DestinationY хранят значения координат, в которых окажется юнит после выполнения всех действий ActionQueue
+	 * При попытке добавить новые действия эти координаты обновятся.
+	 * У стоячего юнита автоматически обновляются как положение юнита
+	 */
+	float DestinationX,DestinationY;
 };
 
 #endif /* UNIT_H_ */
