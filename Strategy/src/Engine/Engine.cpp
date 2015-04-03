@@ -155,7 +155,9 @@ void Engine::ProcessInput(View* view)
             {
             case SDLK_ESCAPE:
             {
-            	game_is_running = false;
+            	SDL_Event* quit = new SDL_Event();
+            	quit->type = SDL_QUIT;
+            	SDL_PushEvent(quit);
             	break;
             }
             default:

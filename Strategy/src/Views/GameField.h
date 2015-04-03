@@ -16,8 +16,6 @@ struct GameField {
 	GameObject* selection;
 	struct Cell {
 		int textureType;
-		int objectType;
-		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 };

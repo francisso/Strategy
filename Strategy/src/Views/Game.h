@@ -9,6 +9,7 @@
 #define GAME_H_
 
 #include <functional>
+#include <fstream>
 
 #include "../Drawable.h"
 #include "View.h"
@@ -25,22 +26,9 @@ public:
 	Game(Drawable** texture);
 	Game(Drawable** texture, GameField* field);
 	virtual ~Game()=default;
-
-	/**
-	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
-	 * возвращает 0, если добавление успешно произведено
-	 *            1 если невозможно добавить (например, клетка занята другим юнитом)
-	 */
-	int AddUnit(Unit* unit);
-
-	/**
-	 * @AddUnitAtCell делает то же самое, что и @AddUnit, но не приводит координаты @unit к координатам клетки
-	 * также возможны баги из-за полного несоответствия вручную введенных координат ячейки и координат @unit
-	 * лучше ее вообще не использовать и удалить из проекта
-	 */
-	int AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
 	virtual void OnEvent(SDL_Event* event);
-	std::string ActionOut(Action* action);
+
+	const char* DefaultMapPath = "res/maps/mapSaved";
 private:
 	CoordinateType x;
 	CoordinateType y;
@@ -53,6 +41,8 @@ private:
 	// изменяет облать карты которая отображается на экран
 	// проверяя координаты мыши
 	void MotionMap(Time t);
+	void SaveMap (const char* path);
+	int Getline(std::string* line, GameField* field);
 };
 
 #endif /* GAME_H_ */
