@@ -40,12 +40,89 @@ Drawable** Engine::LoadResources(){
 	texture[FOREST] = new GameObject(src, "res/images/forest.bmp");
 	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
 	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
+	SDL_Rect src_frame = {0, 0, 120, 80};
+	frame = new GameObject(src_frame, "res/images/frame.bmp");
 	//auto x = new GameObject(src, "res/images/selection.bmp");
 	return texture;
 }
 
 void Engine::FreeResources(){
 	// TODO implement function
+}
+
+Drawable* Engine::CreateBackgroungStatusBar() const{
+	SDL_Rect left_frame = {0, 0, 20, 80};
+	SDL_Rect right_frame = {20, 0, 20, 80};
+	SDL_Rect high_frame = {40, 0, 80, 20};
+	SDL_Rect low_frame = {40, 20, 80, 20};
+	SDL_Rect corner_frame = {40, 40, 20, 20};
+	SDL_Rect violet_frame = {40, 60, 20, 20};
+	SDL_Rect back_frame = {60, 40, 10, 10};
+	// заливаем все фиолетовым
+	frame->SetSrcRect(&violet_frame);
+	for (int i = 0; i <= X_SIZE_WINDOW/20; i++)
+	for (int j = 0; j <= Y_SIZE_WINDOW/20; j++) {
+		frame->SetX(static_cast<float>(i*20));
+		frame->SetY(static_cast<float>(j*20));
+		Draw(frame, screen);
+	}
+	// фон строки состояния
+	frame->SetSrcRect(&back_frame);
+	for (int k = 0; k <= X_SIZE_WINDOW; k++)
+	for (int i = 0; i <= HIGH_STATUS_BAR/10; i++){
+		frame->SetX(static_cast<float>(k*10));
+		frame->SetY(X_SIZE_WINDOW + static_cast<float>(-HIGH_STATUS_BAR + i*10));
+		Draw(frame, screen);
+	}
+	// левая линия
+	frame->SetSrcRect(&left_frame);
+	frame->SetX(0);
+	for (int i = 0; i <= X_SIZE_WINDOW/80; i++){
+		frame->SetY(static_cast<float>(i*80));
+		Draw(frame, screen);
+	}
+	// правая линия
+	frame->SetSrcRect(&right_frame);
+	frame->SetX(X_SIZE_WINDOW - 20);
+	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
+		frame->SetY(static_cast<float>(i*80));
+		Draw(frame, screen);
+	}
+	// верхняя линия
+	frame->SetSrcRect(&high_frame);
+	frame->SetY(0);
+	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
+		frame->SetX(static_cast<float>(i*80));
+		Draw(frame, screen);
+	}
+	// нижняя линия
+	frame->SetSrcRect(&low_frame);
+	frame->SetY(Y_SIZE_WINDOW - 20);
+	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
+		frame->SetX(static_cast<float>(i*80));
+		Draw(frame, screen);
+	}
+	// углы
+	frame->SetSrcRect(&corner_frame);
+	frame->SetX(0);
+	frame->SetY(0);
+	Draw(frame, screen);
+	frame->SetX(X_SIZE_WINDOW - 20);
+	frame->SetY(0);
+	Draw(frame, screen);
+	frame->SetX(0);
+	frame->SetY(Y_SIZE_WINDOW - 20);
+	Draw(frame, screen);
+	frame->SetX(X_SIZE_WINDOW - 20);
+	frame->SetY(Y_SIZE_WINDOW - 20);
+	Draw(frame, screen);
+	// сохранение фона
+	SDL_SaveBMP(screen, "res/images/background_status_bar.bmp");
+	SDL_Rect src = {0, 0, static_cast<Uint16>(X_SIZE_WINDOW), static_cast<Uint16>(Y_SIZE_WINDOW)};
+	GameObject* background = new GameObject(src, "res/images/background_status_bar.bmp");
+	if (!background->GetImage())
+		throw("Engine cannot open background");
+	return background;
 }
 
 void Engine::Run(){

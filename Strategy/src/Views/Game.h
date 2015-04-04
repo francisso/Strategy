@@ -27,14 +27,14 @@ extern CoordinateType Y_SIZE_WINDOW;
 //  (атака 1 юнита на другой, например)
 class Game: public View {
 public:
-	Game(Drawable** texture);
-	Game(Drawable** texture, GameField* field);
+	Game(Drawable** texture, SDL_Rect windowRect);
+	Game(Drawable** texture, GameField* field, SDL_Rect windowRect);
 	virtual ~Game()=default;
 
 	/**
 	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
 	 * @return 0, если добавление успешно произведено
-	 *            1 если невозможно добавить (например, клетка занята другим юнитом)
+	 *          1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
 	int AddUnit(Unit* unit);
 
@@ -71,6 +71,8 @@ public:
 private:
 	CoordinateType x;
 	CoordinateType y;
+	// прямоугольник где будет рисоваться Game
+	SDL_Rect WindowRect;
 	const CoordinateType SpeedMap = 20.0f;
 	GameField* field;
 	Drawable** texture;

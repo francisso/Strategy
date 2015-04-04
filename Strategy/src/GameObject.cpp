@@ -61,6 +61,24 @@ SDL_Rect* GameObject::GetSrcRect() const { return destRect;}
 
 SDL_Rect* GameObject::GetDestRect() const { return srcRect;}
 
+void GameObject::SetSrcRect(SDL_Rect* src) {
+	*srcRect = *src;
+	imageX = srcRect->x;
+	imageY = srcRect->y;
+	width = srcRect->w;
+	height = srcRect->h;
+	destRect->w = srcRect->w;
+	destRect->h = srcRect->h;
+}
+void GameObject::SetDestRect(SDL_Rect* dest) {
+	*destRect = *dest;
+	x = destRect->x;
+	y = destRect->y;
+	width = destRect->w;
+	height = destRect->h;
+	srcRect->w = destRect->w;
+	srcRect->h = destRect->h;
+}
 
 bool GameObject::ContainsCoordinates(float x, float y) const {
 	auto relativeX = x - this->x;

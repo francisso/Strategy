@@ -9,10 +9,13 @@
 #include <string>
 #include <iostream>
 
-Game::Game(Drawable** texture) : Game(texture, new GameField()) {
+Game::Game(Drawable** texture, SDL_Rect windowRect) : Game(texture, new GameField(), windowRect) {
 }
 
-Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture) {
+Game::Game(Drawable** texture, GameField* field, SDL_Rect windowRect) :
+															WindowRect(windowRect),
+															field(field),
+															texture(texture) {
 	x = 0;
 	y = 0;
 	Player* neu_player=new AI(0,GREY,"Neutral Player",NEUTRAL);
@@ -25,12 +28,12 @@ void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType
 	for (int k = 0; k < CELL_Y_NUMBER; k++) {
 		texture[field->grid[i][k].textureType]->SetX(static_cast<float>(CELL_X_PIXELS*i));
 		texture[field->grid[i][k].textureType]->SetY(static_cast<float>(CELL_Y_PIXELS*k));
-		f(texture[field->grid[i][k].textureType], -x, -y);
+		f(texture[field->grid[i][k].textureType], WindowRect.x - x, WindowRect.y - y);
 	}
 	for (int i = 0;	i < CELL_X_NUMBER; i++)
 	for (int k = 0;	k < CELL_Y_NUMBER; k++)
-				f(field->grid[i][k].object, -x, -y);
-	f(field->selection, -x, -y);
+				f(field->grid[i][k].object, WindowRect.x - x, WindowRect.y - y);
+	f(field->selection, WindowRect.x - x, WindowRect.y - y);
 	this->View::Draw(f);
 }
 
@@ -41,6 +44,8 @@ void Game::MotionMap(Time t)
 {
 	int X = 0, Y = 0;
 	float delta = SpeedMap*t;
+	float WindowW = static_cast<float>(WindowRect.w);
+	float WindowH = static_cast<float>(WindowRect.h);
 	SDL_GetMouseState(&X, &Y);
 	// TODO убрать константу 5
 	if (X < 5) {
@@ -54,14 +59,14 @@ void Game::MotionMap(Time t)
 		else y = 0;
 	}
 	if (X > X_SIZE_WINDOW - 5) {
-		if (x < CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW - delta)
+		if (x < CELL_X_NUMBER*CELL_X_PIXELS - WindowW - delta)
 			x += delta;
-		else x = CELL_X_NUMBER*CELL_X_PIXELS - X_SIZE_WINDOW;
+		else x = CELL_X_NUMBER*CELL_X_PIXELS - WindowW;
 	}
 	if (Y > Y_SIZE_WINDOW - 5) {
-		if (y < CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW - delta)
+		if (y < CELL_Y_NUMBER*CELL_Y_PIXELS - WindowH - delta)
 			y += delta;
-		else y = CELL_Y_NUMBER*CELL_Y_PIXELS - Y_SIZE_WINDOW;
+		else y = CELL_Y_NUMBER*CELL_Y_PIXELS - WindowH;
 	}
 }
 void Game::Update(Time t) {
@@ -163,24 +168,25 @@ int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 void Game::OnEvent(SDL_Event* event) {
 	switch(event->type)
 	{
-	case SDL_MOUSEMOTION:{
+	case SDL_MOUSEMOTION: {
 		int X = static_cast<int>(x);
 		int Y = static_cast<int>(y);
 		int i = (X + event->motion.x) / CELL_X_PIXELS;
 		int j = (Y + event->motion.y) / CELL_Y_PIXELS;
 		field->selection->SetX(static_cast<float>(i*CELL_X_PIXELS));
 		field->selection->SetY(static_cast<float>(j*CELL_Y_PIXELS));
-		break;}
-	default:{
+		break; }
+	case SDL_MOUSEBUTTONDOWN: {
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
 		int X = static_cast<int>(x);
 		int Y = static_cast<int>(y);
-		EventInfo->cell_x=(X + event->motion.x) / CELL_X_PIXELS;
-		EventInfo->cell_y=(Y + event->motion.y) / CELL_Y_PIXELS;
+		EventInfo->cell_x=(X + event->button.x) / CELL_X_PIXELS;
+		EventInfo->cell_y=(Y + event->button.y) / CELL_Y_PIXELS;
 		//TODO добавить новые инициализации при изменении структуры EventForPlayer
 		mainPlayer->OnEvent(EventInfo);
-		break;}
+		break; }
+	default: {}
 	}
 }
 

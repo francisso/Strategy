@@ -34,6 +34,9 @@ public:
 	// создание карты
 	Drawable* CreateBackgroung(GameField* field) const;
 
+	// создание фона для строки состояния
+	Drawable* CreateBackgroungStatusBar() const;
+
 	//Constructor initializes all the resources
 	Drawable** LoadResources();
 	//Destructor frees resources
@@ -55,6 +58,7 @@ private:
 	View* view;
 	SDL_Surface* screen;
 	Drawable* texture[6];
+	Drawable* frame;
 
 	//Вычисляет, сколько времени прошло с последнего такта
 	//И обновляет положения всех объектов

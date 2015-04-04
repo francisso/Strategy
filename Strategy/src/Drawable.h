@@ -28,6 +28,8 @@ public:
 	virtual CoordinateType GetHeight() const =0;
 	virtual SDL_Rect* GetSrcRect() const =0;
 	virtual SDL_Rect* GetDestRect() const =0;
+	virtual void SetSrcRect(SDL_Rect* src) =0;
+	virtual void SetDestRect(SDL_Rect* dest) =0;
 	//returns true if this Drawable contains coordinates
 	virtual bool ContainsCoordinates(float x, float y) const =0;
 };

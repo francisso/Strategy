@@ -22,4 +22,9 @@
 //максимальное число игроков
 #define MAX_PLAYERS 8
 
+// Размер рамки
+#define FRAME 20
+// Размер строки состояния
+#define HIGH_STATUS_BAR 200
+
 #endif /* CONSTANTS_H_ */

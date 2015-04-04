@@ -28,6 +28,8 @@ public:
 	virtual CoordinateType GetHeight() const;
 	virtual SDL_Rect* GetSrcRect() const;
 	virtual SDL_Rect* GetDestRect() const;
+	virtual void SetSrcRect(SDL_Rect* src);
+	virtual void SetDestRect(SDL_Rect* dest);
 
 	virtual bool ContainsCoordinates(float x, float y) const;
 

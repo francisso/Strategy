@@ -14,6 +14,7 @@
 #include "Views/ViewCreator.h"
 #include "Views/Game.h"
 #include "Views/GameField.h"
+#include "Views/StatusBar.h"
 #include "FieldBuilder.h"
 #include "Units/Archer.h"
 #include "Units/Action.h"
@@ -30,8 +31,18 @@ int main() {
 		Engine* engine = new Engine();
 		Drawable** texture = engine->LoadResources();
 		GameField* field = FieldBuilder::CreateField();
-//		Drawable* back = engine->CreateBackgroung(field);
-		auto game = new Game(texture, field);
+		// создание game
+		Uint16 w_game_window = static_cast<Uint16>(X_SIZE_WINDOW - 2*FRAME);
+		Uint16 h_game_window = static_cast<Uint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 2*FRAME);
+		SDL_Rect gameRect { FRAME, FRAME, w_game_window, h_game_window};
+		auto game = new Game(texture, field, gameRect);
+		// создание status bar
+		Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
+		StatusBar* status_bar = new StatusBar();
+		status_bar->SetBackground(back_status_bar);
+		View* main_view = new View();
+		main_view->AddView(status_bar);
+		main_view->AddView(game);
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src = {100,100,80,80};
 		/*int cell_x = 2;
@@ -42,7 +53,7 @@ int main() {
 		archer->DirectMoveToCell(5,4);
 		archer->DirectMoveToCell(2,2,false);
 		game->AddUnit(archer);
-		engine->SetView(game);
+		engine->SetView(main_view);
 		engine->Run();
 	}
 	catch (std::exception* e)
