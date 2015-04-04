@@ -15,7 +15,7 @@ Game::Game(Drawable** texture) : Game(texture, new GameField()) {
 Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture) {
 	x = 0;
 	y = 0;
-	Player* neu_player=new AI(0,NEUTRAL);
+	Player* neu_player=new AI(0,GREY,"Neutral Player",NEUTRAL);
 	players.push_back(neu_player);
 	mainPlayer=neu_player;
 }

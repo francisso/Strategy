@@ -13,7 +13,7 @@
 
 class HumanPlayer: public Player{
 public:
-	HumanPlayer(int ID);
+	HumanPlayer(int ID,Color color=GREY,std::string signature="");
 	virtual ~HumanPlayer()=default;
 	void OnEvent(EventForPlayer* eventInfo);
 };

@@ -5,11 +5,20 @@
  *      Author: staslatgttt
  */
 
-#include "AI.h"
+#include "./AI.h"
 
-AI::AI(int ID,AIMode mode):Player(ID),Mode(mode){
-	// TODO Auto-generated constructor stub
-
+AI::AI(int ID,Color color,std::string signature,AIMode mode): Player(ID,color),Mode(mode){
+	SetSignature(signature);
+	std::cout<<"Created "<<ColorToString(playerColor)<<" ";
+	switch(mode){
+	case NEUTRAL:
+		std::cout<<"Neutral ";
+		break;
+	case USUAL:
+		std::cout<<"Usual ";
+		break;
+	}
+	std::cout<<"AI with name \""<<GetSignature()<<"\""<<std::endl;
 }
 
 

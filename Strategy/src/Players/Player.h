@@ -9,20 +9,21 @@
 #define PLAYERS_PLAYER_H_
 
 #include <vector>
+#include <string>
 
 #include "../Units/Unit.h"
 #include "../Constants.h"
+//#include "../Views/Game.h"
+
+enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
 
 /**
  * Класс, реализующий интерфейс игрока
  */
 class Player {
-	protected:
-		int Gold;
-		std::vector<Unit*> chosenUnits;
 	public:
 		const int PlayerID;
-		Player(int ID);
+		Player(int ID,Color playerColor=GREY);
 		virtual ~Player()=default;
 
 		/**
@@ -47,8 +48,23 @@ class Player {
 		 * @return количества золота этого игрока
 		 */
 		int GetGold();
+
+		std::string GetSignature();
+		void SetSignature(std::string newSig);
+
+		Color GetColor();
+		void SetColor(Color newColor);
+
+	protected:
+		int playerGold;
+		std::vector<Unit*> chosenUnits;
+		Color playerColor;
+		std::string playerSignature;
 };
 
-
+/**
+ * возвращает string с названием цвета @color
+ */
+std::string ColorToString(Color color);
 
 #endif /* PLAYERS_PLAYER_H_ */
