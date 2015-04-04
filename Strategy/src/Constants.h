@@ -19,5 +19,7 @@
 
 //Количество золота по умолчанию
 #define GOLD_DEFAULT 100
+//максимальное число игроков
+#define MAX_PLAYERS 8
 
 #endif /* CONSTANTS_H_ */

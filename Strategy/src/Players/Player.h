@@ -10,6 +10,7 @@
 
 #include <vector>
 
+#include "../Units/Unit.h"
 #include "../Constants.h"
 
 /**
@@ -17,10 +18,10 @@
  */
 class Player {
 	protected:
-		const int PlayerID;
 		int Gold;
 		std::vector<Unit*> chosenUnits;
 	public:
+		const int PlayerID;
 		Player(int ID);
 		virtual ~Player()=default;
 
@@ -33,7 +34,7 @@ class Player {
 		/**
 		 * обработка действий, переданных из Game
 		 */
-		virtual void OnClick();
+		virtual void OnEvent(EventForPlayer* eventInfo);
 
 		/**
 		 * изменяет Gold на величину @income

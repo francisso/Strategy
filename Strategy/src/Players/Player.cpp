@@ -7,7 +7,12 @@
 
 #include "Player.h"
 
-Player::Player(int ID):PlayerID(ID),Gold(GOLD_DEFAULT){}
+Player::Player(int ID):Gold(GOLD_DEFAULT),PlayerID(ID){}
+
+void Player::OnEvent(EventForPlayer* eventInfo){
+	if (eventInfo == nullptr)
+		return;
+}
 
 int Player::AddGold(int	income){
 	if(Gold+income>=0){

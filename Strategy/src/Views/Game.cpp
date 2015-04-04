@@ -6,15 +6,18 @@
  */
 
 #include "Game.h"
-#include "../Constants.h"
 #include <string>
 #include <iostream>
 
-Game::Game(Drawable** texture) : Game(texture, new GameField()) {}
+Game::Game(Drawable** texture) : Game(texture, new GameField()) {
+}
 
 Game::Game(Drawable** texture, GameField* field) : field(field), texture(texture) {
 	x = 0;
 	y = 0;
+	Player* neu_player=new AI(0,NEUTRAL);
+	players.push_back(neu_player);
+	mainPlayer=neu_player;
 }
 
 void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
@@ -160,15 +163,24 @@ int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 void Game::OnEvent(SDL_Event* event) {
 	switch(event->type)
 	{
-	case SDL_MOUSEMOTION:
-	{
+	case SDL_MOUSEMOTION:{
 		int X = static_cast<int>(x);
 		int Y = static_cast<int>(y);
 		int i = (X + event->motion.x) / CELL_X_PIXELS;
 		int j = (Y + event->motion.y) / CELL_Y_PIXELS;
 		field->selection->SetX(static_cast<float>(i*CELL_X_PIXELS));
 		field->selection->SetY(static_cast<float>(j*CELL_Y_PIXELS));
-	}
+		break;}
+	default:{
+		EventForPlayer* EventInfo=new EventForPlayer();
+		EventInfo->event=event;
+		int X = static_cast<int>(x);
+		int Y = static_cast<int>(y);
+		EventInfo->cell_x=(X + event->motion.x) / CELL_X_PIXELS;
+		EventInfo->cell_y=(Y + event->motion.y) / CELL_Y_PIXELS;
+		//TODO добавить новые инициализации при изменении структуры EventForPlayer
+		mainPlayer->OnEvent(EventInfo);
+		break;}
 	}
 }
 
@@ -181,4 +193,34 @@ std::string Game::ActionOut(Action* action){
 	if(action->type==MOVE_VERTICAL)
 		s="MOVE_VERTICAL";
 	return s;
+}
+
+int Game::AddPlayer(Player* newPlayer){
+	for (unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==newPlayer->PlayerID) return 1;
+	}
+	players.push_back(newPlayer);
+	return 0;
+}
+
+int Game::RemovePlayer(int ID){
+	for(unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==ID){
+			Player* player=players[i];
+			players.erase(players.begin()+i);
+			delete player;
+			return 0;
+		}
+	}
+	return 0;
+}
+
+int Game::SwitchPlayer(int ID){
+	for(unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==ID){
+			mainPlayer=players[i];
+			return 0;
+		}
+	}
+	return 1;
 }

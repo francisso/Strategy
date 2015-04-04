@@ -1,18 +1,19 @@
 /*
  * AI.cpp
  *
- *  Created on: 12.02.2015
- *      Author: anton
+ *  Created on: Apr 4, 2015
+ *      Author: staslatgttt
  */
 
-#include "../Players/AI.h"
+#include "AI.h"
 
-AI::AI() {
+AI::AI(int ID,AIMode mode):Player(ID),Mode(mode){
 	// TODO Auto-generated constructor stub
 
 }
 
-AI::~AI() {
-	// TODO Auto-generated destructor stub
-}
 
+void AI::OnEvent(EventForPlayer* eventInfo){
+	if (eventInfo == nullptr)
+		return;
+}
