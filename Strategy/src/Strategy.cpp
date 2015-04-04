@@ -41,8 +41,8 @@ int main() {
 		StatusBar* status_bar = new StatusBar();
 		status_bar->SetBackground(back_status_bar);
 		View* main_view = new View();
-		main_view->AddView(status_bar);
 		main_view->AddView(game);
+		main_view->AddView(status_bar);
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src = {100,100,80,80};
 		/*int cell_x = 2;

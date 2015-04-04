@@ -57,9 +57,9 @@ CoordinateType GameObject::GetWidth() const {return width;}
 
 CoordinateType GameObject::GetHeight() const {return height;}
 
-SDL_Rect* GameObject::GetSrcRect() const { return destRect;}
+SDL_Rect* GameObject::GetSrcRect() const { return srcRect;}
 
-SDL_Rect* GameObject::GetDestRect() const { return srcRect;}
+SDL_Rect* GameObject::GetDestRect() const { return destRect;}
 
 void GameObject::SetSrcRect(SDL_Rect* src) {
 	*srcRect = *src;

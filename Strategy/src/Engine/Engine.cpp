@@ -9,6 +9,7 @@
 
 
 Engine::Engine() : view(nullptr) {
+	frame = nullptr;
 	if ( SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{
 	        printf( "Unable to init SDL: %s", SDL_GetError());
@@ -56,24 +57,28 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	SDL_Rect high_frame = {40, 0, 80, 20};
 	SDL_Rect low_frame = {40, 20, 80, 20};
 	SDL_Rect corner_frame = {40, 40, 20, 20};
-	SDL_Rect violet_frame = {40, 60, 20, 20};
-	SDL_Rect back_frame = {60, 40, 10, 10};
-	// заливаем все фиолетовым
-	frame->SetSrcRect(&violet_frame);
-	for (int i = 0; i <= X_SIZE_WINDOW/20; i++)
-	for (int j = 0; j <= Y_SIZE_WINDOW/20; j++) {
-		frame->SetX(static_cast<float>(i*20));
-		frame->SetY(static_cast<float>(j*20));
-		Draw(frame, screen);
-	}
+//	SDL_Rect violet_frame = {40, 60, 20, 20};
+//b	SDL_Rect back_frame = {60, 40, 10, 10};
+
+	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 0, 255));
+/*
 	// фон строки состояния
 	frame->SetSrcRect(&back_frame);
-	for (int k = 0; k <= X_SIZE_WINDOW; k++)
+	for (int k = 0; k <= X_SIZE_WINDOW/10; k++)
 	for (int i = 0; i <= HIGH_STATUS_BAR/10; i++){
 		frame->SetX(static_cast<float>(k*10));
 		frame->SetY(X_SIZE_WINDOW + static_cast<float>(-HIGH_STATUS_BAR + i*10));
 		Draw(frame, screen);
 	}
+*/
+	SDL_Rect s_bar_rect = {20,
+			static_cast<Sint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 20),
+			static_cast<Uint16>(X_SIZE_WINDOW - 40),
+			HIGH_STATUS_BAR
+	};
+	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 196, 142, 24));
+	s_bar_rect.h = 20;
+	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 146, 82, 84));
 	// левая линия
 	frame->SetSrcRect(&left_frame);
 	frame->SetX(0);
@@ -116,6 +121,7 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	frame->SetX(X_SIZE_WINDOW - 20);
 	frame->SetY(Y_SIZE_WINDOW - 20);
 	Draw(frame, screen);
+
 	// сохранение фона
 	SDL_SaveBMP(screen, "res/images/background_status_bar.bmp");
 	SDL_Rect src = {0, 0, static_cast<Uint16>(X_SIZE_WINDOW), static_cast<Uint16>(Y_SIZE_WINDOW)};
@@ -169,18 +175,18 @@ void Engine::ThreadUpdate(View* view) {
 void Engine::Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0, CoordinateType Y0) {
 	if (drawable == nullptr)
 		return;
-	SDL_Rect src(*drawable->GetSrcRect());
-	X0 += src.x;
-	Y0 += src.y;
-	src.x = static_cast<short int>(X0);
-	src.y = static_cast<short int>(Y0);
-	if (src.x + src.w < 0 || src.y + src.h < 0 ||
-				src.x > X_SIZE_WINDOW || src.y > Y_SIZE_WINDOW)
+	SDL_Rect dest(*drawable->GetDestRect());
+	X0 += dest.x;
+	Y0 += dest.y;
+	dest.x = static_cast<short int>(X0);
+	dest.y = static_cast<short int>(Y0);
+	if (dest.x + dest.w < 0 || dest.y + dest.h < 0 ||
+				dest.x > X_SIZE_WINDOW || dest.y > Y_SIZE_WINDOW)
 			return;
 	SDL_BlitSurface(drawable->GetImage(),
-			drawable->GetDestRect(),
+			drawable->GetSrcRect(),
 			screen,
-			&src);
+			&dest);
 }
 
 void Engine::DrawView(View* view, SDL_Surface* screen) {
