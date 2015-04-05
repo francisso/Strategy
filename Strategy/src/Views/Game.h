@@ -78,6 +78,7 @@ private:
 	Drawable** texture;
 	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
 	virtual void Update(Time t);
+	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) const;
 	//передвижение карты :
 	// изменяет облать карты которая отображается на экран
 	// проверяя координаты мыши

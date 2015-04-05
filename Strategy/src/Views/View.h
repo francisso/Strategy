@@ -46,7 +46,7 @@ public:
 	void AddDrawable(Drawable* drawable);
 
 	//returns true если координаты принадлежат этому view
-	bool ContainsCoordinates(Uint16 x, Uint16 y) const;
+	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) const;
 
 private:
 	//То, что view отображает

@@ -40,6 +40,12 @@ void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType
 inline int Sign(bool isPositive) {
 	return isPositive ? 1 : -1;
 }
+bool Game::ContainsCoordinates(Uint16 x, Uint16 y) const
+{
+	return (x >= WindowRect.x && y >= WindowRect.y &&
+			x <= WindowRect.x + WindowRect.w && y <= WindowRect.y + WindowRect.h);
+}
+
 void Game::MotionMap(Time t)
 {
 	int X = 0, Y = 0;
@@ -228,13 +234,16 @@ void Game::Update(Time t) {
 void Game::OnEvent(SDL_Event* event) {
 	int X = static_cast<int>(x);
 	int Y = static_cast<int>(y);
-	int cell_x=(X + event->button.x-FRAME) / CELL_X_PIXELS;
-	int cell_y=(Y + event->button.y-FRAME) / CELL_Y_PIXELS;
-	GameObject* objectTarget=field->grid[cell_x][cell_y].object;
 	if(event->type==SDL_MOUSEMOTION){
+		int cell_x=(X + event->motion.x-WindowRect.x) / CELL_X_PIXELS;
+		int cell_y=(Y + event->motion.y-WindowRect.y) / CELL_Y_PIXELS;
 		field->selection->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		field->selection->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	} else {
+	} else
+	if (event->type==SDL_MOUSEBUTTONDOWN) {
+		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
+		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
+		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
 		EventInfo->object=objectTarget;

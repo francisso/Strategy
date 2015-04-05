@@ -15,6 +15,8 @@ HumanPlayer::HumanPlayer(int ID,Color color,std::string signature):Player(ID,col
 
 TaskForGame HumanPlayer::OnEvent(EventForPlayer* eventInfo){
 	if(eventInfo->event->button.button==SDL_BUTTON_LEFT){
+		if (!eventInfo->object)
+				return NOTHING_TO_DO;
 		return PICK_OBJECT;
 	}
 	if(eventInfo->event->button.button==SDL_BUTTON_RIGHT){
