@@ -17,12 +17,12 @@
 class Unit : public GameObject{
 public:
 	virtual ~Unit()=default;
-	Unit(SDL_Rect src, const char *name_file_image);
+	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_DEFAULT,int ownerID=0);
 	struct Action* GetAction() const;
 	// TODO нужны описания
 	void AddAction(struct Action* action, bool replace=true);
 	void NextAction();
-	float GetMaxSpeed() const;
+	//float GetMaxSpeed() const;
 	void SetX(CoordinateType x);
 	void SetY(CoordinateType y);
 	void SetDestinationX(float x);
@@ -41,7 +41,7 @@ private:
 	struct Action* action;
 	std::queue<struct Action*> ActionQueue;
 	//модуль скорости юнита
-	const float MaxSpeed;
+	//const float MaxSpeed;
 protected:
 	/**
 	 * @DestinationX и @DestinationY хранят значения координат, в которых окажется юнит после выполнения всех действий ActionQueue

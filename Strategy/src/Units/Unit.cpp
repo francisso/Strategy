@@ -8,7 +8,7 @@
 #include "Unit.h"
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image) : GameObject(src, name_file_image),MaxSpeed(2) {
+Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): GameObject(src, name_file_image,UNIT_1,maxSpeed,maxHP,ownerID) {
 	//TODO this initialization is a developer version
 	auto action = new Action();
 	action->type=STAY;
@@ -23,9 +23,9 @@ Action* Unit::GetAction() const {
 	return action;
 }
 
-float Unit::GetMaxSpeed() const{
+/*float Unit::GetMaxSpeed() const{
 	return MaxSpeed;
-}
+}*/
 
 /*void Unit::SetAction(Action* action) {
 	this->action = action;

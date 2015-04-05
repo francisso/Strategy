@@ -7,7 +7,7 @@
 
 #include "Player.h"
 
-Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor){
+Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor),task(NOTHING_TO_DO){
 	this->playerSignature="Player "+PlayerID;
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }

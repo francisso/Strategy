@@ -13,9 +13,19 @@
 
 #include "../Units/Unit.h"
 #include "../Constants.h"
-//#include "../Views/Game.h"
+#include "SDL/SDL.h"
+
+struct EventForPlayer{
+	SDL_Event* event;
+	int cell_x;
+	int cell_y;
+	Unit* unit;
+	//TODO проверить на дополнительные параметры, поставленные к передаче
+};
 
 enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
+
+enum TaskForGame{NOTHING_TO_DO,PICK,MOVE_PICKED_TO};
 
 /**
  * Класс, реализующий интерфейс игрока
@@ -60,6 +70,7 @@ class Player {
 		std::vector<Unit*> chosenUnits;
 		Color playerColor;
 		std::string playerSignature;
+		TaskForGame task;
 };
 
 /**

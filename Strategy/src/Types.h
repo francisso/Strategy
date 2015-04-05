@@ -19,10 +19,5 @@ enum TextureType {GROUND, WATER, SAND, FOREST, MOUNTIAN, SWAMP};
 //OCCUPIED - состояние, когда юнит переходит на эту клетку.
 enum CellType{NOTHING, UNIT, OCCUPIED, BUILDING};
 
-struct EventForPlayer{
-	SDL_Event* event;
-	int cell_x;
-	int cell_y;
-	//TODO проверить на дополнительные параметры, поставленные к передаче
-};
+enum GameObjectType{UNIT_1,STRUCTURE,LOOT};
 #endif /* TYPES_H_ */

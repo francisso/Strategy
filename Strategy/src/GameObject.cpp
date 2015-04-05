@@ -8,7 +8,8 @@
 
 #include "GameObject.h"
 
-GameObject::GameObject(SDL_Rect src, const char *name_file_image, Uint8 transparency) {
+GameObject::GameObject(SDL_Rect src, const char *name_file_image, GameObjectType type, float maxSpeed, unsigned int maxHP, int ownerID, Uint8 transparency):
+		ObjectType(type),MaxSpeed(maxSpeed),MaxHP(maxHP),currentHP(maxHP),ownerID(ownerID) {
 	destRect = new SDL_Rect(src);
 	srcRect = new SDL_Rect(src);
 	destRect->x = 0;
@@ -26,6 +27,12 @@ GameObject::GameObject(SDL_Rect src, const char *name_file_image, Uint8 transpar
 	SDL_SetAlpha(image,SDL_SRCALPHA,transparency);
 }
 
+
+/**
+ * ==============================================================================================================================
+ * Переопределение методов View
+ * ==============================================================================================================================
+ */
 GameObject::~GameObject() {
 	SDL_FreeSurface(image);
 	delete(destRect);
@@ -37,6 +44,12 @@ void GameObject::Update(float time) {
 	time = 1.0f*time;
 }
 
+
+/**
+ * ==============================================================================================================================
+ * Реализация методов Drowable
+ * ==============================================================================================================================
+ */
 SDL_Surface* GameObject::GetImage() const {return image;}
 
 CoordinateType GameObject::GetX() const {return x;}
@@ -86,3 +99,41 @@ bool GameObject::ContainsCoordinates(float x, float y) const {
 	return (relativeX >=0 && relativeY >=0 &&
 			relativeX <= width && relativeY <= height);
 }
+
+
+/**
+ * ==============================================================================================================================
+ * Реализация методов IGameObject
+ * ==============================================================================================================================
+ */
+
+GameObjectType GameObject::GetObjectType(){return this->ObjectType;}
+
+unsigned int GameObject::GetMaxHP(){return MaxHP;}
+
+unsigned int GameObject::GetCurrHP(){return currentHP;}
+
+void GameObject::DealDamage(int damage){
+	unsigned int unsigned_damage;
+	if(damage>=0){
+		unsigned_damage=static_cast<unsigned int>(damage);
+		if(unsigned_damage>currentHP){
+			currentHP=0;
+		} else {
+			currentHP-=unsigned_damage;
+		}
+	} else {
+		unsigned_damage=static_cast<unsigned int>(-damage);
+		if(currentHP+unsigned_damage>MaxHP){
+			currentHP=MaxHP;
+		} else {
+			currentHP+=unsigned_damage;
+		}
+	}
+}
+
+float GameObject::GetSpeed(){return MaxSpeed;}
+
+int GameObject::GetOwnerID(){return ownerID;}
+
+void GameObject::SetOwnerID(int ID){ownerID=ID;}

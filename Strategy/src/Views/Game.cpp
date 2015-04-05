@@ -94,11 +94,11 @@ void Game::Update(Time t) {
 				//auto xNext = k + ((action->IsPositive) ? 1 : -1);
 				if(field->grid[i][k+Sign(action->isPositive)].objectType==CellType::NOTHING){
 					field->grid[i][k+Sign(action->isPositive)].objectType=CellType::OCCUPIED;
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
+					unit->SetY(y+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 				else continue;
 			} else {
-				if((y+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(k-1)){
+				if((y+t*unit->GetSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetSpeed())<=CELL_Y_PIXELS*(k-1)){
 					int y_next = k+Sign(action->isPositive);
 					field->grid[i][y_next].objectType = CellType::UNIT;
 					field->grid[i][y_next].object = unit;
@@ -108,7 +108,7 @@ void Game::Update(Time t) {
 					unit->NextAction();
 					//std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
 				} else {
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
+					unit->SetY(y+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 			}
 		}
@@ -117,11 +117,11 @@ void Game::Update(Time t) {
 			if(x==CELL_X_PIXELS){
 				if(field->grid[i+Sign(action->isPositive)][k].objectType==CellType::NOTHING){
 					field->grid[i+Sign(action->isPositive)][k].objectType=CellType::OCCUPIED;
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
+					unit->SetX(x+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 				else continue;
 			} else {
-				if((x+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(i-1)){
+				if((x+t*unit->GetSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetSpeed())<=CELL_Y_PIXELS*(i-1)){
 					int x_next = i+Sign(action->isPositive);
 					field->grid[x_next][k].objectType = CellType::UNIT;
 					field->grid[x_next][k].object = unit;
@@ -130,7 +130,7 @@ void Game::Update(Time t) {
 					unit->SetX(static_cast<float>(x_next*CELL_X_PIXELS));
 					unit->NextAction();
 				} else {
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
+					unit->SetX(x+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
 				}
 			}
 		}

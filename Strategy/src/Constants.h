@@ -19,6 +19,15 @@
 
 //Количество золота по умолчанию
 #define GOLD_DEFAULT 100
+
+//Скорости юнитов по умолчанию
+#define SPEED_DEFAULT 2.0f
+#define SPEED_ARCHER_DEFAULT 10.0f
+
+//Максимальные HP нитов и строений по умолчанию
+#define HP_DEFAULT 100u
+#define HP_ARCHER_DEFAULT 100u
+
 //максимальное число игроков
 #define MAX_PLAYERS 8
 
