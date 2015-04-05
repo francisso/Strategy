@@ -19,7 +19,7 @@ class AI: public Player {
 public:
 	AI(int ID,Color color=GREY,std::string signature="",AIMode mode=NEUTRAL);
 	virtual ~AI()=default;
-	virtual void OnEvent(EventForPlayer* eventInfo);
+	virtual TaskForGame OnEvent(EventForPlayer* eventInfo);
 	const AIMode Mode;
 };
 

@@ -11,21 +11,19 @@
 #include <vector>
 #include <string>
 
-#include "../Units/Unit.h"
+#include "../GameObject.h"
 #include "../Constants.h"
 #include "SDL/SDL.h"
 
 struct EventForPlayer{
 	SDL_Event* event;
-	int cell_x;
-	int cell_y;
-	Unit* unit;
+	GameObject* object;
 	//TODO проверить на дополнительные параметры, поставленные к передаче
 };
 
 enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
 
-enum TaskForGame{NOTHING_TO_DO,PICK,MOVE_PICKED_TO};
+enum TaskForGame{NOTHING_TO_DO,PICK_OBJECT,MOVE_PICKED_TO};
 
 /**
  * Класс, реализующий интерфейс игрока
@@ -40,12 +38,22 @@ class Player {
 		 * @AddPickedUnit добавляет @unit в @chosenUnits
 		 * если @replace имеет значение true, то сначала @chosenUnits очистится и тогда @unit окажется единственным в @chosenUnits
 		 */
-		void AddPickedUnit(Unit* unit, bool replace=true);
+		void AddPickedObject(GameObject* object, bool replace=true);
+
+		/**
+		 * @GetFirstPicked возвращает указатель на первый выбранный юнит (может быть единственным)
+		 */
+		GameObject* GetFirstPicked();
+
+		/**
+		 * @GetPickedNumber возвращает число выбранных объектов
+		 */
+		unsigned int GetPickedNumber();
 
 		/**
 		 * обработка действий, переданных из Game
 		 */
-		virtual void OnEvent(EventForPlayer* eventInfo);
+		virtual TaskForGame OnEvent(EventForPlayer* eventInfo) =0;
 
 		/**
 		 * изменяет Gold на величину @income
@@ -67,10 +75,9 @@ class Player {
 
 	protected:
 		int playerGold;
-		std::vector<Unit*> chosenUnits;
+		std::vector<GameObject*> pickedObjects;
 		Color playerColor;
 		std::string playerSignature;
-		TaskForGame task;
 };
 
 /**

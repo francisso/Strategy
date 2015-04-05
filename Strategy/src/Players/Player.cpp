@@ -7,15 +7,16 @@
 
 #include "Player.h"
 
-Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor),task(NOTHING_TO_DO){
-	this->playerSignature="Player "+PlayerID;
+Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor){
+	this->playerSignature="";
+	this->playerSignature.append("Player ");
+	this->playerSignature.append(std::to_string(PlayerID));
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }
 
-void Player::OnEvent(EventForPlayer* eventInfo){
-	if (eventInfo == nullptr)
-		return;
-}
+/*TaskForGame Player::OnEvent(EventForPlayer* eventInfo){
+
+}*/
 
 int Player::AddGold(int	income){
 	if(playerGold+income>=0){
@@ -28,13 +29,13 @@ int Player::GetGold(){
 	return playerGold;
 }
 
-void Player::AddPickedUnit(Unit* unit, bool replace){
+void Player::AddPickedObject(GameObject* object, bool replace){
 	if(replace){
-		while(!chosenUnits.empty()){
-			chosenUnits.pop_back();
+		while(!pickedObjects.empty()){
+			pickedObjects.pop_back();
 		}
 	}
-	chosenUnits.push_back(unit);
+	pickedObjects.push_back(object);
 }
 
 void Player::SetColor(Color newColor){
@@ -55,26 +56,38 @@ std::string Player::GetSignature(){
 	return this->playerSignature;
 }
 
+GameObject* Player::GetFirstPicked(){
+	if(pickedObjects.empty()){
+		return nullptr;
+	} else {
+		return pickedObjects[0];
+	}
+}
+
+unsigned int Player::GetPickedNumber(){
+	return static_cast<unsigned int>(pickedObjects.size());
+}
+
 std::string ColorToString(Color color){
 	switch(color){
 	case GREY:
-		return "grey ";
+		return "grey";
 	case RED:
-		return "red ";
+		return "red";
 	case BLUE:
-		return "blue ";
+		return "blue";
 	case GREEN:
-		return "green ";
+		return "green";
 	case YELLOW:
-		return "yellow ";
+		return "yellow";
 	case CYAN:
-		return "cyan ";
+		return "cyan";
 	case ORANGE:
-		return "orange ";
+		return "orange";
 	case PURPLE:
-		return "purple ";
+		return "purple";
 	case BROWN:
-		return "brown ";
+		return "brown";
 	default:
 		return "<undefined color>";
 	}

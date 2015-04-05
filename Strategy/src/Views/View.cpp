@@ -42,6 +42,7 @@ void View::OnEvent(SDL_Event* event) {
 }
 
 bool View::ContainsCoordinates(Uint16 x, Uint16 y) const {
+	if(image==nullptr) return true;
 	return image->ContainsCoordinates(x, y);
 }
 

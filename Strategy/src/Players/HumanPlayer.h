@@ -15,7 +15,7 @@ class HumanPlayer: public Player{
 public:
 	HumanPlayer(int ID,Color color=GREY,std::string signature="");
 	virtual ~HumanPlayer()=default;
-	void OnEvent(EventForPlayer* eventInfo);
+	virtual TaskForGame OnEvent(EventForPlayer* eventInfo);
 };
 
 #endif /* PLAYERS_HUMANPLAYER_H_ */

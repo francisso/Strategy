@@ -22,7 +22,8 @@ AI::AI(int ID,Color color,std::string signature,AIMode mode): Player(ID,color),M
 }
 
 
-void AI::OnEvent(EventForPlayer* eventInfo){
+TaskForGame AI::OnEvent(EventForPlayer* eventInfo){
 	if (eventInfo == nullptr)
-		return;
+		return NOTHING_TO_DO;
+	return NOTHING_TO_DO;
 }

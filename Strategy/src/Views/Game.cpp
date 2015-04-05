@@ -69,6 +69,87 @@ void Game::MotionMap(Time t)
 		else y = CELL_Y_NUMBER*CELL_Y_PIXELS - WindowH;
 	}
 }
+
+
+int Game::AddUnit(Unit* unit){
+	int cell_x=static_cast<int>(unit->GetX()/CELL_X_PIXELS);
+	int cell_y=static_cast<int>(unit->GetY()/CELL_Y_PIXELS);
+	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	auto cell=&this->field->grid[cell_x][cell_y];
+	if(cell->objectType==NOTHING){
+		cell->objectType=CellType::UNIT;
+		cell->object=unit;
+		return 0;
+	}
+	return 1;
+}
+
+int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
+	if (cell_x < 0 || cell_y < 0 || cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
+		return 1;
+	auto cell = &this->field->grid[cell_x][cell_y];
+	if (cell->objectType == CellType::NOTHING) {
+		cell->objectType = CellType::UNIT;
+		cell->object = unit;
+		return 0;
+	}
+	//std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetDestinationX()<<" ;GetVirtualY()="<<unit->GetDestinationY()<<std::endl;
+	return 1;
+}
+
+
+
+
+std::string Game::ActionOut(Action* action){
+	std::string s;
+	if(action->type==STAY)
+		s="STAY";
+	if(action->type==MOVE_HORIZONTAL)
+		s="MOVE_HORIZONTAL";
+	if(action->type==MOVE_VERTICAL)
+		s="MOVE_VERTICAL";
+	return s;
+}
+
+int Game::AddPlayer(Player* newPlayer){
+	for (unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==newPlayer->PlayerID) return 1;
+	}
+	players.push_back(newPlayer);
+	return 0;
+}
+
+int Game::RemovePlayer(int ID){
+	for(unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==ID){
+			Player* player=players[i];
+			players.erase(players.begin()+i);
+			delete player;
+			return 0;
+		}
+	}
+	return 0;
+}
+
+int Game::SwitchPlayer(int ID){
+	for(unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==ID){
+			mainPlayer=players[i];
+			std::cout<<"player switched to "<<mainPlayer->PlayerID<<std::endl;
+			return 0;
+		}
+	}
+	return 1;
+}
+
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Определение Game::Update
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
 void Game::Update(Time t) {
 	MotionMap(t);
 	Action* action;
@@ -137,96 +218,42 @@ void Game::Update(Time t) {
 	}
 }
 
-int Game::AddUnit(Unit* unit){
-	int cell_x=static_cast<int>(unit->GetX()/CELL_X_PIXELS);
-	int cell_y=static_cast<int>(unit->GetY()/CELL_Y_PIXELS);
-	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-	unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	auto cell=&this->field->grid[cell_x][cell_y];
-	if(cell->objectType==NOTHING){
-		cell->objectType=CellType::UNIT;
-		cell->object=unit;
-		return 0;
-	}
-	return 1;
-}
-
-int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
-	if (cell_x < 0 || cell_y < 0 || cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
-		return 1;
-	auto cell = &this->field->grid[cell_x][cell_y];
-	if (cell->objectType == CellType::NOTHING) {
-		cell->objectType = CellType::UNIT;
-		cell->object = unit;
-		return 0;
-	}
-	//std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetDestinationX()<<" ;GetVirtualY()="<<unit->GetDestinationY()<<std::endl;
-	return 1;
-}
-
-
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Определение Game::OnEvent
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
 void Game::OnEvent(SDL_Event* event) {
-	switch(event->type)
-	{
-	case SDL_MOUSEMOTION: {
-		int X = static_cast<int>(x);
-		int Y = static_cast<int>(y);
-		int i = (X + event->motion.x) / CELL_X_PIXELS;
-		int j = (Y + event->motion.y) / CELL_Y_PIXELS;
-		field->selection->SetX(static_cast<float>(i*CELL_X_PIXELS));
-		field->selection->SetY(static_cast<float>(j*CELL_Y_PIXELS));
-		break; }
-	case SDL_MOUSEBUTTONDOWN: {
+	int X = static_cast<int>(x);
+	int Y = static_cast<int>(y);
+	int cell_x=(X + event->button.x-FRAME) / CELL_X_PIXELS;
+	int cell_y=(Y + event->button.y-FRAME) / CELL_Y_PIXELS;
+	GameObject* objectTarget=field->grid[cell_x][cell_y].object;
+	if(event->type==SDL_MOUSEMOTION){
+		field->selection->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+		field->selection->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	} else {
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
-		int X = static_cast<int>(x);
-		int Y = static_cast<int>(y);
-		EventInfo->cell_x=(X + event->button.x) / CELL_X_PIXELS;
-		EventInfo->cell_y=(Y + event->button.y) / CELL_Y_PIXELS;
+		EventInfo->object=objectTarget;
 		//TODO добавить новые инициализации при изменении структуры EventForPlayer
-		mainPlayer->OnEvent(EventInfo);
-		break; }
-	default: {}
-	}
-}
-
-std::string Game::ActionOut(Action* action){
-	std::string s;
-	if(action->type==STAY)
-		s="STAY";
-	if(action->type==MOVE_HORIZONTAL)
-		s="MOVE_HORIZONTAL";
-	if(action->type==MOVE_VERTICAL)
-		s="MOVE_VERTICAL";
-	return s;
-}
-
-int Game::AddPlayer(Player* newPlayer){
-	for (unsigned int i=0;i<players.size();i++){
-		if(players[i]->PlayerID==newPlayer->PlayerID) return 1;
-	}
-	players.push_back(newPlayer);
-	return 0;
-}
-
-int Game::RemovePlayer(int ID){
-	for(unsigned int i=0;i<players.size();i++){
-		if(players[i]->PlayerID==ID){
-			Player* player=players[i];
-			players.erase(players.begin()+i);
-			delete player;
-			return 0;
+		switch(mainPlayer->OnEvent(EventInfo)){
+		case NOTHING_TO_DO:
+			break;
+		case PICK_OBJECT:
+			if(objectTarget->GetOwnerID()==mainPlayer->PlayerID)
+				mainPlayer->AddPickedObject(objectTarget,true);
+			break;
+		case MOVE_PICKED_TO:
+			if(objectTarget==nullptr) break;
+			if(mainPlayer->GetPickedNumber()==0) break;
+			GameObject* picked=mainPlayer->GetFirstPicked();
+			if(picked->GetObjectType()!=UNIT_1) break;
+			Unit* unitPicked=dynamic_cast<Unit*>(picked);
+			unitPicked->DirectMoveToCell(cell_x,cell_y,true);
+			break;
 		}
 	}
-	return 0;
-}
-
-int Game::SwitchPlayer(int ID){
-	for(unsigned int i=0;i<players.size();i++){
-		if(players[i]->PlayerID==ID){
-			mainPlayer=players[i];
-			return 0;
-		}
-	}
-	return 1;
 }
