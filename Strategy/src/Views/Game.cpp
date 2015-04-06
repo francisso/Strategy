@@ -252,11 +252,16 @@ void Game::OnEvent(SDL_Event* event) {
 		case NOTHING_TO_DO:
 			break;
 		case PICK_OBJECT:
+			if(objectTarget==nullptr){
+				mainPlayer->FreePickedObjects();
+				break;
+			}
 			if(objectTarget->GetOwnerID()==mainPlayer->PlayerID)
-				mainPlayer->AddPickedObject(objectTarget,true);
+				mainPlayer->AddPickedObject(objectTarget,false);
+			//std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			break;
 		case MOVE_PICKED_TO:
-			if(objectTarget==nullptr) break;
+			if(objectTarget!=nullptr) break;
 			if(mainPlayer->GetPickedNumber()==0) break;
 			GameObject* picked=mainPlayer->GetFirstPicked();
 			if(picked->GetObjectType()!=UNIT_1) break;

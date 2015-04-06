@@ -35,6 +35,11 @@ void Player::AddPickedObject(GameObject* object, bool replace){
 			pickedObjects.pop_back();
 		}
 	}
+	unsigned int i=0;
+	while(i<pickedObjects.size()){
+		if(pickedObjects[i]==object)
+			return;
+	}
 	pickedObjects.push_back(object);
 }
 
@@ -66,6 +71,14 @@ GameObject* Player::GetFirstPicked(){
 
 unsigned int Player::GetPickedNumber(){
 	return static_cast<unsigned int>(pickedObjects.size());
+}
+
+void Player::FreePickedObjects(){
+	std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
+	while(pickedObjects.size()>0u){
+		pickedObjects.pop_back();
+	}
+	std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
 }
 
 std::string ColorToString(Color color){

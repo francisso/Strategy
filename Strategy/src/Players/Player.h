@@ -51,6 +51,11 @@ class Player {
 		unsigned int GetPickedNumber();
 
 		/**
+		 * @FreePickedObjects освобождает массив выбранных объектов
+		 */
+		void FreePickedObjects();
+
+		/**
 		 * обработка действий, переданных из Game
 		 */
 		virtual TaskForGame OnEvent(EventForPlayer* eventInfo) =0;

@@ -59,8 +59,8 @@ int main() {
 		auto archer = new Archer(src, "res/images/test.bmp",1);
 		archer->SetX(200.0);
 		archer->SetY(200.0);
-		archer->DirectMoveToCell(5,4);
-		archer->DirectMoveToCell(2,2,false);
+		//archer->DirectMoveToCell(5,4);
+		//archer->DirectMoveToCell(2,2,false);
 		game->AddUnit(archer);
 		engine->SetView(main_view);
 		engine->Run();

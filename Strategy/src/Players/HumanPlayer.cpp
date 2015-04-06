@@ -15,11 +15,11 @@ HumanPlayer::HumanPlayer(int ID,Color color,std::string signature):Player(ID,col
 
 TaskForGame HumanPlayer::OnEvent(EventForPlayer* eventInfo){
 	if(eventInfo->event->button.button==SDL_BUTTON_LEFT){
-		if (!eventInfo->object)
-				return NOTHING_TO_DO;
+		//std::cout<<"Before returning PICK_OBJECT"<<std::endl;
 		return PICK_OBJECT;
 	}
 	if(eventInfo->event->button.button==SDL_BUTTON_RIGHT){
+		//std::cout<<"Before returning MOVE_PICKED_TO"<<std::endl;
 		return MOVE_PICKED_TO;
 	}
 	return NOTHING_TO_DO;
