@@ -20,6 +20,8 @@ public:
 	virtual float GetSpeed() =0;
 	virtual int GetOwnerID() =0;
 	virtual void SetOwnerID(int ID) =0;
+	virtual bool IsPicked() =0;
+	virtual void SetPicked(bool) =0;
 };
 
 

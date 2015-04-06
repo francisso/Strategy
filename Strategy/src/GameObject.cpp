@@ -9,7 +9,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject(SDL_Rect src, const char *name_file_image, GameObjectType type, float maxSpeed, unsigned int maxHP, int ownerID, Uint8 transparency):
-		ObjectType(type),MaxSpeed(maxSpeed),MaxHP(maxHP),currentHP(maxHP),ownerID(ownerID) {
+		ObjectType(type),MaxSpeed(maxSpeed),MaxHP(maxHP),currentHP(maxHP),ownerID(ownerID),isPicked(false) {
 	destRect = new SDL_Rect(src);
 	srcRect = new SDL_Rect(src);
 	destRect->x = 0;
@@ -142,3 +142,7 @@ float GameObject::GetSpeed(){return MaxSpeed;}
 int GameObject::GetOwnerID(){return ownerID;}
 
 void GameObject::SetOwnerID(int ID){ownerID=ID;}
+
+bool GameObject::IsPicked(){return isPicked;}
+
+void GameObject::SetPicked(bool isPicked){this->isPicked=isPicked;}

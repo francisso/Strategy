@@ -67,12 +67,15 @@ public:
 	virtual float GetSpeed();
 	virtual int GetOwnerID();
 	virtual void SetOwnerID(int ID);
+	virtual bool IsPicked();
+	virtual void SetPicked(bool);
 private:
 	const GameObjectType ObjectType;
 	const float MaxSpeed;
 	const unsigned int MaxHP;
 	unsigned int currentHP;
 	int ownerID;
+	bool isPicked;
 };
 
 #endif /* GAMEOBJECT_H_ */

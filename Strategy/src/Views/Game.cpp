@@ -8,6 +8,7 @@
 #include "Game.h"
 #include <string>
 #include <iostream>
+#include <inttypes.h>
 
 Game::Game(Drawable** texture, SDL_Rect windowRect) : Game(texture, new GameField(), windowRect) {
 }
@@ -234,6 +235,7 @@ void Game::Update(Time t) {
 void Game::OnEvent(SDL_Event* event) {
 	int X = static_cast<int>(x);
 	int Y = static_cast<int>(y);
+	Uint8* keystates=SDL_GetKeyState(NULL);
 	if(event->type==SDL_MOUSEMOTION){
 		int cell_x=(X + event->motion.x-WindowRect.x) / CELL_X_PIXELS;
 		int cell_y=(Y + event->motion.y-WindowRect.y) / CELL_Y_PIXELS;
@@ -254,20 +256,33 @@ void Game::OnEvent(SDL_Event* event) {
 		case PICK_OBJECT:
 			if(objectTarget==nullptr){
 				mainPlayer->FreePickedObjects();
+				std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 				break;
 			}
-			if(objectTarget->GetOwnerID()==mainPlayer->PlayerID)
-				mainPlayer->AddPickedObject(objectTarget,false);
-			//std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
+			if(objectTarget->GetOwnerID()==mainPlayer->PlayerID){
+				if(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(objectTarget,false);
+				else mainPlayer->AddPickedObject(objectTarget,true);
+			}
+			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			break;
 		case MOVE_PICKED_TO:
 			if(objectTarget!=nullptr) break;
-			if(mainPlayer->GetPickedNumber()==0) break;
-			GameObject* picked=mainPlayer->GetFirstPicked();
-			if(picked->GetObjectType()!=UNIT_1) break;
-			Unit* unitPicked=dynamic_cast<Unit*>(picked);
-			unitPicked->DirectMoveToCell(cell_x,cell_y,true);
+			unsigned int i=0;
+			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
+			while(i<mainPlayer->GetPickedNumber()){
+				GameObject* picked=mainPlayer->GetPicked(i);
+				if(picked->GetObjectType()!=UNIT_1) break;
+				Unit* unitPicked=dynamic_cast<Unit*>(picked);
+				unitPicked->DirectMoveToCell(cell_x,cell_y,true);
+				i++;
+			}
 			break;
 		}
+	} else
+	if (event->type==SDL_KEYDOWN || event->type==SDL_KEYUP){
+		EventForPlayer* EventInfo=new EventForPlayer();
+		EventInfo->event=event;
+		mainPlayer->OnEvent(EventInfo);
 	}
+
 }

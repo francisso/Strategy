@@ -43,7 +43,7 @@ class Player {
 		/**
 		 * @GetFirstPicked возвращает указатель на первый выбранный юнит (может быть единственным)
 		 */
-		GameObject* GetFirstPicked();
+		GameObject* GetPicked(unsigned int number);
 
 		/**
 		 * @GetPickedNumber возвращает число выбранных объектов
@@ -78,11 +78,15 @@ class Player {
 		Color GetColor();
 		void SetColor(Color newColor);
 
+		//bool IsShiftPressed();
+		//void SetShiftPressed(bool);
+
 	protected:
 		int playerGold;
 		std::vector<GameObject*> pickedObjects;
 		Color playerColor;
 		std::string playerSignature;
+		//bool ShiftPressed;
 };
 
 /**

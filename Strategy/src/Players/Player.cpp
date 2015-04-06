@@ -7,7 +7,7 @@
 
 #include "Player.h"
 
-Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor){
+Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor)/*,ShiftPressed(false)*/{
 	this->playerSignature="";
 	this->playerSignature.append("Player ");
 	this->playerSignature.append(std::to_string(PlayerID));
@@ -32,14 +32,13 @@ int Player::GetGold(){
 void Player::AddPickedObject(GameObject* object, bool replace){
 	if(replace){
 		while(!pickedObjects.empty()){
+			GameObject* object=pickedObjects.back();
+			object->SetPicked(false);
 			pickedObjects.pop_back();
 		}
 	}
-	unsigned int i=0;
-	while(i<pickedObjects.size()){
-		if(pickedObjects[i]==object)
-			return;
-	}
+	if(object->IsPicked()) return;
+	else object->SetPicked(true);
 	pickedObjects.push_back(object);
 }
 
@@ -61,11 +60,11 @@ std::string Player::GetSignature(){
 	return this->playerSignature;
 }
 
-GameObject* Player::GetFirstPicked(){
-	if(pickedObjects.empty()){
+GameObject* Player::GetPicked(unsigned int number){
+	if(number>pickedObjects.size()){
 		return nullptr;
 	} else {
-		return pickedObjects[0];
+		return pickedObjects[number];
 	}
 }
 
@@ -74,12 +73,18 @@ unsigned int Player::GetPickedNumber(){
 }
 
 void Player::FreePickedObjects(){
-	std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
+	//std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
 	while(pickedObjects.size()>0u){
+		GameObject* object=pickedObjects.back();
+		object->SetPicked(false);
 		pickedObjects.pop_back();
 	}
-	std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
+	//std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
 }
+
+//bool Player::IsShiftPressed(){return ShiftPressed;}
+
+//void Player::SetShiftPressed(bool IsPressed){ShiftPressed=IsPressed};
 
 std::string ColorToString(Color color){
 	switch(color){
