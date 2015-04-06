@@ -183,8 +183,13 @@ void Game::Update(Time t) {
 				if(field->grid[i][k+Sign(action->isPositive)].objectType==CellType::NOTHING){
 					field->grid[i][k+Sign(action->isPositive)].objectType=CellType::OCCUPIED;
 					unit->SetY(y+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
+				} else if (field->grid[i][k+Sign(action->isPositive)].objectType==CellType::UNIT){
+					if(dynamic_cast<Unit*>(field->grid[i][k+Sign(action->isPositive)].object)->GetAction()->type==STAY) unit->StopUnitHard();
+					continue;
+				} else if (field->grid[i][k+Sign(action->isPositive)].objectType==CellType::BUILDING){
+					unit->StopUnitHard();
+					continue;
 				}
-				else continue;
 			} else {
 				if((y+t*unit->GetSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetSpeed())<=CELL_Y_PIXELS*(k-1)){
 					int y_next = k+Sign(action->isPositive);
@@ -202,12 +207,17 @@ void Game::Update(Time t) {
 		}
 		if (action->type==MOVE_HORIZONTAL){
 			auto x=unit->GetX();
-			if(x==CELL_X_PIXELS){
+			if(x==CELL_X_PIXELS*i){
 				if(field->grid[i+Sign(action->isPositive)][k].objectType==CellType::NOTHING){
 					field->grid[i+Sign(action->isPositive)][k].objectType=CellType::OCCUPIED;
 					unit->SetX(x+t*unit->GetSpeed()*static_cast<float>(Sign(action->isPositive)));
+				} else if (field->grid[i+Sign(action->isPositive)][k].objectType==CellType::UNIT){
+					if(dynamic_cast<Unit*>(field->grid[i+Sign(action->isPositive)][k].object)->GetAction()->type==STAY) unit->StopUnitHard();
+					continue;
+				} else if (field->grid[i+Sign(action->isPositive)][k].objectType==CellType::BUILDING){
+					unit->StopUnitHard();
+					continue;
 				}
-				else continue;
 			} else {
 				if((x+t*unit->GetSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetSpeed())<=CELL_Y_PIXELS*(i-1)){
 					int x_next = i+Sign(action->isPositive);

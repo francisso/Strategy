@@ -106,3 +106,13 @@ void Unit::SetY(CoordinateType y){
 	GameObject::SetY(y);
 	this->DestinationY=y;
 }
+
+void Unit::StopUnitHard(){
+	if(static_cast<int>(GetX())%CELL_X_PIXELS!=0 || static_cast<int>(GetY())%CELL_Y_PIXELS!=0) return;
+	SetDestinationX(GetX());
+	SetDestinationY(GetY());
+	while(!ActionQueue.empty())
+				ActionQueue.pop();
+	this->action=Action::CreateAction(STAY,true);
+	std::cout<<"Unit stopped hard"<<std::endl;
+}

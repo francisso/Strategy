@@ -19,6 +19,7 @@ public:
 	virtual ~Unit()=default;
 	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_DEFAULT,int ownerID=0);
 	struct Action* GetAction() const;
+	void StopUnitHard();
 	// TODO нужны описания
 	void AddAction(struct Action* action, bool replace=true);
 	void NextAction();
