@@ -14,12 +14,13 @@
 #include "Views/ViewCreator.h"
 #include "Views/Game.h"
 #include "Views/GameField.h"
+#include "Views/StatusBar.h"
 #include "FieldBuilder.h"
 #include "Constants.h"
 
 // Размеры окна
-CoordinateType X_SIZE_WINDOW;
-CoordinateType Y_SIZE_WINDOW;
+float X_SIZE_WINDOW;
+float Y_SIZE_WINDOW;
 
 int main() {
 	std::cout << "I'm working" << std::endl;
@@ -28,8 +29,11 @@ int main() {
 		Engine* engine = new Engine();
 		Drawable** texture = engine->LoadResources();
 		GameField* field = FieldBuilder::CreateField();
-//		Drawable* back = engine->CreateBackgroung(field);
+		auto bar = ViewCreator::CreateStatusBar("Views/MainView.xml");
+		if (bar == nullptr)
+			std::cout<< "bar error" << std::endl;
 		auto game = new Game(texture, field);
+		game->AddView(bar);
 		engine->SetView(game);
 		engine->Run();
 	}

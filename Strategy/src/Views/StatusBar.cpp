@@ -7,6 +7,10 @@
 
 #include "StatusBar.h"
 
+StatusBar::StatusBar(Sint16 x, Sint16 y, Uint16 width, Uint16 height) {
+	size = {x,y,width,height};
+}
+
 void StatusBar::AddStatusObject(IStatusObject* object) {
 	elements.push_back(object);
 }
@@ -16,12 +20,16 @@ void StatusBar::ClearStatusObjects() {
 }
 
 void StatusBar::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const{
+	if (f == nullptr)
+		return;
+	View::Draw(f);
 	for(auto e : elements)
 		DrawElement(e, f);
-	View::Draw(f);
 }
 
 void StatusBar::DrawElement(IStatusObject* element, std::function<void (Drawable*, float X0, float Y0)> f) const {
-	f(element->GetImage(),0.0f,0.0f);
-	f(element->GetTextImage(),0.0f,0.0f);
+	auto xOffset = static_cast<float>(this->size.x+element->GetSize()->x);
+	auto yOffset = static_cast<float>(this->size.y+element->GetSize()->y);
+	f(element->GetImage(),xOffset,yOffset);
+	f(element->GetTextImage(),xOffset,yOffset);
 }

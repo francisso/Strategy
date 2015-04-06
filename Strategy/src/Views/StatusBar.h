@@ -10,12 +10,15 @@
 
 #include <vector>
 
+#include <SDL/SDL.h>
+
 #include "IStatusObject.h"
 #include "View.h"
+#include "../Drawable.h"
 
 class StatusBar: public View {
 public:
-	StatusBar()=default;
+	StatusBar(Sint16 x, Sint16 y, Uint16 width, Uint16 height);
 	virtual ~StatusBar()=default;
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	void AddStatusObject(IStatusObject* object);

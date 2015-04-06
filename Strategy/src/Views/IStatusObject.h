@@ -19,6 +19,8 @@
 class IStatusObject {
 public:
 	virtual ~IStatusObject()=default;
+
+	virtual SDL_Rect* GetSize()=0;
 	/**
 	 * Кэшируя, возвращает Drawable* с текстом
 	 * @return картинку с текстом

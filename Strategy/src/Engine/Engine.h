@@ -17,8 +17,8 @@
 #include "../Views/GameField.h"
 
 // Размеры окна
-extern CoordinateType X_SIZE_WINDOW;
-extern CoordinateType Y_SIZE_WINDOW;
+extern float X_SIZE_WINDOW;
+extern float Y_SIZE_WINDOW;
 
 class Engine {
 public:
@@ -45,7 +45,7 @@ private:
 	const bool MULTUTHREADING = false;
 	///Запускаьт ли игру в полноэкранном режиме?
 	//возможно, const надо будет убрать.
-	const bool FULLSCREEN = true;
+	const bool FULLSCREEN = false;
 	bool game_is_running = true;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;
@@ -67,7 +67,7 @@ private:
 
 	//Отрисовывает окно
 	static void DrawView(View* view, SDL_Surface* screen);
-	static void Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0 = 0, CoordinateType Y0 = 0);
+	static void Draw(Drawable* drawable, SDL_Surface* screen, float X0 = 0, float Y0 = 0);
 
 	void ProcessInput(View* view);
 	void GameCycle();

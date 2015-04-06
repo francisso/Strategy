@@ -29,7 +29,7 @@ public:
 	// для отрисовки окна
 	//Engine вызывает Draw с функцией, отрисовывающей Drawable
 	// и мы применяем эту функцию ко всем Drawable этого класса
-	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 
 	//Функции, к которым обращается Engine
 	// в случае события
@@ -46,11 +46,12 @@ public:
 
 	//returns true если координаты принадлежат этому view
 	bool ContainsCoordinates(Uint16 x, Uint16 y) const;
-
+	SDL_Rect size;
 private:
 	//То, что view отображает
 	std::vector<View*> views;
 	std::vector<Drawable*> drawables;
+
 
 	//Фоновое изображение для данного View.
 	Drawable* image = nullptr;

@@ -11,6 +11,8 @@
 #include "../../lib/rapidxml-1.13/rapidxml.hpp"
 
 #include "View.h"
+#include "StatusBar.h"
+#include "StatusBarElement.h"
 
 using namespace rapidxml;
 //Создает объект View, считывая из
@@ -18,11 +20,12 @@ using namespace rapidxml;
 class ViewCreator {
 public:
 	//path - путь, по которому лежит xml для парсинга
-	static View* CreateView(const char* path);
+	static StatusBar* CreateStatusBar(const char* path);
 
 private:
 	static View* MakeView(xml_node<>* root_node);
 	static Drawable* MakeDrawable(xml_node<>* node);
+	static StatusBarElement* MakeElement(xml_node<>* node);
 	ViewCreator();
 	virtual ~ViewCreator();
 };

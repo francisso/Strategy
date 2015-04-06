@@ -16,8 +16,8 @@
 #include "../Constants.h"
 
 // Размеры окна
-extern CoordinateType X_SIZE_WINDOW;
-extern CoordinateType Y_SIZE_WINDOW;
+extern float X_SIZE_WINDOW;
+extern float Y_SIZE_WINDOW;
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
 //  (атака 1 юнита на другой, например)
@@ -30,12 +30,12 @@ public:
 
 	const char* DefaultMapPath = "res/maps/mapSaved";
 private:
-	CoordinateType x;
-	CoordinateType y;
-	const CoordinateType SpeedMap = 20.0f;
+	float x;
+	float y;
+	const float SpeedMap = 20.0f;
 	GameField* field;
 	Drawable** texture;
-	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	virtual void Update(Time t);
 	//передвижение карты :
 	// изменяет облать карты которая отображается на экран

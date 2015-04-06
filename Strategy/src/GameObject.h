@@ -15,32 +15,32 @@
 class GameObject: public Drawable {
 public:
 	GameObject(SDL_Rect src, const char *name_file_image, Uint8 transparency =255 );
+	GameObject(SDL_Rect src, Uint8 r, Uint8 g, Uint8 b);
 	virtual ~GameObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
 	//Реализация Drawable:
 	virtual SDL_Surface* GetImage() const;
-	virtual CoordinateType GetX() const;
-	virtual CoordinateType GetY() const;
-	virtual void SetX(CoordinateType x);
-	virtual void SetY(CoordinateType y);
-	virtual CoordinateType GetWidth() const;
-	virtual CoordinateType GetHeight() const;
+	virtual float GetX() const;
+	virtual float GetY() const;
+	virtual void SetX(float x);
+	virtual void SetY(float y);
+	virtual float GetWidth() const;
+	virtual float GetHeight() const;
 	virtual SDL_Rect* GetSrcRect() const;
 	virtual SDL_Rect* GetDestRect() const;
-
 	virtual bool ContainsCoordinates(float x, float y) const;
-
 private:
+	GameObject(SDL_Rect src);
 	//Координаты на поле
-	CoordinateType x;
-	CoordinateType y;
+	float x;
+	float y;
 	//Координаты верхнего левого угла прямоугольника,
 	// который будет отрисован, на кратинке
-	CoordinateType imageX;
-	CoordinateType imageY;
-	CoordinateType width;
-	CoordinateType height;
+	float imageX;
+	float imageY;
+	float width;
+	float height;
 	//Прямоугольники, дублирующие верхние переменные
 	//прямоугольник, куда рисуется изображение
 	SDL_Rect* destRect;

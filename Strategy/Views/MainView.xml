@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<View>
-    <Drawable path="res/images/mytest.bmp" x="0" y="0" width="450" height="550"/>
-    <Drawable path="res/images/test.bmp" x="0" y="0" width="450" height="550"/>
-    <View>
-    	
-    </View>
-</View>
+<StatusBar x="400" y="400" width="500" height="120" r="84" g="52" b="10">
+    <StatusBarObject name="swamp">
+	<Drawable path="res/images/swamp.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<x>0</x>
+	<y>0</y> 
+	<width>120</width> 
+	<height>120</height>
+	<pictureXOffset>20</pictureXOffset>
+	<pictureYOffset>20</pictureYOffset>
+    </StatusBarObject>
+    <StatusBarObject name="water">
+	<Drawable path="res/images/water.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<x>120</x>
+	<y>0</y> 
+	<width>120</width> 
+	<height>120</height>
+	<pictureXOffset>20</pictureXOffset>
+	<pictureYOffset>20</pictureYOffset>
+    </StatusBarObject>
+    <StatusBarObject name="sand">
+	<Drawable path="res/images/sand.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<x>240</x>
+	<y>0</y> 
+	<width>120</width> 
+	<height>120</height>
+	<pictureXOffset>20</pictureXOffset>
+	<pictureYOffset>20</pictureYOffset>
+    </StatusBarObject>
+</StatusBar>

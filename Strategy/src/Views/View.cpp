@@ -13,13 +13,15 @@ void View::Update(Time t) {
 		v->Update(t);
 }
 
-void View::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
+void View::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
+	auto x = static_cast<float>(size.x);
+	auto y = static_cast<float>(size.y);
 	//Сначала рисуем фон
 	if (image != nullptr)
-		f(image, 0.0f, 0.0f);
+		f(image, x, y);
 	//Потом все drawables
 	for(auto d : drawables)
-		f(d, 0.0f, 0.0f);
+		f(d, x, y);
 	//Потом все view
 	for(auto v: views)
 		v->Draw(f);
