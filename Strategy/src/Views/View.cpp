@@ -36,7 +36,7 @@ void View::OnEvent(SDL_Event* event) {
 				v->OnEvent(event);
 	}
 	//Если не мышь - информируем всех
-	else
+	//else
 		for(auto v: views)
 			v->OnEvent(event);
 }

@@ -10,6 +10,7 @@
 
 #include <string>
 #include <SDL/SDL.h>
+#include <functional>
 
 #include "../Drawable.h"
 /**
@@ -33,6 +34,11 @@ public:
 	 * В себе хранит координаты относительно строки состояния
 	 */
 	virtual Drawable* GetImage()=0;
+
+	virtual bool Contains(int x, int y)=0;
+	virtual void SetClicked()=0;
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f,
+				Sint16 xOffset, Sint16 yOffset) const = 0;
 private:
 	/**
 	 * @return текст, который будет отображаться

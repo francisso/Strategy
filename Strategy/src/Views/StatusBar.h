@@ -13,6 +13,7 @@
 #include <SDL/SDL.h>
 
 #include "IStatusObject.h"
+#include "StatusBarElement.h"
 #include "View.h"
 #include "../Drawable.h"
 
@@ -23,10 +24,12 @@ public:
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	void AddStatusObject(IStatusObject* object);
 	void ClearStatusObjects();
+	virtual void OnEvent(SDL_Event* event);
 private:
 	//Массив элементов, которые рисуются в строке состояния
 	std::vector<IStatusObject*> elements;
 	void DrawElement(IStatusObject* element, std::function<void (Drawable*, float X0, float Y0)> f) const;
+	StatusBarElement* selected;
 };
 
 #endif /* VIEWS_STATUSBAR_H_ */

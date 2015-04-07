@@ -8,6 +8,8 @@
 #ifndef VIEWS_STATUSBARELEMENT_H_
 #define VIEWS_STATUSBARELEMENT_H_
 
+#include <functional>
+
 #include "IStatusObject.h"
 
 class StatusBarElement: public IStatusObject {
@@ -25,6 +27,14 @@ public:
 	* В себе хранит координаты относительно строки состояния
 	*/
 	virtual Drawable* GetImage();
+
+	void SetClicked();
+
+	bool Contains(int x, int y);
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f,
+					Sint16 xOffset, Sint16 yOffset) const;
+
+
 private:
 	//Картинка с отображаемым изображением
 	Drawable* image;
@@ -37,7 +47,7 @@ private:
 
 	//размеры элемента
 	SDL_Rect size;
-
+	bool clicked=false;
 	//unused
 	virtual std::string GetText();
 	virtual SDL_Rect* GetTextRect();

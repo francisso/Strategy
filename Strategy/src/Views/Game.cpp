@@ -64,6 +64,7 @@ void Game::Update(Time t) {
 
 
 void Game::OnEvent(SDL_Event* event) {
+	View::OnEvent(event);
 	switch(event->type)
 	{
 	case SDL_MOUSEMOTION:

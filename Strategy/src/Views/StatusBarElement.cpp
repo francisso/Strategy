@@ -15,6 +15,8 @@ StatusBarElement::StatusBarElement(Drawable* image, Drawable* selected,
 	this->size=size;
 	image->SetX(static_cast<float>(x_offset));
 	image->SetY(static_cast<float>(y_offset));
+	selected->SetX(static_cast<float>(x_offset));
+	selected->SetY(static_cast<float>(y_offset));
 
 }
 
@@ -38,6 +40,25 @@ SDL_Rect* StatusBarElement::GetTextRect() {
 }
 
 Drawable* StatusBarElement::GetImage() {
-	return image;
+	return (clicked) ? selected : image;
 }
 
+void StatusBarElement::SetClicked() {
+	clicked = !clicked;
+}
+
+bool StatusBarElement::Contains(int x, int y) {
+	return (x > size.x && y > size.y &&
+			x < size.x + size.w && y < size.y + size.h);
+}
+
+
+void StatusBarElement::Draw(std::function<void (Drawable*, float X0, float Y0)> f,
+				Sint16 xOffset, Sint16 yOffset) const {
+	xOffset =static_cast<Sint16>( size.x + xOffset);
+	yOffset =static_cast<Sint16>(size.y+yOffset);
+	f(image,xOffset, yOffset);
+	if (clicked)
+		f(selected,xOffset, yOffset);
+
+}
