@@ -25,6 +25,7 @@ public:
 	void AddStatusObject(IStatusObject* object);
 	void ClearStatusObjects();
 	virtual void OnEvent(SDL_Event* event);
+	int GetTextureNumber();
 private:
 	//Массив элементов, которые рисуются в строке состояния
 	std::vector<IStatusObject*> elements;

@@ -65,6 +65,8 @@ void Game::Update(Time t) {
 
 void Game::OnEvent(SDL_Event* event) {
 	View::OnEvent(event);
+	//координаты предыдущего нажатия мышки
+	static int lastX,lastY;
 	switch(event->type)
 	{
 	case SDL_MOUSEMOTION:
@@ -80,12 +82,18 @@ void Game::OnEvent(SDL_Event* event) {
 	case SDL_MOUSEBUTTONDOWN: {
 		auto X = static_cast<int>(x);
 		auto Y = static_cast<int>(y);
-		auto i = (X + event->button.x) / CELL_X_PIXELS;
-		auto j = (Y + event->button.y) / CELL_Y_PIXELS;
-		field->grid[i][j].textureType +=1;
-		field->grid[i][j].textureType %=TEXTURE_COUNT;
+		lastX = (X + event->button.x) / CELL_X_PIXELS;
+		lastY = (Y + event->button.y) / CELL_Y_PIXELS;
 		break;
 	}
+	case SDL_MOUSEBUTTONUP: {
+		auto X = static_cast<int>(x);
+		auto Y = static_cast<int>(y);
+		auto i = (X + event->button.x) / CELL_X_PIXELS;
+		auto j = (Y + event->button.y) / CELL_Y_PIXELS;
+		Fill(field,lastX,lastY,i,j, GetSelectedTexture());
+		break;
+		}
 	case SDL_QUIT: {
 		SaveMap(DefaultMapPath); break;
 	}
@@ -110,4 +118,28 @@ int Game::Getline(std::string* line, GameField* field) {
 		line->append(std::to_string(field->grid[lineNumber][i].textureType));
 	std::cout << *line << std::endl;
 	return (++lineNumber > CELL_Y_NUMBER) ? 0 : 1;
+}
+
+int Game::GetSelectedTexture() {
+	if (bar==nullptr)
+		return 0;
+	return bar->GetTextureNumber();
+}
+
+void Game::Fill(GameField* field, int xStart,int yStart,int xEnd,int yEnd, int textureType) {
+	auto xDelta = (xEnd > xStart) ? 1 : -1;
+	auto yDelta = (yEnd > yStart) ? 1 : -1;
+	for(int i = xStart;; i+=xDelta) {
+		for(int j = yStart;; j+=yDelta) {
+			field->grid[i][j].textureType=textureType;
+			if ( j== yEnd)
+				break;
+		}
+		if (i == xEnd)
+			break;
+	}
+}
+
+void Game::SetBar(StatusBar* bar) {
+	this->bar = bar;
 }

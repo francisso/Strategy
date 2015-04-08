@@ -14,6 +14,7 @@
 #include "../Drawable.h"
 #include "View.h"
 #include "../Constants.h"
+#include "StatusBar.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;
@@ -29,6 +30,7 @@ public:
 	virtual void OnEvent(SDL_Event* event);
 
 	const char* DefaultMapPath = "res/maps/mapSaved";
+	void SetBar(StatusBar* bar);
 private:
 	float x;
 	float y;
@@ -43,6 +45,10 @@ private:
 	void MotionMap(Time t);
 	void SaveMap (const char* path);
 	int Getline(std::string* line, GameField* field);
+
+	int GetSelectedTexture();
+	void Fill(GameField* field, int x,int y,int i,int j, int textureType);
+	StatusBar* bar=nullptr;
 };
 
 #endif /* GAME_H_ */

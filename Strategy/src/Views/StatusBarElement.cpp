@@ -62,3 +62,7 @@ void StatusBarElement::Draw(std::function<void (Drawable*, float X0, float Y0)> 
 		f(selected,xOffset, yOffset);
 
 }
+
+std::string StatusBarElement::GetName() {
+	return name;
+}

@@ -39,6 +39,7 @@ public:
 	virtual void SetClicked()=0;
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f,
 				Sint16 xOffset, Sint16 yOffset) const = 0;
+	virtual std::string GetName()=0;
 private:
 	/**
 	 * @return текст, который будет отображаться

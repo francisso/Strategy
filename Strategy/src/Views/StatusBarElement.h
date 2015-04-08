@@ -33,7 +33,7 @@ public:
 	bool Contains(int x, int y);
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f,
 					Sint16 xOffset, Sint16 yOffset) const;
-
+	virtual std::string GetName();
 
 private:
 	//Картинка с отображаемым изображением

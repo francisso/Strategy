@@ -34,6 +34,7 @@ int main() {
 			std::cout<< "bar error" << std::endl;
 		auto game = new Game(texture, field);
 		game->AddView(bar);
+		game->SetBar(bar);
 		engine->SetView(game);
 		engine->Run();
 	}

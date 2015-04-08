@@ -53,3 +53,22 @@ void StatusBar::DrawElement(IStatusObject* element, std::function<void (Drawable
 	f(element->GetImage(),xOffset,yOffset);
 	f(element->GetTextImage(),xOffset,yOffset);
 }
+
+int StatusBar::GetTextureNumber() {
+	//TODO: по хорошему, это соответствие надо загружать из файла в словарь.
+	if (selected==nullptr)
+		return 0;
+	if (!selected->GetName().compare("water"))
+		return 1;
+	if (!selected->GetName().compare("forest"))
+		return 3;
+	if (!selected->GetName().compare("ground"))
+		return 0;
+	if (!selected->GetName().compare("mountian"))
+		return 4;
+	if (!selected->GetName().compare("swamp"))
+		return 5;
+	if (!selected->GetName().compare("sand"))
+		return 2;
+	return 0;
+}
