@@ -5,14 +5,14 @@
  *      Author: staslatgttt
  */
 
-#ifndef IGAMEOBJECT_H_
-#define IGAMEOBJECT_H_
+#ifndef DROWABLE_GAMEOBJECTS_IPLAYINGOBJECT_H_
+#define DROWABLE_GAMEOBJECTS_IPLAYINGOBJECT_H_
 
-#include "Types.h"
+#include "../../Types.h"
 
-class IGameObject {
+class IPlayingObject {
 public:
-	virtual ~IGameObject()=default;
+	virtual ~IPlayingObject()=default;
 	virtual GameObjectType GetObjectType() =0;
 	virtual unsigned int GetMaxHP() =0;
 	virtual unsigned int GetCurrHP() =0;
@@ -26,4 +26,4 @@ public:
 
 
 
-#endif /* IGAMEOBJECT_H_ */
+#endif /* DROWABLE_GAMEOBJECTS_IPLAYINGOBJECT_H_ */

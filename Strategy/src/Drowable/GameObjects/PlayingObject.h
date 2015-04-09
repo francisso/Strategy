@@ -5,19 +5,20 @@
  *      Author: anton
  */
 
-#ifndef GAMEOBJECT_H_
-#define GAMEOBJECT_H_
+#ifndef DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
+#define DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
 
-#include "Drawable.h"
-#include "IGameObject.h"
-#include "Constants.h"
+#include "Gameplay_Constants.h"
 #include <iostream>
 
+#include "IPlayingObject.h"
+#include "../GameObject.h"
+
 //Базовый класс для юнитов, зданий, и т.д.
-class GameObject: public Drawable, public IGameObject {
+class PlayingObject: public Drawable, public IPlayingObject {
 public:
-	GameObject(SDL_Rect src, const char *name_file_image, GameObjectType type=STRUCTURE, float maxSpeed=SPEED_DEFAULT, unsigned int maxHP=HP_DEFAULT, int ownerID=0, Uint8 transparency=255);
-	virtual ~GameObject();
+	PlayingObject(SDL_Rect src, const char *name_file_image, GameObjectType type=STRUCTURE, float maxSpeed=SPEED_DEFAULT, unsigned int maxHP=HP_DEFAULT, int ownerID=0, Uint8 transparency=255);
+	virtual ~PlayingObject();
 	//Обновляет состояние (положение) объекта на основе прошедшего времени
 	virtual void Update(float time);
 
@@ -78,4 +79,4 @@ private:
 	bool isPicked;
 };
 
-#endif /* GAMEOBJECT_H_ */
+#endif /* DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */

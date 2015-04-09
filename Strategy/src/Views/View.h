@@ -13,11 +13,11 @@
 #include <SDL/SDL.h>
 #include <inttypes.h>
 
+#include "../Drowable/GameObjects/PlayingObject.h"
+#include "../Drowable/GameObjects/Units/Unit.h"
 #include "../Types.h"
 #include "GameField.h"
-#include "../GameObject.h"
-#include "../Drawable.h"
-#include "../Units/Unit.h"
+#include "../IDrawable.h"
 
 
 //Класс окна, отображающегося на экране

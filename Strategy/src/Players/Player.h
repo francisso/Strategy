@@ -11,13 +11,14 @@
 #include <vector>
 #include <string>
 
-#include "../GameObject.h"
 #include "../Constants.h"
 #include "SDL/SDL.h"
 
+#include "../Drowable/GameObjects/PlayingObject.h"
+
 struct EventForPlayer{
 	SDL_Event* event;
-	GameObject* object;
+	PlayingObject* object;
 	//TODO проверить на дополнительные параметры, поставленные к передаче
 };
 
@@ -38,12 +39,12 @@ class Player {
 		 * @AddPickedUnit добавляет @unit в @chosenUnits
 		 * если @replace имеет значение true, то сначала @chosenUnits очистится и тогда @unit окажется единственным в @chosenUnits
 		 */
-		void AddPickedObject(GameObject* object, bool replace=true);
+		void AddPickedObject(PlayingObject* object, bool replace=true);
 
 		/**
 		 * @GetFirstPicked возвращает указатель на первый выбранный юнит (может быть единственным)
 		 */
-		GameObject* GetPicked(unsigned int number);
+		PlayingObject* GetPicked(unsigned int number);
 
 		/**
 		 * @GetPickedNumber возвращает число выбранных объектов
@@ -83,7 +84,7 @@ class Player {
 
 	protected:
 		int playerGold;
-		std::vector<GameObject*> pickedObjects;
+		std::vector<PlayingObject*> pickedObjects;
 		Color playerColor;
 		std::string playerSignature;
 		//bool ShiftPressed;

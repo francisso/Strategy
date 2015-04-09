@@ -8,8 +8,8 @@
 #ifndef ARCHERS_H_
 #define ARCHERS_H_
 
-#include "Unit.h"
 #include "SDL/SDL.h"
+#include "Unit.h"
 
 class Archer: public Unit {
 public:

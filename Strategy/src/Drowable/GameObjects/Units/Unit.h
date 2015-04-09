@@ -8,13 +8,15 @@
 #ifndef UNIT_H_
 #define UNIT_H_
 
-#include "../GameObject.h"
-#include "Action.h"
-#include "../Constants.h"
 #include <cmath>
 #include <queue>
 
-class Unit : public GameObject{
+#include "../Gameplay_Constants.h"
+#include "../../../Constants.h"
+#include "../PlayingObject.h"
+#include "Action.h"
+
+class Unit : public PlayingObject{
 public:
 	virtual ~Unit()=default;
 	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_DEFAULT,int ownerID=0);

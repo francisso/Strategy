@@ -6,9 +6,9 @@
  *      Author: anton
  */
 
-#include "GameObject.h"
+#include "../GameObjects/PlayingObject.h"
 
-GameObject::GameObject(SDL_Rect src, const char *name_file_image, GameObjectType type, float maxSpeed, unsigned int maxHP, int ownerID, Uint8 transparency):
+PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image, GameObjectType type, float maxSpeed, unsigned int maxHP, int ownerID, Uint8 transparency):
 		ObjectType(type),MaxSpeed(maxSpeed),MaxHP(maxHP),currentHP(maxHP),ownerID(ownerID),isPicked(false) {
 	destRect = new SDL_Rect(src);
 	srcRect = new SDL_Rect(src);
@@ -34,13 +34,13 @@ GameObject::GameObject(SDL_Rect src, const char *name_file_image, GameObjectType
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
-GameObject::~GameObject() {
+PlayingObject::~PlayingObject() {
 	SDL_FreeSurface(image);
 	delete(destRect);
 	delete(srcRect);
 }
 
-void GameObject::Update(float time) {
+void PlayingObject::Update(float time) {
 	//TODO implement function
 	time = 1.0f*time;
 }
@@ -53,31 +53,31 @@ void GameObject::Update(float time) {
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
-SDL_Surface* GameObject::GetImage() const {return image;}
+SDL_Surface* PlayingObject::GetImage() const {return image;}
 
-CoordinateType GameObject::GetX() const {return x;}
+CoordinateType PlayingObject::GetX() const {return x;}
 
-CoordinateType GameObject::GetY() const {return y;}
+CoordinateType PlayingObject::GetY() const {return y;}
 
-void GameObject::SetX(CoordinateType x) {
+void PlayingObject::SetX(CoordinateType x) {
 	this->x = x;
 	destRect->x = static_cast<Sint16>(x);
 }
 
-void GameObject::SetY(CoordinateType y) {
+void PlayingObject::SetY(CoordinateType y) {
 	this->y = y;
 	destRect->y = static_cast<Sint16>(y);
 }
 
-CoordinateType GameObject::GetWidth() const {return width;}
+CoordinateType PlayingObject::GetWidth() const {return width;}
 
-CoordinateType GameObject::GetHeight() const {return height;}
+CoordinateType PlayingObject::GetHeight() const {return height;}
 
-SDL_Rect* GameObject::GetSrcRect() const { return srcRect;}
+SDL_Rect* PlayingObject::GetSrcRect() const { return srcRect;}
 
-SDL_Rect* GameObject::GetDestRect() const { return destRect;}
+SDL_Rect* PlayingObject::GetDestRect() const { return destRect;}
 
-void GameObject::SetSrcRect(SDL_Rect* src) {
+void PlayingObject::SetSrcRect(SDL_Rect* src) {
 	*srcRect = *src;
 	imageX = srcRect->x;
 	imageY = srcRect->y;
@@ -86,7 +86,7 @@ void GameObject::SetSrcRect(SDL_Rect* src) {
 	destRect->w = srcRect->w;
 	destRect->h = srcRect->h;
 }
-void GameObject::SetDestRect(SDL_Rect* dest) {
+void PlayingObject::SetDestRect(SDL_Rect* dest) {
 	*destRect = *dest;
 	x = destRect->x;
 	y = destRect->y;
@@ -96,7 +96,7 @@ void GameObject::SetDestRect(SDL_Rect* dest) {
 	srcRect->h = destRect->h;
 }
 
-bool GameObject::ContainsCoordinates(float x, float y) const {
+bool PlayingObject::ContainsCoordinates(float x, float y) const {
 	auto relativeX = x - this->x;
 	auto relativeY = y - this->y;
 	return (relativeX >=0 && relativeY >=0 &&
@@ -112,13 +112,13 @@ bool GameObject::ContainsCoordinates(float x, float y) const {
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
 
-GameObjectType GameObject::GetObjectType(){return this->ObjectType;}
+GameObjectType PlayingObject::GetObjectType(){return this->ObjectType;}
 
-unsigned int GameObject::GetMaxHP(){return MaxHP;}
+unsigned int PlayingObject::GetMaxHP(){return MaxHP;}
 
-unsigned int GameObject::GetCurrHP(){return currentHP;}
+unsigned int PlayingObject::GetCurrHP(){return currentHP;}
 
-void GameObject::DealDamage(int damage){
+void PlayingObject::DealDamage(int damage){
 	unsigned int unsigned_damage;
 	if(damage>=0){
 		unsigned_damage=static_cast<unsigned int>(damage);
@@ -137,12 +137,12 @@ void GameObject::DealDamage(int damage){
 	}
 }
 
-float GameObject::GetSpeed(){return MaxSpeed;}
+float PlayingObject::GetSpeed(){return MaxSpeed;}
 
-int GameObject::GetOwnerID(){return ownerID;}
+int PlayingObject::GetOwnerID(){return ownerID;}
 
-void GameObject::SetOwnerID(int ID){ownerID=ID;}
+void PlayingObject::SetOwnerID(int ID){ownerID=ID;}
 
-bool GameObject::IsPicked(){return isPicked;}
+bool PlayingObject::IsPicked(){return isPicked;}
 
-void GameObject::SetPicked(bool isPicked){this->isPicked=isPicked;}
+void PlayingObject::SetPicked(bool isPicked){this->isPicked=isPicked;}

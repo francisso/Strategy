@@ -16,9 +16,9 @@
 #include "Views/GameField.h"
 #include "Views/StatusBar.h"
 #include "FieldBuilder.h"
-#include "Units/Archer.h"
-#include "Units/Action.h"
 #include "Constants.h"
+#include "Drowable/GameObjects/Units/Action.h"
+#include "Drowable/GameObjects/Units/Archer.h"
 #include "Players/HumanPlayer.h"
 
 // Размеры окна

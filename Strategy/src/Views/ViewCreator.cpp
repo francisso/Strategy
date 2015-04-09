@@ -55,6 +55,6 @@ Drawable* ViewCreator::MakeDrawable(xml_node<>* node) {
 		height);
     SDL_Rect rect ={static_cast<Sint16>(x),static_cast<Sint16>(y),
     		static_cast<Uint16>(width), static_cast<Uint16>(height)};
-    return new GameObject(rect, path);
+    return new PlayingObject(rect, path);
 }
 

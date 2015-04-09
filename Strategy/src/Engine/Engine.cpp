@@ -35,14 +35,14 @@ Engine::~Engine() {
 
 Drawable** Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
-	texture[WATER]  = new GameObject(src, "res/images/water.bmp");
-	texture[SAND]   = new GameObject(src, "res/images/sand.bmp");
-	texture[FOREST] = new GameObject(src, "res/images/forest.bmp");
-	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
-	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
+	texture[GROUND] = new PlayingObject(src, "res/images/ground.bmp");
+	texture[WATER]  = new PlayingObject(src, "res/images/water.bmp");
+	texture[SAND]   = new PlayingObject(src, "res/images/sand.bmp");
+	texture[FOREST] = new PlayingObject(src, "res/images/forest.bmp");
+	texture[MOUNTIAN] = new PlayingObject(src, "res/images/mountian.bmp");
+	texture[SWAMP]  = new PlayingObject(src, "res/images/swamp.bmp");
 	SDL_Rect src_frame = {0, 0, 120, 80};
-	frame = new GameObject(src_frame, "res/images/frame.bmp");
+	frame = new PlayingObject(src_frame, "res/images/frame.bmp");
 	//auto x = new GameObject(src, "res/images/selection.bmp");
 	return texture;
 }
@@ -125,7 +125,7 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	// сохранение фона
 	SDL_SaveBMP(screen, "res/images/background_status_bar.bmp");
 	SDL_Rect src = {0, 0, static_cast<Uint16>(X_SIZE_WINDOW), static_cast<Uint16>(Y_SIZE_WINDOW)};
-	GameObject* background = new GameObject(src, "res/images/background_status_bar.bmp");
+	PlayingObject* background = new PlayingObject(src, "res/images/background_status_bar.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;
@@ -213,7 +213,7 @@ Drawable* Engine::CreateBackgroung(GameField* field) const
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");
 	SDL_Rect src = {0, 0, CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS};
-	GameObject* background = new GameObject(src, "res/images/background.bmp");
+	PlayingObject* background = new PlayingObject(src, "res/images/background.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;

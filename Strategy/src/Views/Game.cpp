@@ -255,7 +255,7 @@ void Game::OnEvent(SDL_Event* event) {
 	if (event->type==SDL_MOUSEBUTTONDOWN) {
 		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
 		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
-		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
+		PlayingObject* objectTarget=field->grid[cell_x][cell_y].object;
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
 		EventInfo->object=objectTarget;
@@ -280,7 +280,7 @@ void Game::OnEvent(SDL_Event* event) {
 			unsigned int i=0;
 			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			while(i<mainPlayer->GetPickedNumber()){
-				GameObject* picked=mainPlayer->GetPicked(i);
+				PlayingObject* picked=mainPlayer->GetPicked(i);
 				if(picked->GetObjectType()!=UNIT_1) break;
 				Unit* unitPicked=dynamic_cast<Unit*>(picked);
 				unitPicked->DirectMoveToCell(cell_x,cell_y,true);

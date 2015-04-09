@@ -6,9 +6,10 @@
  */
 
 #include "Unit.h"
+
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): GameObject(src, name_file_image,UNIT_1,maxSpeed,maxHP,ownerID) {
+Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT_1,maxSpeed,maxHP,ownerID) {
 	//TODO this initialization is a developer version
 	auto action = new Action();
 	action->type=STAY;
@@ -98,12 +99,12 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 }
 
 void Unit::SetX(CoordinateType x){
-	GameObject::SetX(x);
+	PlayingObject::SetX(x);
 	this->DestinationX=x;
 }
 
 void Unit::SetY(CoordinateType y){
-	GameObject::SetY(y);
+	PlayingObject::SetY(y);
 	this->DestinationY=y;
 }
 

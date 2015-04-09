@@ -11,7 +11,7 @@
 #include <string>
 #include <SDL/SDL.h>
 
-#include "../Drawable.h"
+#include "../IDrawable.h"
 /**
  * Элементарная ячейка с содержимым,
  * отображаюйщаяся в строке состояния

@@ -10,9 +10,9 @@
 
 #include <functional>
 
-#include "../Drawable.h"
 #include "View.h"
 #include "../Constants.h"
+#include "../IDrawable.h"
 #include "../Players/Player.h"
 #include "../Players/AI.h"
 //#include "../Players/HumanPlayer.h"

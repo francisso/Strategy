@@ -5,8 +5,8 @@
  *      Author: anton
  */
 
-#ifndef DRAWABLE_H_
-#define DRAWABLE_H_
+#ifndef IDRAWABLE_H_
+#define IDRAWABLE_H_
 
 #include <SDL/SDL.h>
 
@@ -34,4 +34,4 @@ public:
 	virtual bool ContainsCoordinates(float x, float y) const =0;
 };
 
-#endif /* DRAWABLE_H_ */
+#endif /* IDRAWABLE_H_ */

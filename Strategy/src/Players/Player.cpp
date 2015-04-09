@@ -29,10 +29,10 @@ int Player::GetGold(){
 	return playerGold;
 }
 
-void Player::AddPickedObject(GameObject* object, bool replace){
+void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(replace){
 		while(!pickedObjects.empty()){
-			GameObject* object=pickedObjects.back();
+			PlayingObject* object=pickedObjects.back();
 			object->SetPicked(false);
 			pickedObjects.pop_back();
 		}
@@ -60,7 +60,7 @@ std::string Player::GetSignature(){
 	return this->playerSignature;
 }
 
-GameObject* Player::GetPicked(unsigned int number){
+PlayingObject* Player::GetPicked(unsigned int number){
 	if(number>pickedObjects.size()){
 		return nullptr;
 	} else {
@@ -75,7 +75,7 @@ unsigned int Player::GetPickedNumber(){
 void Player::FreePickedObjects(){
 	//std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
 	while(pickedObjects.size()>0u){
-		GameObject* object=pickedObjects.back();
+		PlayingObject* object=pickedObjects.back();
 		object->SetPicked(false);
 		pickedObjects.pop_back();
 	}

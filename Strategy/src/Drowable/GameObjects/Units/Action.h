@@ -5,8 +5,8 @@
  *      Author: anton
  */
 
-#ifndef UNITS_ACTION_H_
-#define UNITS_ACTION_H_
+#ifndef DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_
+#define DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_
 
 #include "Unit.h"
 
@@ -25,4 +25,4 @@ struct Action{
 	static Action* CreateAction(ActionType type,bool isPositive=true);
 };
 
-#endif /* UNITS_ACTION_H_ */
+#endif /* DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_ */
