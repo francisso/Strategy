@@ -255,7 +255,7 @@ void Game::OnEvent(SDL_Event* event) {
 	if (event->type==SDL_MOUSEBUTTONDOWN) {
 		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
 		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
-		PlayingObject* objectTarget=field->grid[cell_x][cell_y].object;
+		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
 		EventInfo->object=objectTarget;
@@ -269,10 +269,14 @@ void Game::OnEvent(SDL_Event* event) {
 				std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 				break;
 			}
-			if(objectTarget->GetOwnerID()==mainPlayer->PlayerID){
-				if(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(objectTarget,false);
-				else mainPlayer->AddPickedObject(objectTarget,true);
+			if (objectTarget->GetObjectType() == UNIT_1) {
+				PlayingObject *PlayObjectTarget = dynamic_cast<PlayingObject*>(objectTarget);
+				if(PlayObjectTarget->GetOwnerID()==mainPlayer->PlayerID){
+					if(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(PlayObjectTarget,false);
+						else mainPlayer->AddPickedObject(PlayObjectTarget,true);
+				}
 			}
+
 			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			break;
 		case MOVE_PICKED_TO:

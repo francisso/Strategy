@@ -10,10 +10,14 @@
 
 #include "Draw.h"
 
-class tempObject: public Draw{
+class GameObject: public Draw{
 public:
-	tempObject(SDL_Rect src, const char *name_file_image, Uint8 transparency);
-	~tempObject() = default;
+	GameObject(SDL_Rect src, const char *name_file_image, GameObjectType type,
+			Uint8 transparency = 255);
+	~GameObject() = default;
+	virtual GameObjectType GetObjectType();
+private:
+	const GameObjectType ObjectType;
 };
 
 #endif /* DRAWABLE_GAMEOBJECT_H_ */

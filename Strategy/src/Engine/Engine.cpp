@@ -35,15 +35,14 @@ Engine::~Engine() {
 
 Drawable** Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	texture[GROUND] = new PlayingObject(src, "res/images/ground.bmp");
-	texture[WATER]  = new PlayingObject(src, "res/images/water.bmp");
-	texture[SAND]   = new PlayingObject(src, "res/images/sand.bmp");
-	texture[FOREST] = new PlayingObject(src, "res/images/forest.bmp");
-	texture[MOUNTIAN] = new PlayingObject(src, "res/images/mountian.bmp");
-	texture[SWAMP]  = new PlayingObject(src, "res/images/swamp.bmp");
+	texture[GROUND] = new Draw(src, "res/images/ground.bmp");
+	texture[WATER]  = new Draw(src, "res/images/water.bmp");
+	texture[SAND]   = new Draw(src, "res/images/sand.bmp");
+	texture[FOREST] = new Draw(src, "res/images/forest.bmp");
+	texture[MOUNTIAN] = new Draw(src, "res/images/mountian.bmp");
+	texture[SWAMP]  = new Draw(src, "res/images/swamp.bmp");
 	SDL_Rect src_frame = {0, 0, 120, 80};
-	frame = new PlayingObject(src_frame, "res/images/frame.bmp");
-	//auto x = new GameObject(src, "res/images/selection.bmp");
+	frame = new Draw(src_frame, "res/images/frame.bmp");
 	return texture;
 }
 
@@ -84,43 +83,43 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	frame->SetX(0);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++){
 		frame->SetY(static_cast<float>(i*80));
-		Draw(frame, screen);
+		DrawToScreen(frame, screen);
 	}
 	// правая линия
 	frame->SetSrcRect(&right_frame);
 	frame->SetX(X_SIZE_WINDOW - 20);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
 		frame->SetY(static_cast<float>(i*80));
-		Draw(frame, screen);
+		DrawToScreen(frame, screen);
 	}
 	// верхняя линия
 	frame->SetSrcRect(&high_frame);
 	frame->SetY(0);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
 		frame->SetX(static_cast<float>(i*80));
-		Draw(frame, screen);
+		DrawToScreen(frame, screen);
 	}
 	// нижняя линия
 	frame->SetSrcRect(&low_frame);
 	frame->SetY(Y_SIZE_WINDOW - 20);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
 		frame->SetX(static_cast<float>(i*80));
-		Draw(frame, screen);
+		DrawToScreen(frame, screen);
 	}
 	// углы
 	frame->SetSrcRect(&corner_frame);
 	frame->SetX(0);
 	frame->SetY(0);
-	Draw(frame, screen);
+	DrawToScreen(frame, screen);
 	frame->SetX(X_SIZE_WINDOW - 20);
 	frame->SetY(0);
-	Draw(frame, screen);
+	DrawToScreen(frame, screen);
 	frame->SetX(0);
 	frame->SetY(Y_SIZE_WINDOW - 20);
-	Draw(frame, screen);
+	DrawToScreen(frame, screen);
 	frame->SetX(X_SIZE_WINDOW - 20);
 	frame->SetY(Y_SIZE_WINDOW - 20);
-	Draw(frame, screen);
+	DrawToScreen(frame, screen);
 
 	// сохранение фона
 	SDL_SaveBMP(screen, "res/images/background_status_bar.bmp");
@@ -172,7 +171,7 @@ void Engine::ThreadUpdate(View* view) {
 	}
 }
 
-void Engine::Draw(Drawable* drawable, SDL_Surface* screen, float X0, float Y0) {
+void Engine::DrawToScreen(Drawable* drawable, SDL_Surface* screen, float X0, float Y0) {
 	if (drawable == nullptr)
 		return;
 	SDL_Rect dest(*drawable->GetDestRect());
@@ -196,7 +195,7 @@ void Engine::DrawView(View* view, SDL_Surface* screen) {
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
 	auto f = [&screen] (Drawable* drawable, float X0, float Y0) {
-		Draw(drawable, screen, X0, Y0);
+		DrawToScreen(drawable, screen, X0, Y0);
 	};
 	view->Draw(f);
 	SDL_Flip(screen);
@@ -208,7 +207,7 @@ Drawable* Engine::CreateBackgroung(GameField* field) const
 	for (int j = 0; j < CELL_Y_NUMBER; j++) {
 		texture[field->grid[i][j].textureType]->SetX(static_cast<float>(i * CELL_X_PIXELS));
 		texture[field->grid[i][j].textureType]->SetY(static_cast<float>(j * CELL_Y_PIXELS));
-		Draw(texture[field->grid[i][j].textureType], screen);
+		DrawToScreen(texture[field->grid[i][j].textureType], screen);
 	}
 
 	SDL_SaveBMP(screen, "res/images/background.bmp");

@@ -18,7 +18,7 @@
 
 struct EventForPlayer{
 	SDL_Event* event;
-	PlayingObject* object;
+	GameObject* object;
 	//TODO проверить на дополнительные параметры, поставленные к передаче
 };
 

@@ -1,3 +1,4 @@
+
 /*
  * Engine.h
  *
@@ -15,6 +16,7 @@
 #include "../Constants.h"
 #include "../Views/View.h"
 #include "../Views/GameField.h"
+#include "../Drawable/Draw.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;
@@ -71,7 +73,7 @@ private:
 
 	//Отрисовывает окно
 	static void DrawView(View* view, SDL_Surface* screen);
-	static void Draw(Drawable* drawable, SDL_Surface* screen, float X0 = 0, float Y0 = 0);
+	static void DrawToScreen(Drawable* drawable, SDL_Surface* screen, float X0 = 0, float Y0 = 0);
 
 	void ProcessInput(View* view);
 	void GameCycle();

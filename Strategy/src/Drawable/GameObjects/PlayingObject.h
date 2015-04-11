@@ -15,7 +15,7 @@
 #include "../../Drawable/GameObjects/IPlayingObject.h"
 
 //Базовый класс для юнитов, зданий, и т.д.
-class PlayingObject: public tempObject, public IPlayingObject {
+class PlayingObject: public GameObject, public IPlayingObject {
 public:
 	PlayingObject(SDL_Rect src, const char *name_file_image,
 					GameObjectType type=STRUCTURE, float maxSpeed=SPEED_DEFAULT,
@@ -28,7 +28,7 @@ public:
 	 * Реализация интерфейса IPlayingObject
 	 */
 public:
-	virtual GameObjectType GetObjectType();
+//	virtual GameObjectType GetObjectType();
 	virtual unsigned int GetMaxHP();
 	virtual unsigned int GetCurrHP();
 	virtual void DealDamage(int damage);
@@ -38,7 +38,6 @@ public:
 	virtual bool IsPicked();
 	virtual void SetPicked(bool);
 private:
-	const GameObjectType ObjectType;
 	const float MaxSpeed;
 	const unsigned int MaxHP;
 	unsigned int currentHP;

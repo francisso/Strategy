@@ -11,8 +11,7 @@
 PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image,
 							GameObjectType type, float maxSpeed, unsigned int maxHP,
 							int ownerID, Uint8 transparency):
-		tempObject(src, name_file_image, transparency),
-		ObjectType(type),
+		GameObject(src, name_file_image, type, transparency),
 		MaxSpeed(maxSpeed),
 		MaxHP(maxHP),
 		currentHP(maxHP),
@@ -39,8 +38,6 @@ void PlayingObject::Update(float time) {
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
-
-GameObjectType PlayingObject::GetObjectType(){return this->ObjectType;}
 
 unsigned int PlayingObject::GetMaxHP(){return MaxHP;}
 

@@ -13,7 +13,7 @@
 class IPlayingObject {
 public:
 	virtual ~IPlayingObject()=default;
-	virtual GameObjectType GetObjectType() =0;
+//	virtual GameObjectType GetObjectType() =0;
 	virtual unsigned int GetMaxHP() =0;
 	virtual unsigned int GetCurrHP() =0;
 	virtual void DealDamage(int damage) =0;

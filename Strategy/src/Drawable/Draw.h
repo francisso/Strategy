@@ -12,7 +12,7 @@
 
 class Draw: public Drawable{
 public:
-	Draw(SDL_Rect src, const char *name_file_image, Uint8 transparency);
+	Draw(SDL_Rect src, const char *name_file_image, Uint8 transparency = 255);
 	virtual ~Draw();
 	virtual SDL_Surface* GetImage() const;
 	virtual float GetX() const;

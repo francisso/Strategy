@@ -9,15 +9,16 @@
 #define GAMEFIELD_H_
 
 #include "../Constants.h"
-#include "../Drawable/GameObjects/PlayingObject.h"
+#include "../Drawable/Draw.h"
+#include "../Drawable/GameObject.h"
 
 //Сетка для игровых объектов
 struct GameField {
-	PlayingObject* selection;
+	Draw* selection;
 	struct Cell {
 		int textureType;
 		int objectType;
-		PlayingObject* object;
+		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 };
