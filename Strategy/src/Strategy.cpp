@@ -17,13 +17,13 @@
 #include "Views/StatusBar.h"
 #include "FieldBuilder.h"
 #include "Constants.h"
-#include "Drowable/GameObjects/Units/Action.h"
-#include "Drowable/GameObjects/Units/Archer.h"
+#include "Drawable/GameObjects/Units/Action.h"
+#include "Drawable/GameObjects/Units/Archer.h"
 #include "Players/HumanPlayer.h"
 
 // Размеры окна
-CoordinateType X_SIZE_WINDOW;
-CoordinateType Y_SIZE_WINDOW;
+float X_SIZE_WINDOW;
+float Y_SIZE_WINDOW;
 
 int main() {
 	std::cout << "I'm working" << std::endl;

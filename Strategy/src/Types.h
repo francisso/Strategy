@@ -11,7 +11,6 @@
 #include <SDL/SDL_events.h>
 #include <inttypes.h>
 //Временные типы, переопределить по необходимости
-typedef float CoordinateType;
 typedef float Time;
 
 

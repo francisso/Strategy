@@ -6,7 +6,7 @@
  *      Author: anton
  */
 
-#include "../GameObjects/PlayingObject.h"
+#include "../../Drawable/GameObjects/PlayingObject.h"
 
 PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image, GameObjectType type, float maxSpeed, unsigned int maxHP, int ownerID, Uint8 transparency):
 		ObjectType(type),MaxSpeed(maxSpeed),MaxHP(maxHP),currentHP(maxHP),ownerID(ownerID),isPicked(false) {
@@ -55,23 +55,23 @@ void PlayingObject::Update(float time) {
  */
 SDL_Surface* PlayingObject::GetImage() const {return image;}
 
-CoordinateType PlayingObject::GetX() const {return x;}
+float PlayingObject::GetX() const {return x;}
 
-CoordinateType PlayingObject::GetY() const {return y;}
+float PlayingObject::GetY() const {return y;}
 
-void PlayingObject::SetX(CoordinateType x) {
+void PlayingObject::SetX(float x) {
 	this->x = x;
 	destRect->x = static_cast<Sint16>(x);
 }
 
-void PlayingObject::SetY(CoordinateType y) {
+void PlayingObject::SetY(float y) {
 	this->y = y;
 	destRect->y = static_cast<Sint16>(y);
 }
 
-CoordinateType PlayingObject::GetWidth() const {return width;}
+float PlayingObject::GetWidth() const {return width;}
 
-CoordinateType PlayingObject::GetHeight() const {return height;}
+float PlayingObject::GetHeight() const {return height;}
 
 SDL_Rect* PlayingObject::GetSrcRect() const { return srcRect;}
 

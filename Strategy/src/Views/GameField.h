@@ -9,7 +9,7 @@
 #define GAMEFIELD_H_
 
 #include "../Constants.h"
-#include "../Drowable/GameObjects/PlayingObject.h"
+#include "../Drawable/GameObjects/PlayingObject.h"
 
 //Сетка для игровых объектов
 struct GameField {

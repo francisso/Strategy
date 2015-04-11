@@ -14,8 +14,8 @@
 #include "View.h"
 
 // Размеры окна
-extern CoordinateType X_SIZE_WINDOW;
-extern CoordinateType Y_SIZE_WINDOW;
+extern float X_SIZE_WINDOW;
+extern float Y_SIZE_WINDOW;
 
 class StatusBar: public View {
 public:

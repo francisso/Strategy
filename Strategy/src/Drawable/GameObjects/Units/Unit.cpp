@@ -5,8 +5,7 @@
  *      Author: anton
  */
 
-#include "Unit.h"
-
+#include "../../../Drawable/GameObjects/Units/Unit.h"
 #include <iostream>
 
 Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT_1,maxSpeed,maxHP,ownerID) {
@@ -98,12 +97,12 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	this->SetDestinationY(static_cast<float>(y_target*CELL_Y_PIXELS));
 }
 
-void Unit::SetX(CoordinateType x){
+void Unit::SetX(float x){
 	PlayingObject::SetX(x);
 	this->DestinationX=x;
 }
 
-void Unit::SetY(CoordinateType y){
+void Unit::SetY(float y){
 	PlayingObject::SetY(y);
 	this->DestinationY=y;
 }

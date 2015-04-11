@@ -24,7 +24,7 @@ Game::Game(Drawable** texture, GameField* field, SDL_Rect windowRect) :
 	mainPlayer=neu_player;
 }
 
-void Game::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
+void Game::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int k = 0; k < CELL_Y_NUMBER; k++) {
 		texture[field->grid[i][k].textureType]->SetX(static_cast<float>(CELL_X_PIXELS*i));

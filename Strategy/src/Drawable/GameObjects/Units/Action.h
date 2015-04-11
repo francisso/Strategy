@@ -5,10 +5,10 @@
  *      Author: anton
  */
 
-#ifndef DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_
-#define DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_
+#ifndef DRAWABLE_GAMEOBJECTS_UNITS_ACTION_H_
+#define DRAWABLE_GAMEOBJECTS_UNITS_ACTION_H_
 
-#include "Unit.h"
+#include "../../../Drawable/GameObjects/Units/Unit.h"
 
 enum ActionType{STAY,MOVE_VERTICAL,MOVE_HORIZONTAL, ATTACK};
 
@@ -25,4 +25,4 @@ struct Action{
 	static Action* CreateAction(ActionType type,bool isPositive=true);
 };
 
-#endif /* DROWABLE_GAMEOBJECTS_UNITS_ACTION_H_ */
+#endif /* DRAWABLE_GAMEOBJECTS_UNITS_ACTION_H_ */

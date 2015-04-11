@@ -13,8 +13,8 @@
 #include <SDL/SDL.h>
 #include <inttypes.h>
 
-#include "../Drowable/GameObjects/PlayingObject.h"
-#include "../Drowable/GameObjects/Units/Unit.h"
+#include "../Drawable/GameObjects/PlayingObject.h"
+#include "../Drawable/GameObjects/Units/Unit.h"
 #include "../Types.h"
 #include "GameField.h"
 #include "../IDrawable.h"
@@ -30,7 +30,7 @@ public:
 	// для отрисовки окна
 	//Engine вызывает Draw с функцией, отрисовывающей Drawable
 	// и мы применяем эту функцию ко всем Drawable этого класса
-	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 
 	//Функции, к которым обращается Engine
 	// в случае события

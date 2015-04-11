@@ -15,7 +15,7 @@ void View::Update(Time t) {
 			dynamic_cast<Unit*>(d)->Update(t);
 }
 
-void View::Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const {
+void View::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
 	//Сначала рисуем фон
 	if (image != nullptr)
 		f(image, 0.0f, 0.0f);

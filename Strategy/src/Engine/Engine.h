@@ -17,8 +17,8 @@
 #include "../Views/GameField.h"
 
 // Размеры окна
-extern CoordinateType X_SIZE_WINDOW;
-extern CoordinateType Y_SIZE_WINDOW;
+extern float X_SIZE_WINDOW;
+extern float Y_SIZE_WINDOW;
 
 class Engine {
 public:
@@ -71,7 +71,7 @@ private:
 
 	//Отрисовывает окно
 	static void DrawView(View* view, SDL_Surface* screen);
-	static void Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0 = 0, CoordinateType Y0 = 0);
+	static void Draw(Drawable* drawable, SDL_Surface* screen, float X0 = 0, float Y0 = 0);
 
 	void ProcessInput(View* view);
 	void GameCycle();

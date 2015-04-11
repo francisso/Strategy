@@ -5,7 +5,7 @@
  *      Author: staslatgttt
  */
 
-#include "Action.h"
+#include "../../../Drawable/GameObjects/Units/Action.h"
 
 Action* Action::CreateAction(ActionType type,bool isPositive){
 	Action* action = new Action();

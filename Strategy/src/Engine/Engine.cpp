@@ -24,8 +24,8 @@ Engine::Engine() : view(nullptr) {
 	    printf("Can't set videomode: %s", SDL_GetError());
 	    return;
 	}
-	X_SIZE_WINDOW = static_cast<CoordinateType>(screen->w);
-	Y_SIZE_WINDOW = static_cast<CoordinateType>(screen->h);
+	X_SIZE_WINDOW = static_cast<float>(screen->w);
+	Y_SIZE_WINDOW = static_cast<float>(screen->h);
 	printf("screen size: %d x %d\n", screen->w, screen->h);
 }
 
@@ -172,7 +172,7 @@ void Engine::ThreadUpdate(View* view) {
 	}
 }
 
-void Engine::Draw(Drawable* drawable, SDL_Surface* screen, CoordinateType X0, CoordinateType Y0) {
+void Engine::Draw(Drawable* drawable, SDL_Surface* screen, float X0, float Y0) {
 	if (drawable == nullptr)
 		return;
 	SDL_Rect dest(*drawable->GetDestRect());
@@ -195,7 +195,7 @@ void Engine::DrawView(View* view, SDL_Surface* screen) {
 
 	//Передаем view функцию, при помощи которой можно
 	// рисовать SDL_Surface
-	auto f = [&screen] (Drawable* drawable, CoordinateType X0, CoordinateType Y0) {
+	auto f = [&screen] (Drawable* drawable, float X0, float Y0) {
 		Draw(drawable, screen, X0, Y0);
 	};
 	view->Draw(f);

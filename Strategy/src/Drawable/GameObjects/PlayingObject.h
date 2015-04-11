@@ -5,14 +5,14 @@
  *      Author: anton
  */
 
-#ifndef DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
-#define DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
+#ifndef DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
+#define DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
 
-#include "Gameplay_Constants.h"
 #include <iostream>
 
-#include "IPlayingObject.h"
-#include "../GameObject.h"
+#include "../../Drawable/GameObject.h"
+#include "../../Drawable/GameObjects/Gameplay_Constants.h"
+#include "../../Drawable/GameObjects/IPlayingObject.h"
 
 //Базовый класс для юнитов, зданий, и т.д.
 class PlayingObject: public Drawable, public IPlayingObject {
@@ -28,12 +28,12 @@ public:
 	 */
 public:
 	virtual SDL_Surface* GetImage() const;
-	virtual CoordinateType GetX() const;
-	virtual CoordinateType GetY() const;
-	virtual void SetX(CoordinateType x);
-	virtual void SetY(CoordinateType y);
-	virtual CoordinateType GetWidth() const;
-	virtual CoordinateType GetHeight() const;
+	virtual float GetX() const;
+	virtual float GetY() const;
+	virtual void SetX(float x);
+	virtual void SetY(float y);
+	virtual float GetWidth() const;
+	virtual float GetHeight() const;
 	virtual SDL_Rect* GetSrcRect() const;
 	virtual SDL_Rect* GetDestRect() const;
 	virtual void SetSrcRect(SDL_Rect* src);
@@ -41,14 +41,14 @@ public:
 	virtual bool ContainsCoordinates(float x, float y) const;
 private:
 	//Координаты на поле
-	CoordinateType x;
-	CoordinateType y;
+	float x;
+	float y;
 	//Координаты верхнего левого угла прямоугольника,
 	// который будет отрисован, на кратинке
-	CoordinateType imageX;
-	CoordinateType imageY;
-	CoordinateType width;
-	CoordinateType height;
+	float imageX;
+	float imageY;
+	float width;
+	float height;
 	//Прямоугольники, дублирующие верхние переменные
 	//прямоугольник, куда рисуется изображение
 	SDL_Rect* destRect;
@@ -79,4 +79,4 @@ private:
 	bool isPicked;
 };
 
-#endif /* DROWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */
+#endif /* DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */

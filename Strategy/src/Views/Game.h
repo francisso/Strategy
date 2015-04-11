@@ -19,8 +19,8 @@
 //#include "../Types.h"
 
 // Размеры окна
-extern CoordinateType X_SIZE_WINDOW;
-extern CoordinateType Y_SIZE_WINDOW;
+extern float X_SIZE_WINDOW;
+extern float Y_SIZE_WINDOW;
 
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
@@ -69,14 +69,14 @@ public:
 	 */
 	int SwitchPlayer(int ID);
 private:
-	CoordinateType x;
-	CoordinateType y;
+	float x;
+	float y;
 	// прямоугольник где будет рисоваться Game
 	SDL_Rect WindowRect;
-	const CoordinateType SpeedMap = 20.0f;
+	const float SpeedMap = 20.0f;
 	GameField* field;
 	Drawable** texture;
-	virtual void Draw(std::function<void (Drawable*, CoordinateType X0, CoordinateType Y0)> f) const;
+	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	virtual void Update(Time t);
 	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) const;
 	//передвижение карты :

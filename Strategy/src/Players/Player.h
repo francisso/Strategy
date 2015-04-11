@@ -14,7 +14,7 @@
 #include "../Constants.h"
 #include "SDL/SDL.h"
 
-#include "../Drowable/GameObjects/PlayingObject.h"
+#include "../Drawable/GameObjects/PlayingObject.h"
 
 struct EventForPlayer{
 	SDL_Event* event;

@@ -19,13 +19,12 @@ class  Drawable {
 public:
 	virtual ~Drawable()=default;
 	virtual SDL_Surface* GetImage() const =0;
-//	virtual void SetImage(SDL_Surface* image) = 0;
-	virtual CoordinateType GetX() const =0;
-	virtual CoordinateType GetY() const =0;
-	virtual void SetX(CoordinateType x) =0;
-	virtual void SetY(CoordinateType y) =0;
-	virtual CoordinateType GetWidth() const =0;
-	virtual CoordinateType GetHeight() const =0;
+	virtual float GetX() const =0;
+	virtual float GetY() const =0;
+	virtual void SetX(float x) =0;
+	virtual void SetY(float y) =0;
+	virtual float GetWidth() const =0;
+	virtual float GetHeight() const =0;
 	virtual SDL_Rect* GetSrcRect() const =0;
 	virtual SDL_Rect* GetDestRect() const =0;
 	virtual void SetSrcRect(SDL_Rect* src) =0;

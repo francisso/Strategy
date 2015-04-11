@@ -13,8 +13,8 @@
 
 #include "../Gameplay_Constants.h"
 #include "../../../Constants.h"
+#include "../../../Drawable/GameObjects/Units/Action.h"
 #include "../PlayingObject.h"
-#include "Action.h"
 
 class Unit : public PlayingObject{
 public:
@@ -26,8 +26,8 @@ public:
 	void AddAction(struct Action* action, bool replace=true);
 	void NextAction();
 	//float GetMaxSpeed() const;
-	void SetX(CoordinateType x);
-	void SetY(CoordinateType y);
+	void SetX(float x);
+	void SetY(float y);
 	void SetDestinationX(float x);
 	void SetDestinationY(float y);
 	float GetDestinationX() const;

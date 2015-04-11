@@ -9,7 +9,8 @@
 #define ARCHERS_H_
 
 #include "SDL/SDL.h"
-#include "Unit.h"
+
+#include "../../../Drawable/GameObjects/Units/Unit.h"
 
 class Archer: public Unit {
 public:
