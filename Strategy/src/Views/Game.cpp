@@ -19,11 +19,21 @@ Game::Game(Drawable** texture, GameField* field, SDL_Rect windowRect) :
 															texture(texture) {
 	x = 0;
 	y = 0;
+	cell_MouseX = 0;
+	cell_MouseY = 0;
+	cell_PickMouseX = 0;
+	cell_PickMouseY = 0;
+	PickMouse = false;
 	Player* neu_player=new AI(0,GREY,"Neutral Player",NEUTRAL);
 	players.push_back(neu_player);
 	mainPlayer=neu_player;
 }
-
+Game::~Game()
+{
+	for (int i = 0; i < 4; i++)
+		delete field->selection[i];
+	delete field;
+}
 void Game::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
 	float deltaX = WindowRect.x - x;
 	float deltaY = WindowRect.y - y;
@@ -37,7 +47,38 @@ void Game::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
 	for (int k = 0;	k < CELL_Y_NUMBER; k++)
 				f(field->grid[i][k].object, deltaX, deltaY);
 	mainPlayer->DrawToScreen(f, deltaX, deltaY);
-	f(field->selection, deltaX, deltaY);
+	if (PickMouse) {
+		// выделение (много выделения)
+		int min_x = (cell_PickMouseX < cell_MouseX) ? cell_PickMouseX : cell_MouseX;
+		int min_y = (cell_PickMouseY < cell_MouseY) ? cell_PickMouseY : cell_MouseY;
+		int max_x = (cell_PickMouseX > cell_MouseX) ? cell_PickMouseX : cell_MouseX;
+		int max_y = (cell_PickMouseY > cell_MouseY) ? cell_PickMouseY : cell_MouseY;
+		// сверху
+		field->selection[HIGH]->SetY(static_cast<float>(min_y*CELL_Y_PIXELS));
+		for (int i = min_x; i <= max_x; i++){
+			field->selection[HIGH]->SetX(static_cast<float>(i*CELL_X_PIXELS));
+			f(field->selection[HIGH], deltaX, deltaY);
+		}
+		// снизу
+		field->selection[LOW]->SetY(static_cast<float>(max_y*CELL_Y_PIXELS));
+		for (int i = min_x; i <= max_x; i++){
+			field->selection[LOW]->SetX(static_cast<float>(i*CELL_X_PIXELS));
+			f(field->selection[LOW], deltaX, deltaY);
+		}
+		// слева
+		field->selection[LEFT]->SetX(static_cast<float>(min_x*CELL_X_PIXELS));
+		for (int i = min_y; i <= max_y; i++){
+			field->selection[LEFT]->SetY(static_cast<float>(i*CELL_Y_PIXELS));
+			f(field->selection[LEFT], deltaX, deltaY);
+		}
+		// справа
+		field->selection[RIGHT]->SetX(static_cast<float>(max_x*CELL_X_PIXELS));
+		for (int i = min_y; i <= max_y; i++){
+			field->selection[RIGHT]->SetY(static_cast<float>(i*CELL_Y_PIXELS));
+			f(field->selection[RIGHT], deltaX, deltaY);
+		}
+	}
+//	f(field->selection, deltaX, deltaY);
 	this->View::Draw(f);
 }
 
@@ -245,25 +286,11 @@ void Game::Update(Time t) {
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
-void Game::OnEvent(SDL_Event* event) {
-	int X = static_cast<int>(x);
-	int Y = static_cast<int>(y);
+void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y)
+{
+	GameObject* objectTarget = EventInfo->object;
 	Uint8* keystates=SDL_GetKeyState(NULL);
-	if(event->type==SDL_MOUSEMOTION){
-		int cell_x=(X + event->motion.x-WindowRect.x) / CELL_X_PIXELS;
-		int cell_y=(Y + event->motion.y-WindowRect.y) / CELL_Y_PIXELS;
-		field->selection->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-		field->selection->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	} else
-	if (event->type==SDL_MOUSEBUTTONUP) {
-		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
-		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
-		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
-		EventForPlayer* EventInfo=new EventForPlayer();
-		EventInfo->event=event;
-		EventInfo->object=objectTarget;
-		//TODO добавить новые инициализации при изменении структуры EventForPlayer
-		switch(mainPlayer->OnEvent(EventInfo)){
+	switch(mainPlayer->OnEvent(EventInfo)){
 		case NOTHING_TO_DO:
 			break;
 		case PICK_OBJECT:
@@ -294,7 +321,47 @@ void Game::OnEvent(SDL_Event* event) {
 				i++;
 			}
 			break;
+	}
+}
+void Game::OnEvent(SDL_Event* event) {
+	int X = static_cast<int>(x);
+	int Y = static_cast<int>(y);
+	if(event->type==SDL_MOUSEMOTION){
+		cell_MouseX = (X + event->motion.x-WindowRect.x) / CELL_X_PIXELS;
+		cell_MouseY = (Y + event->motion.y-WindowRect.y) / CELL_Y_PIXELS;
+	} else
+	if (event->type==SDL_MOUSEBUTTONDOWN) {
+		if (event->button.button ==  SDL_BUTTON_LEFT) {
+			PickMouse = true;
+			cell_PickMouseX = (X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
+			cell_PickMouseY = (Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
 		}
+	} else
+	if (event->type==SDL_MOUSEBUTTONUP) {
+		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
+		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
+		//TODO добавить новые инициализации при изменении структуры EventForPlayer
+		EventForPlayer* EventInfo=new EventForPlayer();
+		EventInfo->event=event;
+		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
+		EventInfo->object=objectTarget;
+		WorkWithPlayer(EventInfo, cell_x, cell_y);
+		if (event->button.button ==  SDL_BUTTON_LEFT){
+			PickMouse = false;
+			int min_cell_x = (cell_PickMouseX < cell_MouseX) ? cell_PickMouseX : cell_MouseX;
+			int min_cell_y = (cell_PickMouseY < cell_MouseY) ? cell_PickMouseY : cell_MouseY;
+			int max_cell_x = (cell_PickMouseX > cell_MouseX) ? cell_PickMouseX : cell_MouseX;
+			int max_cell_y = (cell_PickMouseY > cell_MouseY) ? cell_PickMouseY : cell_MouseY;
+			mainPlayer->FreePickedObjects();
+			for (int i = min_cell_x; i <= max_cell_x; i++)
+			for (int k = min_cell_y; k <= max_cell_y; k++)
+				if (field->grid[i][k].object != nullptr &&
+						field->grid[i][k].object->GetObjectType() == UNIT_1){
+					PlayingObject* play_object = dynamic_cast<PlayingObject*>(field->grid[i][k].object);
+					mainPlayer->AddPickedObject(play_object, false);
+				}
+		}
+
 	} else
 	if (event->type==SDL_KEYDOWN || event->type==SDL_KEYUP){
 		EventForPlayer* EventInfo=new EventForPlayer();

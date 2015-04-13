@@ -58,7 +58,10 @@ GameField* FieldBuilder::CreateField() {
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	GameField* field = new GameField();
 	//TODO реализовать отдельный наследник Drawable и убрать отсюда вызов конструктора GameObject
-	field->selection = new Draw(src, "res/images/selection.bmp",100);
+	field->selection[LEFT]  = new Draw(src, "res/images/selectionLEFT.bmp",150);
+	field->selection[RIGHT] = new Draw(src, "res/images/selectionRIGHT.bmp",150);
+	field->selection[HIGH]  = new Draw(src, "res/images/selectionHIGH.bmp",150);
+	field->selection[LOW]   = new Draw(src, "res/images/selectionLOW.bmp",150);
 	//Инициализируем поле. Сначала случайным образом.
 	//Потом переписываем из файла нужные участки
 	InitializeRandomField(field);

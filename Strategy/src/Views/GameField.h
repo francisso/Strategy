@@ -12,9 +12,15 @@
 #include "../Drawable/Draw.h"
 #include "../Drawable/GameObject.h"
 
+enum SelectionType {
+	LEFT = 0,
+	RIGHT = 1,
+	HIGH = 2,
+	LOW = 3
+};
 //Сетка для игровых объектов
 struct GameField {
-	Draw* selection;
+	Draw* selection[4];
 	struct Cell {
 		int textureType;
 		int objectType;

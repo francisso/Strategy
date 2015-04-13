@@ -29,7 +29,7 @@ class Game: public View {
 public:
 	Game(Drawable** texture, SDL_Rect windowRect);
 	Game(Drawable** texture, GameField* field, SDL_Rect windowRect);
-	virtual ~Game()=default;
+	virtual ~Game();
 
 	/**
 	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
@@ -71,6 +71,14 @@ public:
 private:
 	float x;
 	float y;
+	//координаты клетки мыши
+	int cell_MouseX;
+	int cell_MouseY;
+	// координаты клетки, где была нажата мышь
+	int cell_PickMouseX;
+	int cell_PickMouseY;
+	// нажата ли мышь
+	bool PickMouse;
 	// прямоугольник где будет рисоваться Game
 	SDL_Rect WindowRect;
 	const float SpeedMap = 20.0f;
@@ -79,6 +87,7 @@ private:
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	virtual void Update(Time t);
 	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) const;
+	void WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y);
 	//передвижение карты :
 	// изменяет облать карты которая отображается на экран
 	// проверяя координаты мыши
