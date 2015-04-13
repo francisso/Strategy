@@ -9,6 +9,7 @@
 #define DRAWABLE_DRAW_H_
 
 #include "../IDrawable.h"
+#include <string>
 
 class Draw: public Drawable{
 public:

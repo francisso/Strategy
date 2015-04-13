@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <string>
+#include <functional>
 
 #include "../Constants.h"
 #include "SDL/SDL.h"
@@ -33,7 +34,7 @@ class Player {
 	public:
 		const int PlayerID;
 		Player(int ID,Color playerColor=GREY);
-		virtual ~Player()=default;
+		virtual ~Player();
 
 		/**
 		 * @AddPickedUnit добавляет @unit в @chosenUnits
@@ -78,6 +79,11 @@ class Player {
 
 		Color GetColor();
 		void SetColor(Color newColor);
+		/**
+		 * @DrawToScreen рисует выделение выбранных объектов
+		 */
+		void DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
+								float deltaX, float deltaY) const;
 
 		//bool IsShiftPressed();
 		//void SetShiftPressed(bool);
@@ -87,6 +93,7 @@ class Player {
 		std::vector<PlayingObject*> pickedObjects;
 		Color playerColor;
 		std::string playerSignature;
+		Draw* selection;
 		//bool ShiftPressed;
 };
 

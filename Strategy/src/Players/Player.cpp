@@ -11,13 +11,28 @@ Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),p
 	this->playerSignature="";
 	this->playerSignature.append("Player ");
 	this->playerSignature.append(std::to_string(PlayerID));
+	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
+	selection = new Draw(src, "res/images/playerSelection.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }
 
+Player::~Player(){
+	delete selection;
+}
 /*TaskForGame Player::OnEvent(EventForPlayer* eventInfo){
 
 }*/
-
+void Player::DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
+		float deltaX, float deltaY) const
+{
+	std::vector<PlayingObject*>::const_iterator it = pickedObjects.begin();
+	for (; it != pickedObjects.end(); it++)
+	{
+		selection->SetX((*it)->GetX());
+		selection->SetY((*it)->GetY());
+		f(selection, deltaX, deltaY);
+	}
+}
 int Player::AddGold(int	income){
 	if(playerGold+income>=0){
 		playerGold-=income;

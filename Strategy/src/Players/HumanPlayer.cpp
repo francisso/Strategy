@@ -14,7 +14,7 @@ HumanPlayer::HumanPlayer(int ID,Color color,std::string signature):Player(ID,col
 
 
 TaskForGame HumanPlayer::OnEvent(EventForPlayer* eventInfo){
-	if(eventInfo->event->type==SDL_MOUSEBUTTONDOWN){
+	if(eventInfo->event->type==SDL_MOUSEBUTTONUP){
 		if(eventInfo->event->button.button==SDL_BUTTON_LEFT){
 			std::cout<<"Before returning PICK_OBJECT"<<std::endl;
 			return PICK_OBJECT;

@@ -25,16 +25,19 @@ Game::Game(Drawable** texture, GameField* field, SDL_Rect windowRect) :
 }
 
 void Game::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
+	float deltaX = WindowRect.x - x;
+	float deltaY = WindowRect.y - y;
 	for (int i = 0; i < CELL_X_NUMBER; i++)
 	for (int k = 0; k < CELL_Y_NUMBER; k++) {
 		texture[field->grid[i][k].textureType]->SetX(static_cast<float>(CELL_X_PIXELS*i));
 		texture[field->grid[i][k].textureType]->SetY(static_cast<float>(CELL_Y_PIXELS*k));
-		f(texture[field->grid[i][k].textureType], WindowRect.x - x, WindowRect.y - y);
+		f(texture[field->grid[i][k].textureType],deltaX, deltaY);
 	}
 	for (int i = 0;	i < CELL_X_NUMBER; i++)
 	for (int k = 0;	k < CELL_Y_NUMBER; k++)
-				f(field->grid[i][k].object, WindowRect.x - x, WindowRect.y - y);
-	f(field->selection, WindowRect.x - x, WindowRect.y - y);
+				f(field->grid[i][k].object, deltaX, deltaY);
+	mainPlayer->DrawToScreen(f, deltaX, deltaY);
+	f(field->selection, deltaX, deltaY);
 	this->View::Draw(f);
 }
 
@@ -252,7 +255,7 @@ void Game::OnEvent(SDL_Event* event) {
 		field->selection->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 		field->selection->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
 	} else
-	if (event->type==SDL_MOUSEBUTTONDOWN) {
+	if (event->type==SDL_MOUSEBUTTONUP) {
 		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
 		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
 		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
