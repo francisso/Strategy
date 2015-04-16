@@ -53,11 +53,11 @@ int main() {
 		game->SwitchPlayer(1);
 
 		//Здесь это времеено, создание лучника.
-		SDL_Rect src1 = {100,100,80,80};
+		SDL_Rect src1 = {0,0,80,80};
 		SDL_Rect src2 = {100,100,80,80};
 		/*int cell_x = 2;
 		int cell_y = 2;*/
-		auto archer1 = new Archer(src1, "res/images/test.bmp",1);
+		auto archer1 = new Archer(src1, "res/images/unit.bmp",1);
 		archer1->SetX(200.0);
 		archer1->SetY(200.0);
 		auto archer2 = new Archer(src2, "res/images/test.bmp",1);
