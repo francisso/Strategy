@@ -18,6 +18,7 @@ enum Direction{UP=0,UP_RIGHT=1,RIGHT=2,DOWN_RIGHT=3,DOWN=4,DOWN_LEFT=5,LEFT=6,UP
 class Rotating{
 	Direction angle;
 public:
+	Rotating(int ang);
 	Rotating(Direction newDir);
 	Rotating(Rotating* newAngle);
 	~Rotating()=default;
@@ -30,18 +31,30 @@ public:
 	/**
 	 * Установить значение угла
 	 */
+	void SetAngle(int ang);
 	void SetAngle(Direction newDir);
 	void SetAngle(Rotating* newAngle);
 
 	/**
-	 * Повернуть на единицу направо
+	 * Повернуть на заданный угол по часовой стрелке
+	 * По умолчанию повернет в следующий сектор
 	 */
-	void TurnRight();
+	void TurnRight(int ang=1);
 
 	/**
-	 * Повернуть на 1 налево
+	 * Повернуть на заданный угол против часовой стрелки
+	 * По умолчанию повернет в следующий сектор
 	 */
-	void TurnLeft();
+	void TurnLeft(int ang=1);
+
+	/**
+	 * Вычисляет значение разности направлений
+	 * Возвращает число, равное количеству углов PI/4, помещающихся между параметрами
+	 */
+	static int GetDifference(Direction dir1,Direction dir2);
+	static int GetDifference(Direction dir, Rotating* rot);
+	static int GetDifference(Rotating* rot1, Rotating* rot);
+	static int GetDifference(Rotating* rot, Direction dir);
 
 	/**
 	 * Возвращает направление в зависимости от точки обзора
