@@ -5,37 +5,37 @@
  *      Author: staslatgttt
  */
 
-#include "Angle.h"
+#include "Rotating.h"
 
-Angle::Angle(Direction newDir): angle(newDir){
+Rotating::Rotating(Direction newDir): angle(newDir){
 
 }
 
-Angle::Angle(const Angle& newAngle){
-	this->angle=newAngle.angle;
+Rotating::Rotating(Rotating* newAngle): angle(newAngle->GetAngle()){
+
 }
 
-Direction Angle::GetAngle(){
+Direction Rotating::GetAngle(){
 	return this->angle;
 }
 
-void Angle::SetAngle(Direction newDir){
+void Rotating::SetAngle(Direction newDir){
 	this->angle=newDir;
 }
 
-void Angle::SetAngle(const Angle& newAngle){
-	this->angle=newAngle.angle;
+void Rotating::SetAngle(Rotating* newAngle){
+	this->angle=newAngle->GetAngle();
 }
 
-void Angle::TurnRight(){
+void Rotating::TurnRight(){
 	this->angle=static_cast<Direction>((this->angle+1)%8);
 }
 
-void Angle::TurnLeft(){
+void Rotating::TurnLeft(){
 	this->angle=static_cast<Direction>((this->angle+7)%8);
 }
 
-Direction Angle::Arctan(float delta_x,float delta_y){
+Direction Rotating::Arctan(float delta_x,float delta_y){
 	float x=delta_x,y=delta_y,tan;
 	if(x!=0){
 		tan=y/x;
@@ -74,7 +74,7 @@ Direction Angle::Arctan(float delta_x,float delta_y){
 	}
 }
 
-Direction Angle::Arctan(int delta_x, int delta_y){
+Direction Rotating::Arctan(int delta_x, int delta_y){
 	float x=static_cast<float>(delta_x),y=static_cast<float>(delta_y),tan;
 		if(x!=0){
 			tan=y/x;
