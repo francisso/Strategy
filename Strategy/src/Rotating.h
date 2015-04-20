@@ -12,8 +12,9 @@
 
 const float tanPi1of8=0.414214f;
 const float tanPi3of8=2.414214f;
+const float sqrtOneSecond=0.707106f;
 
-enum Direction{UP=0,UP_RIGHT=1,RIGHT=2,DOWN_RIGHT=3,DOWN=4,DOWN_LEFT=5,LEFT=6,UP_LEFT=7};
+enum Direction{NORTH=0,NORTH_EAST=1,EAST=2,SOUTH_EAST=3,SOUTH=4,SOUTH_WEST=5,WEST=6,NORTH_WEST=7};
 
 class Rotating{
 	Direction angle;
@@ -26,7 +27,7 @@ public:
 	/**
 	 * Функция чтобы узнать текущий угол
 	 */
-	Direction GetAngle();
+	Direction GetDirection();
 
 	/**
 	 * Установить значение угла
@@ -61,6 +62,19 @@ public:
 	 */
 	static Direction Arctan(float delta_x,float delta_y);
 	static Direction Arctan(int delta_x, int delta_y);
+
+	/**
+	 * Синус и косинус для получения модификатора скорости при движении по диагонали
+	 */
+	static float SpeedModifierX(Direction dir);
+	static float SpeedModifierY(Direction dir);
+
+	/**
+	 * Добавка для обращения к следующей ячейке
+	 */
+
+	static int NextCellX(Direction dir);
+	static int NextCellY(Direction dir);
 };
 
 #endif /* ROTATING_H_ */

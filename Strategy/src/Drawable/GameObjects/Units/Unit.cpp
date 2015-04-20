@@ -8,111 +8,98 @@
 #include "../../../Drawable/GameObjects/Units/Unit.h"
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT_1,maxSpeed,maxHP,ownerID) {
-	//TODO this initialization is a developer version
-	auto action = new Action();
-	action->type=STAY;
-	action->who = this;
-	this->action = action;
-	this->DestinationX=this->GetX();
-	this->DestinationY=this->GetY();
-	//std::cout<<DestinationX<<"=VirtualX=GetX()="<<GetX()<<std::endl;
+Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),Rotating(4) {}
+
+inline int sign(int temp){
+	return (temp>0)?1:-1;
 }
-
-Action* Unit::GetAction() const {
-	return action;
-}
-
-/*float Unit::GetMaxSpeed() const{
-	return MaxSpeed;
-}*/
-
-/*void Unit::SetAction(Action* action) {
-	this->action = action;
-}*/
-
-void Unit::AddAction(Action* action, bool replace){
-	if (replace){
-		while(!ActionQueue.empty())
-			ActionQueue.pop();
-		ActionQueue.push(action);
-	} else {
-		ActionQueue.push(action);
-	}
-	// TODO если это нужно, то надо то дебаг вывод нужно делать через ifdef DEBUG...
-	//std::cout<<"AddAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
-}
-
-void Unit::NextAction() {
-	if(this->ActionQueue.size()==0){
-		this->action->type=STAY;
-		//std::cout<<"NextAction(): size==0"<<std::endl;
-	} else {
-		this->action=this->ActionQueue.front();
-		this->ActionQueue.pop();
-		//std::cout<<"NextAction(): size!=0"<<std::endl;
-	}
-	// TODO если это нужно, то надо то дебаг вывод нужно делать через ifdef DEBUG...
-	//std::cout<<"NextAction(): ActionQueue.size="<<ActionQueue.size()<<std::endl;
-}
-
-void Unit::SetDestinationX(float x){this->DestinationX=x;}
-
-void Unit::SetDestinationY(float y){this->DestinationY=y;}
-
-float Unit::GetDestinationX() const {return this->DestinationX;}
-
-float Unit::GetDestinationY() const {return this->DestinationY;}
 
 void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
-	int x_start=static_cast<int>(this->GetDestinationX()/CELL_X_PIXELS);
-	int y_start=static_cast<int>(this->GetDestinationY()/CELL_Y_PIXELS);
-	std::cout<<"x_target="<<x_target<<" ;y_target="<<y_target<<" ;x_start="<<x_start<<" ;y_start="<<y_start<<std::endl;
-	int x_range=x_target-x_start;
-	int y_range=y_target-y_start;
-	std::cout<<"x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	if(replace){
-		this->AddAction(Action::CreateAction(STAY,false));
+		Stop();
 	}
-	while(x_range!=0 || y_range!=0){
-		if (std::abs(x_range)>std::abs(y_range)){
-			if(x_range>0){
-				this->AddAction(Action::CreateAction(MOVE_HORIZONTAL,true),false);
-				x_range--;
-			} else {
-				this->AddAction(Action::CreateAction(MOVE_HORIZONTAL,false),false);
-				x_range++;
-			}
-		} else {
-			if(y_range>0){
-				this->AddAction(Action::CreateAction(MOVE_VERTICAL,true),false);
-				y_range--;
-			} else {
-				this->AddAction(Action::CreateAction(MOVE_VERTICAL,false),false);
-				y_range++;
-			}
+	int x_curr=(static_cast<int>(GetDestX()))/CELL_X_PIXELS;
+	int y_curr=(static_cast<int>(GetDestY()))/CELL_Y_PIXELS;
+	int x_range=x_target-x_curr;
+	int y_range=y_target-y_curr;
+	std::cout<<"x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
+	Direction dir;
+	if(abs(x_range)>abs(y_range)){
+		if(x_range>0) dir=EAST;
+		else dir=WEST;
+		while(abs(x_range)>abs(y_range)){
+			AddAction(Action::CreateMoveAction(MOVE,dir),false);
+			x_range=x_range-sign(x_range);
+		}
+	} else if (abs(y_range)>abs(x_range)){
+		if(y_range>0) dir=SOUTH;
+		else dir=NORTH;
+		while(abs(x_range)<abs(y_range)){
+			AddAction(Action::CreateMoveAction(MOVE,dir),false);
+			y_range=y_range-sign(y_range);
 		}
 	}
-	this->SetDestinationX(static_cast<float>(x_target*CELL_X_PIXELS));
-	this->SetDestinationY(static_cast<float>(y_target*CELL_Y_PIXELS));
+	dir=Rotating::Arctan(x_range,y_range);
+	while(abs(x_range)>0){
+		AddAction(Action::CreateMoveAction(MOVE,dir),false);
+		x_range=x_range-sign(x_range);
+		y_range=y_range-sign(y_range);
+	}
+	SetDestX(static_cast<float>(CELL_X_PIXELS*x_range));
+	SetDestY(static_cast<float>(CELL_Y_PIXELS*y_range));
+}
+
+void Unit::Stop(){
+	while(!ActionQueue.empty()){
+		ActionQueue.pop();
+	}
+	if(static_cast<int>(GetX())%CELL_X_PIXELS==0 && static_cast<int>(GetY())%CELL_Y_PIXELS==0){
+		currAction=Action::CreateMoveAction(WAIT);
+		return;
+	}
+
+	if(NextCellDirX()<0)
+	{
+		SetDestX(static_cast<float>((static_cast<int>(GetX())%CELL_X_PIXELS-1)*CELL_X_PIXELS));
+	}else{
+		SetDestX(static_cast<float>((static_cast<int>(GetX())%CELL_X_PIXELS)*CELL_X_PIXELS));
+	}
+
+	if(NextCellDirY()>0)
+	{
+		SetDestY(static_cast<float>((static_cast<int>(GetY())%CELL_Y_PIXELS+1)*CELL_Y_PIXELS));
+	}else{
+		SetDestY(static_cast<float>((static_cast<int>(GetY())%CELL_Y_PIXELS)*CELL_Y_PIXELS));
+	}
 }
 
 void Unit::SetX(float x){
 	PlayingObject::SetX(x);
-	this->DestinationX=x;
+	//SetDestX(x);
 }
 
 void Unit::SetY(float y){
 	PlayingObject::SetY(y);
-	this->DestinationY=y;
+	//SetDestY(y);
 }
 
-void Unit::StopUnitHard(){
-	if(static_cast<int>(GetX())%CELL_X_PIXELS!=0 || static_cast<int>(GetY())%CELL_Y_PIXELS!=0) return;
-	SetDestinationX(GetX());
-	SetDestinationY(GetY());
-	while(!ActionQueue.empty())
-				ActionQueue.pop();
-	this->action=Action::CreateAction(STAY,true);
-	std::cout<<"Unit stopped hard"<<std::endl;
+float Unit::GetXSpeed(){
+	return this->GetMaxSpeed()*Rotating::SpeedModifierX(this->GetDirection());
+}
+
+float Unit::GetYSpeed(){
+	return this->GetMaxSpeed()*Rotating::SpeedModifierY(this->GetDirection());
+}
+
+int Unit::NextCellDirX(){
+	return Rotating::NextCellX(this->GetDirection());
+}
+
+int Unit::NextCellDirY(){
+	return Rotating::NextCellY(this->GetDirection());
+}
+
+void Unit::NextAction(){
+	PlayingObject::NextAction();
+	this->SetAngle(GetAction()->moveDir);
 }

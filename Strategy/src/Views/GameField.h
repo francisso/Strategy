@@ -23,7 +23,7 @@ struct GameField {
 	Draw* selection[4];
 	struct Cell {
 		int textureType;
-		int objectType;
+		int usedFor;
 		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];

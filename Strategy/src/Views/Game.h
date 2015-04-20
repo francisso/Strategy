@@ -96,6 +96,13 @@ private:
 	std::vector<Player*> players;
 	//указатель на игрока, которому будут переданы любые события
 	Player* mainPlayer;
+
+	void UnitHandler(int i, int k, Time t);
+	void StructureHandler(int i, int k, Time t);
+	void LootHandler(int i, int k, Time t);
+	void EnvironmentHandler(int i, int k, Time t);
+
+	bool UnitActionPossibility(int i, int k, Unit* unit);
 };
 
 #endif /* GAME_H_ */

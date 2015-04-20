@@ -13,25 +13,30 @@
 
 #include "../Gameplay_Constants.h"
 #include "../../../Constants.h"
-#include "../../../Drawable/GameObjects/Units/Action.h"
+#include "../../../Drawable/GameObjects/Action.h"
 #include "../PlayingObject.h"
+#include "../../../Rotating.h"
 
-class Unit : public PlayingObject{
+class Unit : public PlayingObject, public Rotating{
 public:
 	virtual ~Unit()=default;
 	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_DEFAULT,int ownerID=0);
-	struct Action* GetAction() const;
-	void StopUnitHard();
-	// TODO нужны описания
-	void AddAction(struct Action* action, bool replace=true);
-	void NextAction();
-	//float GetMaxSpeed() const;
 	void SetX(float x);
 	void SetY(float y);
-	void SetDestinationX(float x);
-	void SetDestinationY(float y);
-	float GetDestinationX() const;
-	float GetDestinationY() const;
+
+	/**
+	 * Возвращают компоненты скоростей по координатам
+	 */
+	float GetXSpeed();
+	float GetYSpeed();
+
+	/**
+	 * Фактически, возвращает sign(GetXSpeed()) и sign(GetYSpeed())
+	 * Аналог старого sign из Game с расширенными возможностями
+	 */
+	int NextCellDirX();
+	int NextCellDirY();
+
 	/**
 	 * @DirectMoveToCell добавлет в ActionQueue последовательность элементарных действий, чтобы добраться к цели
 	 * Путь получается максимально короткий, без учета проходимости промежуточных ячеек
@@ -40,18 +45,9 @@ public:
 	 * @replace - при значении true перед добавлением новой последовательности действий удаляет все текущие, прерывая их выполнение
 	 */
 	void DirectMoveToCell(int x_target,int y_target,bool replace=true);
-private:
-	struct Action* action;
-	std::queue<struct Action*> ActionQueue;
-	//модуль скорости юнита
-	//const float MaxSpeed;
-protected:
-	/**
-	 * @DestinationX и @DestinationY хранят значения координат, в которых окажется юнит после выполнения всех действий ActionQueue
-	 * При попытке добавить новые действия эти координаты обновятся.
-	 * У стоячего юнита автоматически обновляются как положение юнита
-	 */
-	float DestinationX,DestinationY;
+
+	virtual void Stop();
+	virtual void NextAction();
 };
 
 #endif /* UNIT_H_ */

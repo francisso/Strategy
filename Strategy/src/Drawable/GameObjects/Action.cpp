@@ -5,12 +5,13 @@
  *      Author: staslatgttt
  */
 
-#include "../../../Drawable/GameObjects/Units/Action.h"
+#include "Action.h"
 
-Action* Action::CreateAction(ActionType type,bool isPositive){
+Action* Action::CreateMoveAction(ActionType type,Direction dir){
 	Action* action = new Action();
 	action->type=type;
-	action->isPositive=isPositive;
+	action->moveDir=dir;
+	action->targetObject=nullptr;
 	return action;
 }
 

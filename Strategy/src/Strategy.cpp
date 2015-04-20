@@ -17,7 +17,7 @@
 #include "Views/StatusBar.h"
 #include "FieldBuilder.h"
 #include "Constants.h"
-#include "Drawable/GameObjects/Units/Action.h"
+#include "Drawable/GameObjects/Action.h"
 #include "Drawable/GameObjects/Units/Archer.h"
 #include "Players/HumanPlayer.h"
 

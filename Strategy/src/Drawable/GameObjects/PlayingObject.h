@@ -9,10 +9,13 @@
 #define DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_
 
 #include <iostream>
+#include <queue>
 
+#include "../../Constants.h"
 #include "../../Drawable/GameObject.h"
 #include "../../Drawable/GameObjects/Gameplay_Constants.h"
 #include "../../Drawable/GameObjects/IPlayingObject.h"
+#include "Action.h"
 
 //Базовый класс для юнитов, зданий, и т.д.
 class PlayingObject: public GameObject, public IPlayingObject {
@@ -26,23 +29,34 @@ public:
 
 	/**
 	 * Реализация интерфейса IPlayingObject
+	 * Описание методов читать там же
 	 */
 public:
-//	virtual GameObjectType GetObjectType();
 	virtual unsigned int GetMaxHP();
 	virtual unsigned int GetCurrHP();
 	virtual void DealDamage(int damage);
-	virtual float GetSpeed();
+	virtual float GetMaxSpeed();
 	virtual int GetOwnerID();
 	virtual void SetOwnerID(int ID);
 	virtual bool IsPicked();
 	virtual void SetPicked(bool);
-private:
+	virtual void SetDestX(float destX);
+	virtual void SetDestY(float destY);
+	virtual float GetDestX();
+	virtual float GetDestY();
+	virtual Action* GetAction();
+	virtual void AddAction(Action* action, bool replace);
+	virtual void NextAction();
+	virtual void StopNow();
+protected:
 	const float MaxSpeed;
 	const unsigned int MaxHP;
 	unsigned int currentHP;
 	int ownerID;
 	bool isPicked;
+	float destX,destY;
+	Action* currAction;
+	std::queue<Action*> ActionQueue;
 };
 
 #endif /* DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */

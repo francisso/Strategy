@@ -16,7 +16,10 @@ PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image,
 		MaxHP(maxHP),
 		currentHP(maxHP),
 		ownerID(ownerID),
-		isPicked(false) {}
+		isPicked(false),
+		destX(GetX()),
+		destY(GetY()),
+		currAction(Action::CreateMoveAction(WAIT)){}
 
 /**
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -34,7 +37,7 @@ void PlayingObject::Update(float time) {
 /**
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  *
- * Реализация методов IGameObject
+ * Реализация методов IPlayingObject
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
@@ -62,7 +65,7 @@ void PlayingObject::DealDamage(int damage){
 	}
 }
 
-float PlayingObject::GetSpeed(){return MaxSpeed;}
+float PlayingObject::GetMaxSpeed(){return MaxSpeed;}
 
 int PlayingObject::GetOwnerID(){return ownerID;}
 
@@ -71,3 +74,41 @@ void PlayingObject::SetOwnerID(int ID){ownerID=ID;}
 bool PlayingObject::IsPicked(){return isPicked;}
 
 void PlayingObject::SetPicked(bool isPicked){this->isPicked=isPicked;}
+
+void PlayingObject::SetDestX(float destX){this->destX=destX;}
+
+void PlayingObject::SetDestY(float destY){this->destY=destY;}
+
+float PlayingObject::GetDestX(){return destX;}
+
+float PlayingObject::GetDestY(){return destY;}
+
+Action* PlayingObject::GetAction(){return currAction;}
+
+void PlayingObject::AddAction(Action* action,bool replace)
+{
+	if (replace){
+		while(!ActionQueue.empty())
+			ActionQueue.pop();
+	}
+	ActionQueue.push(action);
+	std::cout<<"actionType="<<action->type<<"; moveDir="<<action->moveDir<<std::endl;
+}
+
+void PlayingObject::NextAction(){
+	if(this->ActionQueue.size()==0){
+		this->currAction=Action::CreateMoveAction(WAIT);
+	} else {
+		this->currAction=this->ActionQueue.front();
+		this->ActionQueue.pop();
+	}
+}
+
+void PlayingObject::StopNow(){
+	if(static_cast<int>(GetX())%CELL_X_PIXELS==0 && static_cast<int>(GetY())%CELL_Y_PIXELS==0)
+	{
+		while(!ActionQueue.empty())
+			ActionQueue.pop();
+		currAction=Action::CreateMoveAction(WAIT);
+		}
+}
