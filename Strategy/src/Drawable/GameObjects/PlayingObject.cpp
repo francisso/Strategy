@@ -114,13 +114,9 @@ void PlayingObject::NextAction(){
 	}
 }
 
-void PlayingObject::StopNow(){
-	if(static_cast<int>(GetX())%CELL_X_PIXELS==0 && static_cast<int>(GetY())%CELL_Y_PIXELS==0)
-	{
-		while(!ActionQueue.empty())
-			ActionQueue.pop();
-		currAction=Action::CreateMoveAction(WAIT);
-		}
+void PlayingObject::Stop(){
+	while(!ActionQueue.empty())
+		ActionQueue.pop();
 }
 
 void PlayingObject::RepeatLastAction(){

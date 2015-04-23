@@ -19,6 +19,7 @@
 #include "Constants.h"
 #include "Drawable/GameObjects/Action.h"
 #include "Drawable/GameObjects/Units/Archer.h"
+#include "Drawable/GameObjects/Buildings/Tower.h"
 #include "Players/HumanPlayer.h"
 
 // Размеры окна
@@ -55,9 +56,7 @@ int main() {
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src1 = {0,0,80,80};
 		auto archer1 = new Archer(src1, "res/images/unit.bmp",1);
-		archer1->SetX(160.0);
-		archer1->SetY(160.0);
-		game->AddUnit(archer1);
+		game->AddUnitAtCell(archer1,2,2);
 
 		SDL_Rect src2 = {0,0,80,80};
 		auto archer2 = new Archer(src2, "res/images/unit.bmp",1);
@@ -76,6 +75,10 @@ int main() {
 		archer4->SetX(320.0);
 		archer4->SetY(160.0);
 		game->AddUnit(archer4);
+
+		SDL_Rect src5 = {0,0,160,160};
+		auto tower1  = new Tower(src5, "res/images/test.bmp",1);
+		game->AddBuildingAtCell(tower1,8,8);
 
 		engine->SetView(main_view);
 		engine->Run();

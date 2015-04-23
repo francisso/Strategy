@@ -16,7 +16,8 @@
 #include "../Players/Player.h"
 #include "../Players/AI.h"
 //#include "../Players/HumanPlayer.h"
-//#include "../Types.h"
+#include "../Types.h"
+#include "../Drawable/GameObjects/Buildings/Building.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;
@@ -34,16 +35,31 @@ public:
 	/**
 	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
 	 * @return 0, если добавление успешно произведено
-	 *          1 если невозможно добавить (например, клетка занята другим юнитом)
+	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
 	int AddUnit(Unit* unit);
 
 	/**
-	 * @AddUnitAtCell делает то же самое, что и @AddUnit, но не приводит координаты @unit к координатам клетки
-	 * также возможны баги из-за полного несоответствия вручную введенных координат ячейки и координат @unit
-	 * лучше ее вообще не использовать и удалить из проекта
+	 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
+	 * @return 0, если добавление успешно произведено
+	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
 	int AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
+
+	/**
+	 * @AddBuilding добавляет @building на игровое поле согласно его координатам
+	 * @return 0, если добавление успешно произведено
+	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
+	 */
+	int AddBuilding(Building* building);
+
+	/**
+		 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
+		 * @return 0, если добавление успешно произведено
+		 *         1 если невозможно добавить (например, клетка занята другим юнитом)
+		 */
+	int AddBuildingAtCell(Building* building, int cell_x, int cell_y);
+
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 

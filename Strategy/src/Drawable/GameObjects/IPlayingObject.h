@@ -29,7 +29,7 @@ public:
 	virtual Action* GetAction() =0;
 	virtual void AddAction(Action* action, bool replace) =0;
 	virtual void NextAction() =0;
-	virtual void StopNow() =0;
+	virtual void Stop() =0;
 };
 
 

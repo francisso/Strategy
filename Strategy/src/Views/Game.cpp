@@ -148,12 +148,61 @@ int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
 	if (cell->usedFor == CellType::NOTHING) {
 		cell->usedFor = CellType::OBJECT;
 		cell->object = unit;
+		unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+		unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+		unit->SetDestX(unit->GetX());
+		unit->SetDestY(unit->GetY());
 		return 0;
 	}
 	//std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetDestinationX()<<" ;GetVirtualY()="<<unit->GetDestinationY()<<std::endl;
 	return 1;
 }
 
+int Game::AddBuilding(Building* building)
+{
+	int cell_x=static_cast<int>(building->GetX()/CELL_X_PIXELS);
+	int cell_y=static_cast<int>(building->GetY()/CELL_Y_PIXELS);
+	building->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	building->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	building->SetDestX(building->GetX());
+	building->SetDestY(building->GetY());
+	for(unsigned int i=0;i<building->GetSizeX();i++)
+	for(unsigned int j=0;j<building->GetSizeY();j++)
+	{
+		if(field->grid[cell_x+i][cell_y+j].usedFor!=NOTHING) return 1;
+	}
+	for(unsigned int i=0;i<building->GetSizeX();i++)
+	for(unsigned int j=0;j<building->GetSizeY();j++)
+	{
+		field->grid[cell_x+i][cell_y+j].usedFor=OBJECT_PART;
+		field->grid[cell_x+i][cell_y+j].object=building;
+		}
+	field->grid[cell_x][cell_y].usedFor=OBJECT;
+	return 0;
+}
+
+int Game::AddBuildingAtCell(Building* building, int cell_x, int cell_y){
+	if (cell_x < 0 || cell_y < 0 || cell_x >= (CELL_X_NUMBER-static_cast<int>(building->GetSizeX())) || cell_y >= (CELL_Y_NUMBER-static_cast<int>(building->GetSizeY())))
+		return 1;
+	for(unsigned int i=0;i<building->GetSizeX();i++)
+	for(unsigned int j=0;j<building->GetSizeY();j++)
+	{
+		if(field->grid[cell_x+i][cell_y+j].usedFor!=NOTHING) return 1;
+	}
+	for(unsigned int i=0;i<building->GetSizeX();i++)
+	for(unsigned int j=0;j<building->GetSizeY();j++)
+	{
+		field->grid[cell_x+i][cell_y+j].usedFor=OBJECT_PART;
+		field->grid[cell_x+i][cell_y+j].object=building;
+		}
+	field->grid[cell_x][cell_y].usedFor=OBJECT;
+
+	building->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	building->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	building->SetDestX(building->GetX());
+	building->SetDestY(building->GetY());
+	return 0;
+}
 /*std::string Game::ActionOut(Action* action){
 	std::string s;
 	if(action->type==WAIT)
@@ -213,7 +262,7 @@ void Game::Update(Time t) {
 		case UNIT:
 			UnitHandler(i,k,t);
 			break;
-		case STRUCTURE:
+		case BUILDING:
 			StructureHandler(i,k,t);
 			break;
 		case LOOT:
@@ -412,13 +461,14 @@ void Game::UnitHandler(int i, int k, Time t){
 			unit->SetDestX(unit->GetX());
 			unit->SetDestY(unit->GetY());
 		} else if (unit->GetAction()->type==MOVE){
-			if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT){
+			if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT || field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT_PART){
 				if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object->GetObjectType()==UNIT){
 					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==MOVE){
 						unit->RepeatLastAction();
+						return;
 					}
 				}
-				//unit->Stop();
+				unit->Stop();
 				return;
 			}
 			field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;

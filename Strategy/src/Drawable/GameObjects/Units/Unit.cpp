@@ -23,7 +23,7 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<std::endl;
 	int x_range=x_target-x_curr;
 	int y_range=y_target-y_curr;
-	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; x_target="<<x_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
+	std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; y_target="<<y_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	Direction dir;
 	if(abs(x_range)>abs(y_range)){
 		if(x_range>0) dir=EAST;
@@ -52,15 +52,11 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 }
 
 void Unit::Stop(){
-	while(!ActionQueue.empty()){
-		ActionQueue.pop();
-	}
-	if(static_cast<int>(GetX())%CELL_X_PIXELS==0 && static_cast<int>(GetY())%CELL_Y_PIXELS==0){
-		currAction=Action::CreateMoveAction(WAIT);
-		return;
-	}
+	PlayingObject::Stop();
 	float CELL_X=static_cast<float>(CELL_X_PIXELS);
 	float CELL_Y=static_cast<float>(CELL_Y_PIXELS);
+
+	if(currAction->type==WAIT) return;
 
 	if(this->NextCellDirY()>0){
 		SetDestY(CELL_Y*static_cast<float>(static_cast<int>(GetY()/CELL_Y)+1));

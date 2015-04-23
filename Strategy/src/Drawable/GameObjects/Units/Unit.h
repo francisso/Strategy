@@ -20,7 +20,7 @@
 class Unit : public PlayingObject, public Rotating{
 public:
 	virtual ~Unit()=default;
-	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_DEFAULT,int ownerID=0);
+	Unit(SDL_Rect src, const char *name_file_image,float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_UNIT_DEFAULT,int ownerID=0);
 	void SetX(float x);
 	void SetY(float y);
 
