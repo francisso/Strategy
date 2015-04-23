@@ -48,6 +48,7 @@ public:
 	virtual void AddAction(Action* action, bool replace=true);
 	virtual void NextAction();
 	virtual void StopNow();
+	virtual void RepeatLastAction();
 protected:
 	const float MaxSpeed;
 	const unsigned int MaxHP;

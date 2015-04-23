@@ -413,7 +413,12 @@ void Game::UnitHandler(int i, int k, Time t){
 			unit->SetDestY(unit->GetY());
 		} else if (unit->GetAction()->type==MOVE){
 			if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT){
-				unit->Stop();
+				if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object->GetObjectType()==UNIT){
+					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==MOVE){
+						unit->RepeatLastAction();
+					}
+				}
+				//unit->Stop();
 				return;
 			}
 			field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;

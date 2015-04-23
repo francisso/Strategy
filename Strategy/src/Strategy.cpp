@@ -54,15 +54,29 @@ int main() {
 
 		//Здесь это времеено, создание лучника.
 		SDL_Rect src1 = {0,0,80,80};
-		SDL_Rect src2 = {0,0,80,80};
 		auto archer1 = new Archer(src1, "res/images/unit.bmp",1);
-		archer1->SetX(200.0);
-		archer1->SetY(200.0);
-		auto archer2 = new Archer(src2, "res/images/unit.bmp",1);
-		archer2->SetX(160.0);
-		archer2->SetY(400.0);
+		archer1->SetX(160.0);
+		archer1->SetY(160.0);
 		game->AddUnit(archer1);
+
+		SDL_Rect src2 = {0,0,80,80};
+		auto archer2 = new Archer(src2, "res/images/unit.bmp",1);
+		archer2->SetX(400.0);
+		archer2->SetY(240.0);
 		game->AddUnit(archer2);
+
+		SDL_Rect src3 = {0,0,80,80};
+		auto archer3 = new Archer(src3, "res/images/unit.bmp",1);
+		archer3->SetX(240.0);
+		archer3->SetY(160.0);
+		game->AddUnit(archer3);
+
+		SDL_Rect src4 = {0,0,80,80};
+		auto archer4 = new Archer(src4, "res/images/unit.bmp",1);
+		archer4->SetX(320.0);
+		archer4->SetY(160.0);
+		game->AddUnit(archer4);
+
 		engine->SetView(main_view);
 		engine->Run();
 	}
