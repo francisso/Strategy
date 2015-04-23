@@ -87,16 +87,26 @@ Action* PlayingObject::GetAction(){return currAction;}
 
 void PlayingObject::AddAction(Action* action,bool replace)
 {
+	//std::cout<<std::endl<<std::endl<<std::endl;
+	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	if (replace){
-		while(!ActionQueue.empty())
+		while(!ActionQueue.empty()){
 			ActionQueue.pop();
+		}
 	}
+	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	ActionQueue.push(action);
-	std::cout<<"actionType="<<action->type<<"; moveDir="<<action->moveDir<<std::endl;
+	/*std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
+	Action* act = ActionQueue.front();
+	std::cout<<"Current action: actionType="<<currAction->type<<"; current moveDir="<<currAction->moveDir<<std::endl;
+	std::cout<<"Action to add: actionType="<<action->type<<"; moveDir="<<action->moveDir<<std::endl;
+	std::cout<<"First action: actionType="<<act->type<<"; moveDir="<<act->moveDir<<std::endl;
+	std::cout<<"action="<<action<<"; act="<<act<<std::endl;
+	std::cout<<std::endl<<std::endl<<std::endl;*/
 }
 
 void PlayingObject::NextAction(){
-	if(this->ActionQueue.size()==0){
+	if(this->ActionQueue.empty()){
 		this->currAction=Action::CreateMoveAction(WAIT);
 	} else {
 		this->currAction=this->ActionQueue.front();

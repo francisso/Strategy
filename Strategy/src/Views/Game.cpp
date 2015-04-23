@@ -405,6 +405,7 @@ void Game::UnitHandler(int i, int k, Time t){
 	float x=unit->GetX();
 	float y=unit->GetY();
 	float cell_x=static_cast<float>(CELL_X_PIXELS*i), cell_y=static_cast<float>(CELL_Y_PIXELS*k);
+	//std::cout<<"x="<<x<<"; y="<<y<<"; cell_x="<<cell_x<<"; cell_y="<<cell_y<<std::endl;
 	if(x==cell_x && y==cell_y){
 		unit->NextAction();
 		if(unit->GetAction()->type==WAIT){

@@ -45,7 +45,7 @@ public:
 	virtual float GetDestX();
 	virtual float GetDestY();
 	virtual Action* GetAction();
-	virtual void AddAction(Action* action, bool replace);
+	virtual void AddAction(Action* action, bool replace=true);
 	virtual void NextAction();
 	virtual void StopNow();
 protected:
