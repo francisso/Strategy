@@ -368,7 +368,7 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y)
 				std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 				break;
 			}
-			if (objectTarget->GetObjectType() == UNIT) {
+			if (objectTarget->GetObjectType() == UNIT || objectTarget->GetObjectType() == BUILDING) {
 				PlayingObject *PlayObjectTarget = dynamic_cast<PlayingObject*>(objectTarget);
 				if(PlayObjectTarget->GetOwnerID()==mainPlayer->PlayerID){
 					if(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(PlayObjectTarget,false);
@@ -386,7 +386,7 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y)
 				PlayingObject* picked=mainPlayer->GetPicked(i);
 				if(picked->GetObjectType()!=UNIT) break;
 				Unit* unitPicked=dynamic_cast<Unit*>(picked);
-				unitPicked->DirectMoveToCell(cell_x,cell_y,true);
+				unitPicked->DirectMoveToCell(cell_x,cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
 				i++;
 			}
 			break;
@@ -467,14 +467,24 @@ void Game::UnitHandler(int i, int k, Time t){
 						unit->RepeatLastAction();
 						return;
 					}
+					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==WAIT){
+						unit->ReduceTries();
+						unit->RepeatLastAction();
+						if(unit->GetTries()==0){
+							unit->Stop();
+							unit->RestoreTries();
+						}
+						return;
+					}
 				}
-				unit->Stop();
 				return;
+			} else if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==NOTHING) {
+				unit->RestoreTries();
+				field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;
+				field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object=unit;
+				field->grid[i][k].usedFor=NOTHING;
+				field->grid[i][k].object=nullptr;
 			}
-			field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;
-			field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object=unit;
-			field->grid[i][k].usedFor=NOTHING;
-			field->grid[i][k].object=nullptr;
 		}
 	} else {
 		x=x+t*unit->GetXSpeed();

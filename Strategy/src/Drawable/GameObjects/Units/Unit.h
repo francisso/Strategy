@@ -52,8 +52,13 @@ public:
 	virtual void NextAction();
 
 	virtual Units WhoIs();
+
+	void ReduceTries();
+	void RestoreTries();
+	int GetTries();
 private:
 	const Units whoIs;
+	int triesLeft;
 };
 
 #endif /* UNIT_H_ */

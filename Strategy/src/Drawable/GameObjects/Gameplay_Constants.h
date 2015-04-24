@@ -8,6 +8,8 @@
 #ifndef DRAWABLE_GAMEOBJECTS_GAMEPLAY_CONSTANTS_H_
 #define DRAWABLE_GAMEOBJECTS_GAMEPLAY_CONSTANTS_H_
 
+const int NUMBER_OF_TRIES=10;
+
 //Скорости юнитов по умолчанию
 const float SPEED_DEFAULT=2.0f;
 const float SPEED_ARCHER_DEFAULT=5.0f;

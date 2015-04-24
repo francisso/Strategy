@@ -47,7 +47,8 @@ int Player::GetGold(){
 void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(replace){
 		while(!pickedObjects.empty()){
-			pickedObjects.back()->SetPicked(false);
+			PlayingObject* object=pickedObjects.back();
+			object->SetPicked(false);
 			pickedObjects.pop_back();
 		}
 	} else {
