@@ -362,7 +362,9 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 	switch(mainPlayer->OnEvent(EventInfo)){
 		case NOTHING_TO_DO:
 			break;
+
 		case PICK_OBJECT:
+			break;
 /*
 			if (objectTarget==nullptr) {
 				mainPlayer->FreePickedObjects();
