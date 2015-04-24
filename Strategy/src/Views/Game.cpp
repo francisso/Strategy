@@ -355,36 +355,38 @@ void Game::Update(Time t) {
  *
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  */
-void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y)
+void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uint8* keystates)
 {
 	GameObject* objectTarget = EventInfo->object;
-	Uint8* keystates=SDL_GetKeyState(NULL);
+
 	switch(mainPlayer->OnEvent(EventInfo)){
 		case NOTHING_TO_DO:
 			break;
 		case PICK_OBJECT:
-			if(objectTarget==nullptr){
+/*
+			if (objectTarget==nullptr) {
 				mainPlayer->FreePickedObjects();
 				std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 				break;
 			}
 			if (objectTarget->GetObjectType() == UNIT || objectTarget->GetObjectType() == BUILDING) {
 				PlayingObject *PlayObjectTarget = dynamic_cast<PlayingObject*>(objectTarget);
-				if(PlayObjectTarget->GetOwnerID()==mainPlayer->PlayerID){
-					if(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(PlayObjectTarget,false);
+				if (PlayObjectTarget->GetOwnerID()==mainPlayer->PlayerID) {
+					if (keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(PlayObjectTarget,false);
 						else mainPlayer->AddPickedObject(PlayObjectTarget,true);
 				}
 			}
 
 			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			break;
+*/
 		case MOVE_PICKED_TO:
-			if(objectTarget!=nullptr) break;
+			if (objectTarget!=nullptr) break;
 			unsigned int i=0;
 			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
-			while(i<mainPlayer->GetPickedNumber()){
+			while (i<mainPlayer->GetPickedNumber()) {
 				PlayingObject* picked=mainPlayer->GetPicked(i);
-				if(picked->GetObjectType()!=UNIT) break;
+				if (picked->GetObjectType()!=UNIT) break;
 				Unit* unitPicked=dynamic_cast<Unit*>(picked);
 				unitPicked->DirectMoveToCell(cell_x,cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
 				i++;
@@ -396,6 +398,7 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y)
 void Game::OnEvent(SDL_Event* event) {
 	int X = static_cast<int>(x);
 	int Y = static_cast<int>(y);
+	Uint8* keystates=SDL_GetKeyState(NULL);
 	if(event->type==SDL_MOUSEMOTION){
 		cell_MouseX = (X + event->motion.x-WindowRect.x) / CELL_X_PIXELS;
 		cell_MouseY = (Y + event->motion.y-WindowRect.y) / CELL_Y_PIXELS;
@@ -415,23 +418,27 @@ void Game::OnEvent(SDL_Event* event) {
 		EventInfo->event=event;
 		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
 		EventInfo->object=objectTarget;
-		WorkWithPlayer(EventInfo, cell_x, cell_y);
+		WorkWithPlayer(EventInfo, cell_x, cell_y, keystates);
 		if (event->button.button ==  SDL_BUTTON_LEFT){
 			PickMouse = false;
 			int min_cell_x = (cell_PickMouseX < cell_MouseX) ? cell_PickMouseX : cell_MouseX;
 			int min_cell_y = (cell_PickMouseY < cell_MouseY) ? cell_PickMouseY : cell_MouseY;
 			int max_cell_x = (cell_PickMouseX > cell_MouseX) ? cell_PickMouseX : cell_MouseX;
 			int max_cell_y = (cell_PickMouseY > cell_MouseY) ? cell_PickMouseY : cell_MouseY;
-			mainPlayer->FreePickedObjects();
+			if (!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]))
+				mainPlayer->FreePickedObjects();
 			for (int i = min_cell_x; i <= max_cell_x; i++)
 			for (int k = min_cell_y; k <= max_cell_y; k++)
-				if (field->grid[i][k].object != nullptr &&
-						field->grid[i][k].object->GetObjectType() == UNIT){
-					PlayingObject* play_object = dynamic_cast<PlayingObject*>(field->grid[i][k].object);
-					mainPlayer->AddPickedObject(play_object, false);
+				if (field->grid[i][k].object != nullptr) {
+					if (field->grid[i][k].object->GetObjectType() == UNIT ||
+							field->grid[i][k].object->GetObjectType() == BUILDING){
+						PlayingObject* play_object = dynamic_cast<PlayingObject*>(field->grid[i][k].object);
+						if (play_object->GetOwnerID()==mainPlayer->PlayerID)
+							mainPlayer->AddPickedObject(play_object, false);
+					}
 				}
+			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 		}
-
 	} else
 	if (event->type==SDL_KEYDOWN || event->type==SDL_KEYUP){
 		EventForPlayer* EventInfo=new EventForPlayer();

@@ -14,6 +14,9 @@ Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),p
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	selection = new Draw(src, "res/images/playerSelection.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
+	SDL_Rect src1 = {0, 0, 2*CELL_X_PIXELS, 2*CELL_Y_PIXELS};
+	selectionBuilding = new Draw(src1, "res/images/selectionBuilding.bmp", 150);
+	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }
 
 Player::~Player(){
@@ -28,9 +31,16 @@ void Player::DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
 	std::vector<PlayingObject*>::const_iterator it = pickedObjects.begin();
 	for (; it != pickedObjects.end(); it++)
 	{
-		selection->SetX((*it)->GetX());
-		selection->SetY((*it)->GetY());
-		f(selection, deltaX, deltaY);
+		if ((*it)->GetObjectType() == UNIT){
+			selection->SetX((*it)->GetX());
+			selection->SetY((*it)->GetY());
+			f(selection, deltaX, deltaY);
+		} else
+		if ((*it)->GetObjectType() == BUILDING){
+			selectionBuilding->SetX((*it)->GetX());
+			selectionBuilding->SetY((*it)->GetY());
+			f(selectionBuilding, deltaX, deltaY);
+		}
 	}
 }
 int Player::AddGold(int	income){

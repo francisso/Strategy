@@ -103,7 +103,7 @@ private:
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	virtual void Update(Time t);
 	virtual bool ContainsCoordinates(Uint16 x, Uint16 y) const;
-	void WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y);
+	void WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uint8* keystates);
 	//передвижение карты :
 	// изменяет облать карты которая отображается на экран
 	// проверяя координаты мыши

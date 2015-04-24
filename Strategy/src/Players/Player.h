@@ -94,6 +94,7 @@ class Player {
 		Color playerColor;
 		std::string playerSignature;
 		Draw* selection;
+		Draw* selectionBuilding;
 		//bool ShiftPressed;
 };
 
