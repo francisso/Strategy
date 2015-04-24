@@ -15,7 +15,7 @@
 class Archer: public Unit {
 public:
 	virtual ~Archer()=default;
-	Archer(SDL_Rect src, const char *name_file_image, int ownerID=0) : Unit(src, name_file_image,SPEED_ARCHER_DEFAULT,HP_ARCHER_DEFAULT,ownerID) {};
+	Archer(SDL_Rect src, const char *name_file_image, int ownerID=0) : Unit(src, name_file_image, ARCHER, SPEED_ARCHER_DEFAULT,HP_ARCHER_DEFAULT,ownerID) {};
 
 };
 

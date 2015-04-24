@@ -8,7 +8,7 @@
 #include "../../../Drawable/GameObjects/Units/Unit.h"
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image,float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),Rotating(4) {}
+Unit::Unit(SDL_Rect src, const char *name_file_image, Units unitType, float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),Rotating(4),whoIs(unitType) {}
 
 inline int sign(int temp){
 	return (temp>0)?1:-1;
@@ -105,3 +105,5 @@ void Unit::NextAction(){
 	PlayingObject::NextAction();
 	this->SetAngle(GetAction()->moveDir);
 }
+
+Units Unit::WhoIs(){return whoIs;}

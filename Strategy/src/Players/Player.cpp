@@ -47,9 +47,18 @@ int Player::GetGold(){
 void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(replace){
 		while(!pickedObjects.empty()){
-			PlayingObject* object=pickedObjects.back();
-			object->SetPicked(false);
+			pickedObjects.back()->SetPicked(false);
 			pickedObjects.pop_back();
+		}
+	} else {
+		if(object->GetObjectType()==BUILDING && !pickedObjects.empty()){
+			return;
+		}
+		if(object->GetObjectType()==UNIT){
+			for(unsigned int i=0u;i<pickedObjects.size();i++){
+				if(pickedObjects[i]->GetObjectType()==BUILDING)
+					return;
+			}
 		}
 	}
 	if(object->IsPicked()) return;
