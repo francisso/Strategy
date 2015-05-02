@@ -8,27 +8,50 @@
 #ifndef DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_
 #define DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_
 
-#include "../../lib/rapidxml-1.13/rapidxml.hpp"
+#include "../../../lib/rapidxml-1.13/rapidxml.hpp"
 #include "./Units/Unit.h"
 #include "./Buildings/Building.h"
 #include "./Loot.h"
 #include "./Environment.h"
 
+struct UnitProperties{
+	UnitType type;
+	char *imageFile;
+	float MaxSpeed;
+	unsigned int MaxHP;
+	unsigned int Damage;
+	float AttackRange;
+};
+
+struct BuildingProperties{
+	BuildingType type;
+	char *imageFile;
+	unsigned int MaxHP;
+	unsigned int Damage;
+	float AttackRange;
+	unsigned int SizeX;
+	unsigned int SizeY;
+};
+
 class ObjectFactory{
+private:
+	static const char *unitConfigs, *buildingConfigs, *lootConfigs, *environmentConfigs;
+	static UnitProperties *ArcherProps,*SwordmanProps;
+	static BuildingProperties *TowerProps, *FortProps;
 public:
-	/**
-	 * Методы создания юнитов
-	 * Добавляя метод, не забудь добавить соответствующее значение в перечисление Units в файле Unit.h
-	 */
-	static Unit* CreateArcher(int ownerID, float x=0.0f, float y=0.0f);
-	static Unit* CreateSwordman(int ownerID, float x=0.0f, float y=0.0f);
+
+	static UnitProperties* LoadUnitFromXML(UnitType unitType);
+	static BuildingProperties* LoadBuildingFromXML(BuildingType buildingType);
 
 	/**
-	 * Методы создания зданий
-	 * Добавляя метод, не забудь добавить соответствующее значение в перечисление Buildings в файле Building.h
+	 * Создание юнита по шаблону
 	 */
-	static Building* CreateTower(int ownerID, float x=0.0f, float y=0.0f);
-	static Building* CreateFort(int ownerID, float x=0.0f, float y=0.0f);
+	static Unit* CreateUnit(UnitType type,int ownerID, float x=0.0f, float y=0.0f);
+
+	/**
+	 * Создание здания по шаблону
+	 */
+	static Building* CreateBuilding(BuildingType type, int ownerID, float x=0.0f, float y=0.0f);
 
 	/**
 	 * Методы создания лута
@@ -39,6 +62,12 @@ public:
 	 */
 };
 
+const char* ObjectFactory::unitConfigs="ObjectConfigs/Units.xml";
+const char* ObjectFactory::buildingConfigs="ObjectConfigs/Buildings.xml";
+const char* ObjectFactory::lootConfigs="ObjectConfigs/Loot.xml";
+const char* ObjectFactory::environmentConfigs="ObjectConfigs/Environment.xml";
 
+UnitProperties *ObjectFactory::ArcherProps;
+UnitProperties *ObjectFactory::SwordmanProps;
 
 #endif /* DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_ */

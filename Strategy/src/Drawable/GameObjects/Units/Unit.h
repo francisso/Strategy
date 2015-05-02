@@ -17,12 +17,12 @@
 #include "../PlayingObject.h"
 #include "../../../Rotating.h"
 
-enum Units{ARCHER, SWORDMAN};
+enum UnitType{ARCHER, SWORDMAN};
 
 class Unit : public PlayingObject, public Rotating{
 public:
 	virtual ~Unit()=default;
-	Unit(SDL_Rect src, const char *name_file_image,Units unitType, float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_UNIT_DEFAULT,int ownerID=0);
+	Unit(SDL_Rect src, const char *name_file_image,UnitType unitType, float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_UNIT_DEFAULT,int ownerID=0);
 	void SetX(float x);
 	void SetY(float y);
 
@@ -51,13 +51,13 @@ public:
 	virtual void Stop();
 	virtual void NextAction();
 
-	virtual Units WhoIs();
+	virtual UnitType WhoIs();
 
 	void ReduceTries();
 	void RestoreTries();
 	int GetTries();
 private:
-	const Units whoIs;
+	const UnitType whoIs;
 	int triesLeft;
 };
 
