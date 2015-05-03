@@ -9,13 +9,13 @@
 #define CONSTANTS_H_
 
 //Число клеток по горизонтали
-#define CELL_X_NUMBER 30
+#define CELL_X_NUMBER 60
 //Число клеток по вертикали
-#define CELL_Y_NUMBER 24
+#define CELL_Y_NUMBER 48
 
 //Количество пикселей в клетке
-#define CELL_X_PIXELS 80
-#define CELL_Y_PIXELS 80
+#define CELL_X_PIXELS 40
+#define CELL_Y_PIXELS 40
 
 //Количество золота по умолчанию
 #define GOLD_DEFAULT 100

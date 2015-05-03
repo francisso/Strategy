@@ -11,12 +11,18 @@
 #include "../Constants.h"
 #include "../Drawable/Draw.h"
 #include "../Drawable/GameObject.h"
+#include <queue>
 
 enum SelectionType {
 	LEFT = 0,
 	RIGHT = 1,
 	HIGH = 2,
 	LOW = 3
+};
+
+struct Point {
+	int x;
+	int y;
 };
 //Сетка для игровых объектов
 struct GameField {
@@ -27,6 +33,8 @@ struct GameField {
 		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
+
+	void findPath(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints);
 };
 
 #endif /* GAMEFIELD_H_ */

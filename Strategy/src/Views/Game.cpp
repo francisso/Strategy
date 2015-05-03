@@ -273,79 +273,6 @@ void Game::Update(Time t) {
 			break;
 		}
 	}
-
-	/*for (int i = 0; i < CELL_X_NUMBER; i++)
-	for (int k = 0; k < CELL_Y_NUMBER; k++) {
-		//Пока что осуществляем действия только для юнитов
-		if (field->grid[i][k].usedFor != CellType::UNIT)
-			continue;
-		unit=dynamic_cast<Unit*>(field->grid[i][k].object);
-		action = unit->GetAction();
-		//std::cout<<"ActionType is "<<ActionOut(action)<<std::endl;
-		if (action->type==WAIT){
-			unit->SetDestX(unit->GetX());
-			unit->SetDestY(unit->GetY());
-			unit->NextAction();
-			//std::cout<<unit->GetVirtualX()<<"=GetVirtualX()=GetX()="<<unit->GetX()<<std::endl;
-		}
-		if (action->type==MOVE_VERTICAL){
-			//auto x = unit->GetX();
-			auto y = unit->GetY();
-			if(y==CELL_Y_PIXELS*k){
-				//auto xNext = k + ((action->IsPositive) ? 1 : -1);
-				if(field->grid[i][k+Sign(action->isPositive)].usedFor==CellType::NOTHING){
-					field->grid[i][k+Sign(action->isPositive)].usedFor=CellType::OCCUPIED;
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
-				} else if (field->grid[i][k+Sign(action->isPositive)].usedFor==CellType::UNIT){
-					if(dynamic_cast<Unit*>(field->grid[i][k+Sign(action->isPositive)].object)->GetAction()->type==WAIT) unit->StopNow();
-					continue;
-				} else if (field->grid[i][k+Sign(action->isPositive)].usedFor==CellType::BUILDING){
-					unit->StopNow();
-					continue;
-				}
-			} else {
-				if((y+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(k+1) || (y-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(k-1)){
-					int y_next = k+Sign(action->isPositive);
-					field->grid[i][y_next].usedFor = CellType::UNIT;
-					field->grid[i][y_next].object = unit;
-					field->grid[i][k].usedFor = CellType::NOTHING;
-					field->grid[i][k].object = nullptr;
-					unit->SetY(static_cast<float>(CELL_Y_PIXELS*y_next));
-					unit->NextAction();
-					//std::cout<<"ActionType is "<<ActionOut(unit->GetAction())<<std::endl;
-				} else {
-					unit->SetY(y+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
-				}
-			}
-		}
-		if (action->type==MOVE_HORIZONTAL){
-			auto x=unit->GetX();
-			if(x==CELL_X_PIXELS*i){
-				if(field->grid[i+Sign(action->isPositive)][k].usedFor==CellType::NOTHING){
-					field->grid[i+Sign(action->isPositive)][k].usedFor=CellType::OCCUPIED;
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
-				} else if (field->grid[i+Sign(action->isPositive)][k].usedFor==CellType::UNIT){
-					if(dynamic_cast<Unit*>(field->grid[i+Sign(action->isPositive)][k].object)->GetAction()->type==WAIT) unit->StopNow();
-					continue;
-				} else if (field->grid[i+Sign(action->isPositive)][k].usedFor==CellType::BUILDING){
-					unit->StopNow();
-					continue;
-				}
-			} else {
-				if((x+t*unit->GetMaxSpeed())>=CELL_Y_PIXELS*(i+1) || (x-t*unit->GetMaxSpeed())<=CELL_Y_PIXELS*(i-1)){
-					int x_next = i+Sign(action->isPositive);
-					field->grid[x_next][k].usedFor = CellType::UNIT;
-					field->grid[x_next][k].object = unit;
-					field->grid[i][k].usedFor = CellType::NOTHING;
-					field->grid[i][k].object = nullptr;
-					unit->SetX(static_cast<float>(x_next*CELL_X_PIXELS));
-					unit->NextAction();
-				} else {
-					unit->SetX(x+t*unit->GetMaxSpeed()*static_cast<float>(Sign(action->isPositive)));
-				}
-			}
-		}
-	}*/
 }
 
 /**
@@ -549,4 +476,28 @@ void Game::LootHandler(int i, int k, Time t){
 void Game::EnvironmentHandler(int i, int k, Time t){
 	if(i*k>0) return;
 	if(t>0) return;
+}
+
+void Game::WritePointQueueInUnit(Unit* unit, std::queue<Point> &controlPoints)
+{
+	while(!controlPoints.empty())
+	{
+		Point currPoint=controlPoints.back();
+		controlPoints.pop();
+		unit->DirectMoveToCell(currPoint.x,currPoint.y,false);
+	}
+}
+
+void Game::SendUnitTo(Unit* unit, int targetX, int targetY, bool replace)
+{
+	if(replace) unit->Stop();
+	std::queue<Point> controlPoints;
+	Point startPoint;
+	startPoint.x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
+	startPoint.y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
+	Point finishPoint;
+	finishPoint.x=targetX;
+	finishPoint.y=targetY;
+	this->field->findPath(startPoint, finishPoint, controlPoints);
+	WritePointQueueInUnit(unit, controlPoints);
 }

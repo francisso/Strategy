@@ -119,6 +119,10 @@ private:
 	void EnvironmentHandler(int i, int k, Time t);
 
 	bool UnitActionPossibility(int i, int k, Unit* unit);
+
+	//методы касающиеся движения юнитов
+	void WritePointQueueInUnit(Unit* unit,std::queue<Point> &controlPoints);
+	void SendUnitTo(Unit* unit,int targetX, int targetY, bool replace=true);
 };
 
 #endif /* GAME_H_ */
