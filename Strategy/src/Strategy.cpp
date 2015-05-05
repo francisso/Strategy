@@ -14,13 +14,14 @@
 #include "Views/ViewCreator.h"
 #include "Views/Game.h"
 #include "Views/GameField.h"
-#include "Views/StatusBar.h"
+#include "Views/StatusBar/StatusBar.h"
 #include "FieldBuilder.h"
 #include "Constants.h"
 #include "Drawable/GameObjects/Action.h"
 #include "Drawable/GameObjects/Units/Archer.h"
 #include "Drawable/GameObjects/Buildings/Tower.h"
 #include "Players/HumanPlayer.h"
+#include "Views/StatusBar/StatusObject.h"
 
 // Размеры окна
 float X_SIZE_WINDOW;
@@ -44,6 +45,23 @@ int main() {
 		Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
 		StatusBar* status_bar = new StatusBar();
 		status_bar->SetBackground(back_status_bar);
+		// создание amount_object
+		StatusBar* amount_object = new StatusBar();
+		amount_object->SetBackground(engine->CreateBackgroungStatusBar_Amount());
+		// создание StatusObject
+		SDL_Rect src_text = {30, 120, 80, 80};
+		SDL_Rect src = {0, 0, 80, 80};
+		auto unit_status_draw = new Draw(src, "res/images/unit_for_status_bar.bmp");
+		unit_status_draw->SetX(20);
+		unit_status_draw->SetY(20);
+		StatusObject* unit_status = new StatusObject(unit_status_draw, src_text);
+		unit_status->SetText("3000");
+		amount_object->AddStatusObject(unit_status);
+		// создание amount_object
+		StatusBar* action_panel = new StatusBar();
+		action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
+		status_bar->AddView(amount_object);
+		status_bar->AddView(action_panel);
 		View* main_view = new View();
 		main_view->AddView(game);
 		main_view->AddView(status_bar);

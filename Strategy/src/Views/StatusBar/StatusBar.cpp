@@ -8,6 +8,7 @@
 #include "StatusBar.h"
 
 StatusBar::StatusBar() {
+	TTF_Init();
 	background = nullptr;
 }
 
@@ -31,6 +32,6 @@ void StatusBar::Draw(std::function<void (Drawable*, float X0, float Y0)> f) cons
 }
 
 void StatusBar::DrawElement(IStatusObject* element, std::function<void (Drawable*, float X0, float Y0)> f) const {
-	f(element->GetImage(), 0.0f, 0.0f);
-	f(element->GetTextImage(), 0.0f, 0.0f);
+	f(element->GetImage(), background->GetX(), background->GetY());
+	f(element->GetTextImage(), background->GetX(), background->GetY());
 }

@@ -9,9 +9,8 @@
 #define VIEWS_STATUSBAR_H_
 
 #include <vector>
-
 #include "IStatusObject.h"
-#include "View.h"
+#include "../View.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;

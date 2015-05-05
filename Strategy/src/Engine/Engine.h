@@ -38,6 +38,8 @@ public:
 
 	// создание фона для строки состояния
 	Drawable* CreateBackgroungStatusBar() const;
+	Drawable* CreateBackgroungStatusBar_Amount() const;
+	Drawable* CreateBackgroungStatusBar_Action() const;
 
 	//Constructor initializes all the resources
 	Drawable** LoadResources();

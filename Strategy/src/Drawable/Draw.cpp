@@ -31,6 +31,10 @@ Draw::~Draw()
 	delete(srcRect);
 }
 SDL_Surface* Draw::GetImage() const {return image;}
+void Draw::SetImage(SDL_Surface* Image){
+	SDL_FreeSurface(image);
+	image = Image;
+ }
 
 float Draw::GetX() const {return x;}
 

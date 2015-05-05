@@ -27,5 +27,7 @@
 #define FRAME 20
 // Размер строки состояния
 #define HIGH_STATUS_BAR 200
+// Ширина свободного места до внутренних строк состояния
+#define INDENT 10
 
 #endif /* CONSTANTS_H_ */

@@ -10,8 +10,9 @@
 
 #include <string>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
-#include "../IDrawable.h"
+#include "../../IDrawable.h"
 /**
  * Элементарная ячейка с содержимым,
  * отображаюйщаяся в строке состояния
@@ -31,11 +32,11 @@ public:
 	 * В себе хранит координаты относительно строки состояния
 	 */
 	virtual Drawable* GetImage()=0;
-private:
 	/**
 	 * @return текст, который будет отображаться
 	 */
 	virtual std::string GetText()=0;
+private:
 	/**
 	 * Координаты прямоугольника относительно начала строки состояния
 	 * @return прямоугольник, в который рисуется текст.

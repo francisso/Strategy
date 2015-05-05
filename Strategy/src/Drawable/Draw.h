@@ -16,6 +16,7 @@ public:
 	Draw(SDL_Rect src, const char *name_file_image, Uint8 transparency = 255);
 	virtual ~Draw();
 	virtual SDL_Surface* GetImage() const;
+	virtual void SetImage(SDL_Surface* image);
 	virtual float GetX() const;
 	virtual float GetY() const;
 	virtual void SetX(float x);

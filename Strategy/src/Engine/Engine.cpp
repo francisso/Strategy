@@ -49,6 +49,31 @@ Drawable** Engine::LoadResources(){
 void Engine::FreeResources(){
 	// TODO implement function
 }
+Drawable* Engine::CreateBackgroungStatusBar_Amount() const
+{
+	int height = HIGH_STATUS_BAR - 2*INDENT;
+	int width = static_cast<int>(X_SIZE_WINDOW)/2 - FRAME - 2*INDENT;
+	SDL_Surface *image = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, 146, 82, 84));
+	SDL_SaveBMP(image, "res/images/background_status_bar_amount.bmp");
+	SDL_Rect src = {0, 0, static_cast<Uint16>(width), static_cast<Uint16>(height)};
+	Drawable *back = new Draw(src, "res/images/background_status_bar_amount.bmp");
+	back->SetX(static_cast<float>(FRAME + INDENT));
+	back->SetY(static_cast<float>(Y_SIZE_WINDOW - FRAME - HIGH_STATUS_BAR + INDENT));
+	return back;
+}
+Drawable* Engine::CreateBackgroungStatusBar_Action() const{
+	int height = HIGH_STATUS_BAR - 2*INDENT;
+	int width = static_cast<int>(X_SIZE_WINDOW)/2 - FRAME - 2*INDENT;
+	SDL_Surface *image = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
+	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, 146, 82, 84));
+	SDL_SaveBMP(image, "res/images/background_status_bar_action.bmp");
+	SDL_Rect src = {0, 0, static_cast<Uint16>(width), static_cast<Uint16>(height)};
+	Drawable *back = new Draw(src, "res/images/background_status_bar_action.bmp");
+	back->SetX(static_cast<float>(X_SIZE_WINDOW/2 + INDENT));
+	back->SetY(static_cast<float>(Y_SIZE_WINDOW - FRAME - HIGH_STATUS_BAR + INDENT));
+	return back;
+}
 
 Drawable* Engine::CreateBackgroungStatusBar() const{
 	SDL_Rect left_frame = {0, 0, 20, 80};
@@ -59,9 +84,9 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 
 	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 0, 255));
 
-	SDL_Rect s_bar_rect = {20,
-			static_cast<Sint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 20),
-			static_cast<Uint16>(X_SIZE_WINDOW - 40),
+	SDL_Rect s_bar_rect = {FRAME,
+			static_cast<Sint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - FRAME),
+			static_cast<Uint16>(X_SIZE_WINDOW - FRAME*2),
 			HIGH_STATUS_BAR
 	};
 	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 196, 142, 24));
@@ -76,7 +101,7 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	}
 	// правая линия
 	frame->SetSrcRect(&right_frame);
-	frame->SetX(X_SIZE_WINDOW - 20);
+	frame->SetX(X_SIZE_WINDOW - FRAME);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
 		frame->SetY(static_cast<float>(i*80));
 		DrawToScreen(frame, screen);
@@ -90,7 +115,7 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	}
 	// нижняя линия
 	frame->SetSrcRect(&low_frame);
-	frame->SetY(Y_SIZE_WINDOW - 20);
+	frame->SetY(Y_SIZE_WINDOW - FRAME);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++) {
 		frame->SetX(static_cast<float>(i*80));
 		DrawToScreen(frame, screen);
@@ -100,14 +125,14 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	frame->SetX(0);
 	frame->SetY(0);
 	DrawToScreen(frame, screen);
-	frame->SetX(X_SIZE_WINDOW - 20);
+	frame->SetX(X_SIZE_WINDOW - FRAME);
 	frame->SetY(0);
 	DrawToScreen(frame, screen);
 	frame->SetX(0);
-	frame->SetY(Y_SIZE_WINDOW - 20);
+	frame->SetY(Y_SIZE_WINDOW - FRAME);
 	DrawToScreen(frame, screen);
-	frame->SetX(X_SIZE_WINDOW - 20);
-	frame->SetY(Y_SIZE_WINDOW - 20);
+	frame->SetX(X_SIZE_WINDOW - FRAME);
+	frame->SetY(Y_SIZE_WINDOW - FRAME);
 	DrawToScreen(frame, screen);
 
 	// сохранение фона
