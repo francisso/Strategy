@@ -56,28 +56,17 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	SDL_Rect high_frame = {40, 0, 80, 20};
 	SDL_Rect low_frame = {40, 20, 80, 20};
 	SDL_Rect corner_frame = {40, 40, 20, 20};
-//	SDL_Rect violet_frame = {40, 60, 20, 20};
-//b	SDL_Rect back_frame = {60, 40, 10, 10};
 
 	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 0, 255));
-/*
-	// фон строки состояния
-	frame->SetSrcRect(&back_frame);
-	for (int k = 0; k <= X_SIZE_WINDOW/10; k++)
-	for (int i = 0; i <= HIGH_STATUS_BAR/10; i++){
-		frame->SetX(static_cast<float>(k*10));
-		frame->SetY(X_SIZE_WINDOW + static_cast<float>(-HIGH_STATUS_BAR + i*10));
-		Draw(frame, screen);
-	}
-*/
+
 	SDL_Rect s_bar_rect = {20,
 			static_cast<Sint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 20),
 			static_cast<Uint16>(X_SIZE_WINDOW - 40),
 			HIGH_STATUS_BAR
 	};
 	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 196, 142, 24));
-	s_bar_rect.h = 20;
-	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 146, 82, 84));
+//	s_bar_rect.h = 20;
+//	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 146, 82, 84));
 	// левая линия
 	frame->SetSrcRect(&left_frame);
 	frame->SetX(0);
