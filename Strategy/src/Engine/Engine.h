@@ -15,7 +15,7 @@
 
 #include "../Constants.h"
 #include "../Views/View.h"
-#include "../Views/GameField.h"
+#include "../Views/Game/GameField.h"
 #include "../Drawable/Draw.h"
 
 // Размеры окна

@@ -8,24 +8,27 @@
 
 #include <exception>
 #include <iostream>
+#include <vector>
 
 #include "Engine/Engine.h"
 #include "Views/View.h"
 #include "Views/ViewCreator.h"
-#include "Views/Game.h"
-#include "Views/GameField.h"
+#include "Views/Game/Game.h"
+#include "Views/Game/GameField.h"
 #include "Views/StatusBar/StatusBar.h"
-#include "FieldBuilder.h"
+#include "Views/Game/FieldBuilder.h"
 #include "Constants.h"
 #include "Drawable/GameObjects/Action.h"
 #include "Drawable/GameObjects/Units/Archer.h"
 #include "Drawable/GameObjects/Buildings/Tower.h"
 #include "Players/HumanPlayer.h"
 #include "Views/StatusBar/StatusObject.h"
+#include "Views/Order.h"
 
 // Размеры окна
 float X_SIZE_WINDOW;
 float Y_SIZE_WINDOW;
+std::vector<Order> vector_of_orders;
 
 int main() {
 	std::cout << "I'm working" << std::endl;

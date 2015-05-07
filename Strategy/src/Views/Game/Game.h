@@ -10,18 +10,20 @@
 
 #include <functional>
 
-#include "View.h"
-#include "../Constants.h"
-#include "../IDrawable.h"
-#include "../Players/Player.h"
-#include "../Players/AI.h"
+#include "../View.h"
+#include "../../Constants.h"
+#include "../../IDrawable.h"
+#include "../../Players/Player.h"
+#include "../../Players/AI.h"
 //#include "../Players/HumanPlayer.h"
-#include "../Types.h"
-#include "../Drawable/GameObjects/Buildings/Building.h"
+#include "../../Types.h"
+#include "../../Drawable/GameObjects/Buildings/Building.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;
 extern float Y_SIZE_WINDOW;
+// приказы
+extern std::vector<Order> vector_of_orders;
 
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
@@ -108,6 +110,7 @@ private:
 	// изменяет облать карты которая отображается на экран
 	// проверяя координаты мыши
 	void MotionMap(Time t);
+	void TakeOrder();
 	//массив указателей на игроков
 	std::vector<Player*> players;
 	//указатель на игрока, которому будут переданы любые события

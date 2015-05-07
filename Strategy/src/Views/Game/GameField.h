@@ -8,9 +8,9 @@
 #ifndef GAMEFIELD_H_
 #define GAMEFIELD_H_
 
-#include "../Constants.h"
-#include "../Drawable/Draw.h"
-#include "../Drawable/GameObject.h"
+#include "../../Constants.h"
+#include "../../Drawable/Draw.h"
+#include "../../Drawable/GameObject.h"
 #include <queue>
 
 enum SelectionType {

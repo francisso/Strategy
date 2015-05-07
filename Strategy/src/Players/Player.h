@@ -16,6 +16,7 @@
 #include "SDL/SDL.h"
 
 #include "../Drawable/GameObjects/PlayingObject.h"
+#include "../Views/Order.h"
 
 struct EventForPlayer{
 	SDL_Event* event;
@@ -26,6 +27,8 @@ struct EventForPlayer{
 enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
 
 enum TaskForGame{NOTHING_TO_DO,PICK_OBJECT,MOVE_PICKED_TO};
+// сообщения, например для строки состояния
+extern std::vector<Order> vector_of_orders;
 
 /**
  * Класс, реализующий интерфейс игрока
@@ -87,6 +90,8 @@ class Player {
 
 		//bool IsShiftPressed();
 		//void SetShiftPressed(bool);
+		// обновление выделенных объектов в строке состояния
+		void UpdateStatusBar_selected();
 
 	protected:
 		int playerGold;
@@ -95,6 +100,7 @@ class Player {
 		std::string playerSignature;
 		Draw* selection;
 		Draw* selectionBuilding;
+		std::vector<AmountOfUnit> counter;
 		//bool ShiftPressed;
 };
 

@@ -16,7 +16,7 @@
 #include "../Drawable/GameObjects/PlayingObject.h"
 #include "../Drawable/GameObjects/Units/Unit.h"
 #include "../Types.h"
-#include "GameField.h"
+#include "Game/GameField.h"
 #include "../IDrawable.h"
 
 

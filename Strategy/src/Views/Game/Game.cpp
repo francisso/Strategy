@@ -244,7 +244,12 @@ int Game::SwitchPlayer(int ID){
 	}
 	return 1;
 }
-
+void Game::TakeOrder(){
+	auto it = vector_of_orders.begin();
+	for ( ; it != vector_of_orders.end(); it++)
+		if (it->receiver == GAME){
+		}
+}
 /**
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  *
@@ -254,6 +259,7 @@ int Game::SwitchPlayer(int ID){
  */
 void Game::Update(Time t) {
 	MotionMap(t);
+	TakeOrder();
 	for(int i=0; i<CELL_X_NUMBER; i++)
 	for(int k=0; k<CELL_Y_NUMBER; k++){
 		if(field->grid[i][k].usedFor!=CellType::OBJECT)

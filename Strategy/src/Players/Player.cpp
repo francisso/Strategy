@@ -54,6 +54,14 @@ int Player::GetGold(){
 	return playerGold;
 }
 
+void Player::UpdateStatusBar_selected(){
+	Order order;
+	order.receiver = GAME;
+	order.order = SELECTED;
+	order.data = &counter;
+	vector_of_orders.push_back(order);
+}
+
 void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(replace){
 		while(!pickedObjects.empty()){
@@ -61,6 +69,7 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 			object->SetPicked(false);
 			pickedObjects.pop_back();
 		}
+		counter.clear();
 	} else {
 		if(object->GetObjectType()==BUILDING && !pickedObjects.empty()){
 			return;
@@ -75,6 +84,26 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(object->IsPicked()) return;
 	else object->SetPicked(true);
 	pickedObjects.push_back(object);
+	if (object->GetObjectType() == BUILDING)
+		counter.clear();
+	else if (object->GetObjectType() == UNIT) {
+		Unit* unit = dynamic_cast<Unit*>(object);
+		bool flag = true;
+		auto it = counter.begin();
+		for ( ; it != counter.end(); it++)
+			if (it->unit_type == unit->WhoIs()){
+				it->amount++;
+				flag = false;
+				break;
+			}
+		if (flag) {
+			auto amount = new AmountOfUnit;
+			amount->unit_type = unit->WhoIs();
+			amount->amount = 1;
+			counter.push_back(*amount);
+		}
+	}
+	UpdateStatusBar_selected();
 }
 
 void Player::SetColor(Color newColor){
@@ -115,6 +144,8 @@ void Player::FreePickedObjects(){
 		pickedObjects.pop_back();
 	}
 	//std::cout<<"Number of picked is "<<pickedObjects.size()<<std::endl;
+	counter.clear();
+	UpdateStatusBar_selected();
 }
 
 //bool Player::IsShiftPressed(){return ShiftPressed;}
