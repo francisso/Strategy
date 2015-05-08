@@ -56,10 +56,10 @@ int Player::GetGold(){
 
 void Player::UpdateStatusBar_selected(){
 	Order order;
-	order.receiver = GAME;
+	order.receiver = STATUS_BAR_AMOUNT;
 	order.order = SELECTED;
 	order.data = &counter;
-	vector_of_orders.push_back(order);
+	list_of_orders.push_back(order);
 }
 
 void Player::AddPickedObject(PlayingObject* object, bool replace){

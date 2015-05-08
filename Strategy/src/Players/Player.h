@@ -8,7 +8,7 @@
 #ifndef PLAYERS_PLAYER_H_
 #define PLAYERS_PLAYER_H_
 
-#include <vector>
+#include <list>
 #include <string>
 #include <functional>
 
@@ -28,7 +28,7 @@ enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
 
 enum TaskForGame{NOTHING_TO_DO,PICK_OBJECT,MOVE_PICKED_TO};
 // сообщения, например для строки состояния
-extern std::vector<Order> vector_of_orders;
+extern std::list<Order> list_of_orders;
 
 /**
  * Класс, реализующий интерфейс игрока

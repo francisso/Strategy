@@ -245,8 +245,8 @@ int Game::SwitchPlayer(int ID){
 	return 1;
 }
 void Game::TakeOrder(){
-	auto it = vector_of_orders.begin();
-	for ( ; it != vector_of_orders.end(); it++)
+	auto it = list_of_orders.begin();
+	for ( ; it != list_of_orders.end(); it++)
 		if (it->receiver == GAME){
 		}
 }
