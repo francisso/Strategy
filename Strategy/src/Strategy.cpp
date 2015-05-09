@@ -37,7 +37,7 @@ int main() {
 		std::cout << "An error has occurred" <<std::endl;
 		std::cout << e <<std::endl;
 	}
-	catch (std::string e)
+	catch (std::string& e)
 		{
 			std::cout << "An error has occurred" <<std::endl;
 			std::cout << e <<std::endl;

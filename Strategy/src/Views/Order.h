@@ -11,14 +11,17 @@
 #include "../Types.h"
 #include "../Drawable/GameObjects/Units/Unit.h"
 
-struct Order {
-	ReceiverType receiver;
-	OrderType order;
-	const void* data;
-};
-
 struct AmountOfUnit{
 	UnitType unit_type;
 	unsigned int amount;
 };
+
+struct Order {
+	ReceiverType receiver;
+	OrderType order;
+	const void* data;
+	std::vector<AmountOfUnit>& counters;
+};
+
+
 #endif /* VIEWS_ORDER_H_ */

@@ -18,7 +18,7 @@ StatusObject::StatusObject(Drawable* Image, SDL_Rect Rect_text) {
 	color.g = 255;
 	color.r = 255;
 	color.unused = 255;
-	size_text = 16;
+	size_text = 20;
 }
 
 StatusObject::~StatusObject() {

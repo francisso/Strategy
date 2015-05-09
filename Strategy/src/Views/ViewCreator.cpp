@@ -7,10 +7,17 @@
 
 #include "ViewCreator.h"
 
-#include <fstream>
-
 View* ViewCreator::CreateMainView(Engine* engine)
 {
+	View* main_view = new View();
+	View* status_bar = CreateStatusBar(engine);
+	View* game = CreateGame(engine);
+	main_view->AddView(game);
+	main_view->AddView(status_bar);
+	return main_view;
+}
+
+View* ViewCreator::CreateGame(Engine* engine){
 	Drawable** texture = engine->LoadResources();
 	GameField* field = FieldBuilder::CreateField();
 
@@ -20,31 +27,6 @@ View* ViewCreator::CreateMainView(Engine* engine)
 	SDL_Rect gameRect { FRAME, FRAME, w_game_window, h_game_window};
 	auto game = new Game(texture, field, gameRect);
 
-	// создание status bar
-	Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
-	StatusBar* status_bar = new StatusBar();
-	status_bar->SetBackground(back_status_bar);
-	// создание amount_object
-	StatusBar* amount_object = new StatusBar();
-	amount_object->SetBackground(engine->CreateBackgroungStatusBar_Amount());
-	// создание StatusObject
-	SDL_Rect src_text = {30, 120, 80, 80};
-	SDL_Rect src = {0, 0, 80, 80};
-	auto unit_status_draw = new Draw(src, "res/images/unit_for_status_bar.bmp");
-	unit_status_draw->SetX(20);
-	unit_status_draw->SetY(20);
-	StatusObject* unit_status = new StatusObject(unit_status_draw, src_text);
-	unit_status->SetText("3000");
-	amount_object->AddStatusObject(unit_status);
-	// создание amount_object
-	StatusBar* action_panel = new StatusBar();
-	action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
-	// Сборка всего в mainView
-	status_bar->AddView(amount_object);
-	status_bar->AddView(action_panel);
-	View* main_view = new View();
-	main_view->AddView(game);
-	main_view->AddView(status_bar);
 	//создание игрока-человека
 	HumanPlayer* Player_1=new HumanPlayer(1,RED,"Player 1");
 	game->AddPlayer(Player_1);
@@ -76,9 +58,69 @@ View* ViewCreator::CreateMainView(Engine* engine)
 	SDL_Rect src5 = {0,0,80,80};
 	auto tower1  = new Tower(src5, "res/images/test.bmp",1);
 	game->AddBuildingAtCell(tower1,8,8);
-	return main_view;
+
+	return game;
+}
+StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
+	// создание amount_object
+	auto make_amount_orders = [](StatusBar* status_bar){
+		std::list<Order>::iterator next_ord;
+		std::list<Order>::iterator ord = list_of_orders.begin();
+		bool flag = true;
+		while ( ord != list_of_orders.end()) {
+			next_ord = ++ord;
+			ord--;
+			if (ord->receiver == STATUS_BAR_AMOUNT){
+				if (ord->order == SELECTED){
+					if (flag)
+						status_bar->ClearStatusObjects();
+					std::vector<AmountOfUnit> counters = ord->counters;
+					for (unsigned int i = 0; i < counters.size() && flag; i++){
+						SDL_Rect src = {0, 0, 80, 80};
+						SDL_Rect src_text = {static_cast<Sint16>(30 + 100*i), 120, 80, 80};
+						auto unit_status_draw = new Draw(src, "res/images/unit_for_status_bar.bmp");
+						unit_status_draw->SetX(static_cast<float>(20 + 100*i));
+						unit_status_draw->SetY(20);
+						StatusObject* unit_status = new StatusObject(unit_status_draw, src_text);
+						char text[80];
+						sprintf(text, "%d", counters[i].amount);
+						unit_status->SetText(text);
+						status_bar->AddStatusObject(unit_status);
+					}
+					flag = false;
+					list_of_orders.erase(ord);
+				}
+			}
+			ord = next_ord;
+		}
+	};
+	StatusBar* amount_object = new StatusBar(make_amount_orders);
+	amount_object->SetBackground(engine->CreateBackgroungStatusBar_Amount());
+	return amount_object;
 }
 
+View* ViewCreator::CreateStatusBar(Engine* engine){
+	// создание status bar
+	Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
+
+	StatusBar* status_bar = new StatusBar([](StatusBar* status_bar){status_bar++;});
+	status_bar->SetBackground(back_status_bar);
+	StatusBar* amount_object = CreateStatusBar_Amount(engine);
+	// создание action_panel
+	auto make_action_orders = [](StatusBar* status_bar){
+		status_bar++;
+	};
+	StatusBar* action_panel = new StatusBar(make_action_orders);
+	action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
+	// Сборка всего в mainView
+	status_bar->AddView(amount_object);
+	status_bar->AddView(action_panel);
+
+	return status_bar;
+}
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+// Чтение из xml файла
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 View* ViewCreator::CreateView(const char* path) {
 	xml_document<> doc;
 	xml_node<> * root_node;

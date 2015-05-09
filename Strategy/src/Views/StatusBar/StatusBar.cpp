@@ -7,9 +7,15 @@
 
 #include "StatusBar.h"
 
-StatusBar::StatusBar() {
+StatusBar::StatusBar(std::function<void (StatusBar* status_bar)> f) {
 	TTF_Init();
+	make_orders = f;
 	background = nullptr;
+}
+
+void StatusBar::Update(Time t){
+	make_orders(this);
+	View::Update(t);
 }
 
 void StatusBar::SetBackground(Drawable* back) {
@@ -21,7 +27,8 @@ void StatusBar::AddStatusObject(IStatusObject* object) {
 }
 
 void StatusBar::ClearStatusObjects() {
-	elements.clear();
+	while (!elements.empty())
+		elements.pop_back();
 }
 
 void StatusBar::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const{
