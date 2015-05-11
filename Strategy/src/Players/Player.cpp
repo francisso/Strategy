@@ -55,11 +55,8 @@ int Player::GetGold(){
 }
 
 void Player::UpdateStatusBar_selected(){
-	Order order;
-	order.receiver = GAME;
-	order.order = SELECTED;
-	order.data = &counter;
-	vector_of_orders.push_back(order);
+	Order order = {STATUS_BAR_AMOUNT, SELECTED, &counter, counter};
+	list_of_orders.push_back(order);
 }
 
 void Player::AddPickedObject(PlayingObject* object, bool replace){
@@ -101,6 +98,7 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 			amount->unit_type = unit->WhoIs();
 			amount->amount = 1;
 			counter.push_back(*amount);
+			delete amount;
 		}
 	}
 	UpdateStatusBar_selected();

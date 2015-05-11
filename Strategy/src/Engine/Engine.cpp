@@ -9,7 +9,6 @@
 
 
 Engine::Engine() : view(nullptr) {
-	frame = nullptr;
 	if ( SDL_Init( SDL_INIT_VIDEO) < 0 )
 	{
 	        printf( "Unable to init SDL: %s", SDL_GetError());
@@ -27,6 +26,9 @@ Engine::Engine() : view(nullptr) {
 	X_SIZE_WINDOW = static_cast<float>(screen->w);
 	Y_SIZE_WINDOW = static_cast<float>(screen->h);
 	printf("screen size: %d x %d\n", screen->w, screen->h);
+
+	SDL_Rect src_frame = {0, 0, 120, 80};
+	frame = new Draw(src_frame, "res/images/frame.bmp");
 }
 
 Engine::~Engine() {
@@ -41,8 +43,6 @@ Drawable** Engine::LoadResources(){
 	texture[FOREST] = new Draw(src, "res/images/forest.bmp");
 	texture[MOUNTIAN] = new Draw(src, "res/images/mountian.bmp");
 	texture[SWAMP]  = new Draw(src, "res/images/swamp.bmp");
-	SDL_Rect src_frame = {0, 0, 120, 80};
-	frame = new Draw(src_frame, "res/images/frame.bmp");
 	return texture;
 }
 
@@ -83,7 +83,6 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	SDL_Rect corner_frame = {40, 40, 20, 20};
 
 	SDL_FillRect(screen, 0, SDL_MapRGB(screen->format, 255, 0, 255));
-
 	SDL_Rect s_bar_rect = {FRAME,
 			static_cast<Sint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - FRAME),
 			static_cast<Uint16>(X_SIZE_WINDOW - FRAME*2),
@@ -93,6 +92,7 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 //	s_bar_rect.h = 20;
 //	SDL_FillRect(screen, &s_bar_rect, SDL_MapRGB(screen->format, 146, 82, 84));
 	// левая линия
+	std::cout << frame << std::endl;
 	frame->SetSrcRect(&left_frame);
 	frame->SetX(0);
 	for (int i = 0; i <= X_SIZE_WINDOW/80; i++){

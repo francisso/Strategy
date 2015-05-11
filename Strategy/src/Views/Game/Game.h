@@ -9,6 +9,7 @@
 #define GAME_H_
 
 #include <functional>
+#include <list>
 
 #include "../View.h"
 #include "../../Constants.h"
@@ -23,7 +24,7 @@
 extern float X_SIZE_WINDOW;
 extern float Y_SIZE_WINDOW;
 // приказы
-extern std::vector<Order> vector_of_orders;
+extern std::list<Order> list_of_orders;
 
 //Окно, отображающее игровое поле
 // и отрабатывающее логику самой игры
