@@ -52,7 +52,7 @@ private:
 	const bool MULTUTHREADING = false;
 	///Запускаьт ли игру в полноэкранном режиме?
 	//возможно, const надо будет убрать.
-	const bool FULLSCREEN = true;
+	const bool FULLSCREEN = false;
 	bool game_is_running = true;
 	//FPS для многопоточного исполнения
 	static const int DRAW_FPS = 300;

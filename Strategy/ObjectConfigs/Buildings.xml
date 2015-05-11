@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Tower imageFile="res/images/test.bmp" AttackRange=5.0 Damage=0 MaxHP=500 SizeX=2 SizeY=2/>
+<Tower imageFile="res/images/test.bmp" AttackRange="5.0" Damage="0" MaxHP="500" SizeX="2" SizeY="2"/>

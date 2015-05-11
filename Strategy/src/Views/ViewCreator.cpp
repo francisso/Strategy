@@ -7,7 +7,7 @@
 
 #include "ViewCreator.h"
 
-#include <fstream>
+
 
 View* ViewCreator::CreateView(const char* path) {
 	xml_document<> doc;

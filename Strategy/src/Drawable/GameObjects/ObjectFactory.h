@@ -8,11 +8,22 @@
 #ifndef DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_
 #define DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_
 
+
+#ifndef RAPID_XML_
+#define RAPID_XML_
 #include "../../../lib/rapidxml-1.13/rapidxml.hpp"
+//#include "../../../lib/rapidxml-1.13/rapidxml_utils.hpp"
+#endif
+
+#include <fstream>
+#include <cstdlib>
+
 #include "./Units/Unit.h"
 #include "./Buildings/Building.h"
 #include "./Loot.h"
 #include "./Environment.h"
+
+using namespace rapidxml;
 
 struct UnitProperties{
 	UnitType type;
@@ -36,12 +47,14 @@ struct BuildingProperties{
 class ObjectFactory{
 private:
 	static const char *unitConfigs, *buildingConfigs, *lootConfigs, *environmentConfigs;
-	static UnitProperties *ArcherProps,*SwordmanProps;
-	static BuildingProperties *TowerProps, *FortProps;
+	//static UnitProperties ArcherProps,SwordmanProps;
+	//static BuildingProperties TowerProps, FortProps;
+	static const char* abc;
+
 public:
 
-	static UnitProperties* LoadUnitFromXML(UnitType unitType);
-	static BuildingProperties* LoadBuildingFromXML(BuildingType buildingType);
+	static UnitProperties LoadUnitFromXML(UnitType unitType);
+	static BuildingProperties LoadBuildingFromXML(BuildingType buildingType);
 
 	/**
 	 * Создание юнита по шаблону
@@ -61,13 +74,5 @@ public:
 	 * Методы создания окружения
 	 */
 };
-
-const char* ObjectFactory::unitConfigs="ObjectConfigs/Units.xml";
-const char* ObjectFactory::buildingConfigs="ObjectConfigs/Buildings.xml";
-const char* ObjectFactory::lootConfigs="ObjectConfigs/Loot.xml";
-const char* ObjectFactory::environmentConfigs="ObjectConfigs/Environment.xml";
-
-UnitProperties *ObjectFactory::ArcherProps;
-UnitProperties *ObjectFactory::SwordmanProps;
 
 #endif /* DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_ */

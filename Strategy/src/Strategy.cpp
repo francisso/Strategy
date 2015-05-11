@@ -24,11 +24,18 @@
 #include "Players/HumanPlayer.h"
 #include "Views/StatusBar/StatusObject.h"
 #include "Views/Order.h"
+#include "Drawable/GameObjects/ObjectFactory.h"
 
 // Размеры окна
 float X_SIZE_WINDOW;
 float Y_SIZE_WINDOW;
 std::vector<Order> vector_of_orders;
+
+const char* ObjectFactory::unitConfigs="ObjectConfigs/Units.xml";
+const char* ObjectFactory::buildingConfigs="ObjectConfigs/Buildings.xml";
+const char* ObjectFactory::lootConfigs="ObjectConfigs/Loot.xml";
+const char* ObjectFactory::environmentConfigs="ObjectConfigs/Environment.xml";
+
 
 int main() {
 	std::cout << "I'm working" << std::endl;
@@ -75,8 +82,9 @@ int main() {
 		game->SwitchPlayer(1);
 
 		//Здесь это времеено, создание лучника.
-		SDL_Rect src1 = {0,0,40,40};
-		auto archer1 = new Archer(src1, "res/images/unit.bmp",1);
+		//SDL_Rect src1 = {0,0,40,40};
+		//auto archer1 = new Archer(src1, "res/images/unit.bmp",1);
+		auto archer1 = ObjectFactory::CreateUnit(UnitType::ARCHER,1,0,0);
 		game->AddUnitAtCell(archer1,2,2);
 
 		SDL_Rect src2 = {0,0,40,40};
