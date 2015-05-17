@@ -9,10 +9,13 @@
 
 #include <iostream>
 
-Unit::Unit(SDL_Rect src, const char *name_file_image, UnitType unitType, float maxSpeed,unsigned int maxHP,int ownerID): PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),Rotating(4),whoIs(unitType),triesLeft(NUMBER_OF_TRIES) {}
+Unit::Unit(SDL_Rect src, const char *name_file_image, UnitType unitType,
+		float maxSpeed,unsigned int maxHP,int ownerID):
+				PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),
+				Rotating(4),whoIs(unitType),triesLeft(NUMBER_OF_TRIES) {}
 
-inline int sign(int temp){
-	return (temp>0)?1:-1;
+inline int sign(int x){
+	return (x>0) ? 1: -1;
 }
 
 void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){

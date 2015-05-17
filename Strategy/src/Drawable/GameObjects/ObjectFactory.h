@@ -17,6 +17,7 @@
 
 #include <fstream>
 #include <cstdlib>
+#include <string>
 
 #include "Unit.h"
 #include "Building.h"
@@ -27,7 +28,7 @@ using namespace rapidxml;
 
 struct UnitProperties{
 	UnitType type;
-	char *imageFile;
+	std::string imageFile;
 	float MaxSpeed;
 	unsigned int MaxHP;
 	unsigned int Damage;

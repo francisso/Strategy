@@ -17,22 +17,21 @@
 
 Unit* ObjectFactory::CreateUnit(UnitType type,int ownerID, float x, float y)
 {
-	UnitProperties* currUnit = new UnitProperties();
+	UnitProperties currUnit;
 	static UnitProperties ArcherProps=LoadUnitFromXML(ARCHER);
 	static UnitProperties SwordmanProps=LoadUnitFromXML(SWORDMAN);
 	switch(type){
 	case ARCHER:
-		*currUnit=ArcherProps;
+		currUnit=ArcherProps;
 		break;
 	case SWORDMAN:
-
-		*currUnit=SwordmanProps;
+		currUnit=SwordmanProps;
 		break;
 	default:
 		return nullptr;
 	}
-	SDL_Rect* src = new SDL_Rect{0,0,CELL_X_PIXELS,CELL_Y_PIXELS};
-	Unit* unit= new Unit(*src,currUnit->imageFile,type,currUnit->MaxSpeed,currUnit->MaxHP,ownerID);
+	SDL_Rect src = {0,0,CELL_X_PIXELS,CELL_Y_PIXELS};
+	Unit* unit= new Unit(src,currUnit.imageFile.c_str(),type,currUnit.MaxSpeed,currUnit.MaxHP,ownerID);
 	unit->SetX(x);
 	unit->SetY(y);
 	return unit;
@@ -61,7 +60,7 @@ UnitProperties ObjectFactory::LoadUnitFromXML(UnitType type)
 	}
 	printf("Started parsing xml\n");
 
-	auto imageFile = root_node->first_attribute("imageFile")->value();
+	auto imageFile =std::string(root_node->first_attribute("imageFile")->value());
 	auto AttackRange = strtof (root_node->first_attribute("AttackRange")->value(), NULL);
 	auto Damage = static_cast<unsigned int>(strtoul(root_node->first_attribute("Damage")->value(),NULL,10));
 	auto MaxHP = static_cast<unsigned int>(strtoul(root_node->first_attribute("MaxHP")->value(), NULL,10));
