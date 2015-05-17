@@ -23,10 +23,9 @@
 #include "Game/FieldBuilder.h"
 #include "../Constants.h"
 #include "../Drawable/GameObjects/Action.h"
-#include "../Drawable/GameObjects/Units/Archer.h"
-#include "../Drawable/GameObjects/Buildings/Tower.h"
 #include "../Players/HumanPlayer.h"
 #include "StatusBar/StatusObject.h"
+#include "../Drawable/GameObjects/ObjectFactory.h"
 
 using namespace rapidxml;
 //Создает объект View, считывая из

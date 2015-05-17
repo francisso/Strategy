@@ -13,12 +13,12 @@
 
 #include "../View.h"
 #include "../../Constants.h"
+#include "../../Drawable/GameObjects/Building.h"
 #include "../../IDrawable.h"
 #include "../../Players/Player.h"
 #include "../../Players/AI.h"
 //#include "../Players/HumanPlayer.h"
 #include "../../Types.h"
-#include "../../Drawable/GameObjects/Buildings/Building.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;

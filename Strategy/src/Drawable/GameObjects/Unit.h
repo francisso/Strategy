@@ -11,11 +11,11 @@
 #include <cmath>
 #include <queue>
 
-#include "../Gameplay_Constants.h"
-#include "../../../Constants.h"
-#include "../../../Drawable/GameObjects/Action.h"
-#include "../PlayingObject.h"
-#include "../../../Rotating.h"
+#include "Gameplay_Constants.h"
+#include "../../Constants.h"
+#include "../../Drawable/GameObjects/Action.h"
+#include "PlayingObject.h"
+#include "../../Rotating.h"
 
 enum UnitType{ARCHER, SWORDMAN};
 

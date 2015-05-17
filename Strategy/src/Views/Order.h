@@ -9,7 +9,7 @@
 #define VIEWS_ORDER_H_
 
 #include "../Types.h"
-#include "../Drawable/GameObjects/Units/Unit.h"
+#include "../Drawable/GameObjects/Unit.h"
 
 struct AmountOfUnit{
 	UnitType unit_type;

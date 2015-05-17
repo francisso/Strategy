@@ -14,7 +14,7 @@
 #include <inttypes.h>
 
 #include "../Drawable/GameObjects/PlayingObject.h"
-#include "../Drawable/GameObjects/Units/Unit.h"
+#include "../Drawable/GameObjects/Unit.h"
 #include "../Types.h"
 #include "Game/GameField.h"
 #include "../IDrawable.h"

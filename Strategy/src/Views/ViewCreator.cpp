@@ -34,6 +34,7 @@ View* ViewCreator::CreateGame(Engine* engine){
 	game->SwitchPlayer(1);
 
 	//Здесь это времеено, создание лучника.
+	/*
 	SDL_Rect src1 = {0,0,40,40};
 	auto archer1 = new Archer(src1, "res/images/archer.bmp",1);
 	game->AddUnitAtCell(archer1,2,2);
@@ -58,7 +59,13 @@ View* ViewCreator::CreateGame(Engine* engine){
 
 	SDL_Rect src5 = {0,0,80,80};
 	auto tower1  = new Tower(src5, "res/images/test.bmp",1);
-	game->AddBuildingAtCell(tower1,8,8);
+	game->AddBuildingAtCell(tower1,8,8);*/
+
+	game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),2,2);
+	game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),2,3);
+	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,2);
+	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,3);
+	game->AddBuildingAtCell(ObjectFactory::CreateBuilding(FORT,1), 5,5);
 
 	return game;
 }

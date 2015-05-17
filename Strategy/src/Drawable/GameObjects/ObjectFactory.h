@@ -18,8 +18,8 @@
 #include <fstream>
 #include <cstdlib>
 
-#include "./Units/Unit.h"
-#include "./Buildings/Building.h"
+#include "Unit.h"
+#include "Building.h"
 #include "./Loot.h"
 #include "./Environment.h"
 
