@@ -11,6 +11,7 @@
 #include "../../Constants.h"
 #include "../../Drawable/Draw.h"
 #include "../../Drawable/GameObject.h"
+#include "../../Types.h"
 #include <queue>
 
 enum SelectionType {
@@ -29,12 +30,13 @@ struct GameField {
 	Draw* selection[4];
 	struct Cell {
 		int textureType;
-		int usedFor;
+		CellType usedFor;
 		GameObject* object;
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 
 	void findPath(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints);
+	bool IsWalkable(int x, int y);
 };
 
 #endif /* GAMEFIELD_H_ */
