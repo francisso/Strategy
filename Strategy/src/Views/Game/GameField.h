@@ -14,6 +14,8 @@
 #include "../../Types.h"
 #include <queue>
 
+const int maxRadiusDefault=5;
+
 enum SelectionType {
 	LEFT = 0,
 	RIGHT = 1,
@@ -37,6 +39,15 @@ struct GameField {
 
 	void findPath(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints);
 	bool IsWalkable(int x, int y);
+	bool IsInside(int x, int y);
+
+	/**
+	 * Ищет свободную ячейку в радиусе radius
+	 * Возвращает Point свободной ячейки ближайших к заданной координатами x и y
+	 * если не может найти свободную ячейку, возвращает -1 и -1 в полях Point
+	 * если указан радиус по умолчанию или отрицательный, будет искать в радиусе maxRadiusDefault
+	 */
+	Point FindClosestFreeCell(int x, int y, int radius=0);
 };
 
 #endif /* GAMEFIELD_H_ */

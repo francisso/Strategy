@@ -14,6 +14,8 @@ void GameField::findPath(Point &startPoint, Point &finishPoint, std::queue<Point
 }
 
 bool GameField::IsWalkable(int x, int y){
+	if(!this->IsInside(x,y))
+		return false;
 	switch(this->grid[x][y].textureType){
 	case WATER:
 		return false;
@@ -39,4 +41,26 @@ bool GameField::IsWalkable(int x, int y){
 		return false;
 	}
 	return false;
+}
+
+bool GameField::IsInside(int x, int y){
+	if(((x<CELL_X_NUMBER) && (x>=0)) || ((y<CELL_Y_NUMBER) && (y>=0)))
+		return true;
+	else return false;
+}
+
+Point GameField::FindClosestFreeCell(int x, int y, int radius){
+	radius=(radius>=0)?radius:maxRadiusDefault;
+	Point point{-1,-1};
+	int currDist, currMinDist=radius*2+1;
+	for(int i=x-radius;i<x+radius+1;i++)
+	for(int j=y-radius;j<y+radius+1;j++)
+	{
+		currDist=std::abs(i-x)+std::abs(j-y);
+		if(IsWalkable(i,j) && (currDist<currMinDist)){
+			point.x=i;
+			point.y=j;
+		}
+	}
+	return point;
 }
