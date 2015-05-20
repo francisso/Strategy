@@ -23,6 +23,10 @@ public:
 	virtual void SetX(float x);
 	virtual void SetY(float y);
 
+	/**
+	 * Добавляет Action, который будет обрабатываться Game и приведет к созданию Unit типа type
+	 * @replace - если true, очищает очередь перед добавлением нового Action
+	 */
 	void Produce(UnitType type, bool replace=false);
 private:
 	const BuildingType whatIs;
