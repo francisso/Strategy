@@ -11,7 +11,7 @@
 #include "PlayingObject.h"
 #include "Sizeable.h"
 
-enum BuildingType{TOWER,FORT};
+
 
 class Building: public PlayingObject, public Sizeable{
 public:
@@ -22,6 +22,8 @@ public:
 
 	virtual void SetX(float x);
 	virtual void SetY(float y);
+
+	void Produce(UnitType type, bool replace=false);
 private:
 	const BuildingType whatIs;
 };

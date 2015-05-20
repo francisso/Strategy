@@ -11,12 +11,15 @@
 #include "../../Rotating.h"
 #include "../GameObject.h"
 
-enum ActionType{WAIT,MOVE,ATTACK};
+enum ActionType{WAIT,MOVE,ATTACK,PRODUCE_UNIT,PRODUCE_BUILDING};
 
 struct Action{
 	ActionType type;
 	Direction moveDir;
 	GameObject* targetObject;
+	unsigned int time=0;
+	UnitType unit;
+	BuildingType building;
 
 	static Action* CreateMoveAction(ActionType type, Direction dir=SOUTH);
 };

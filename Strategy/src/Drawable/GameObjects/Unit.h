@@ -17,7 +17,7 @@
 #include "PlayingObject.h"
 #include "../../Rotating.h"
 
-enum UnitType{ARCHER, SWORDMAN};
+
 
 class Unit : public PlayingObject, public Rotating{
 public:

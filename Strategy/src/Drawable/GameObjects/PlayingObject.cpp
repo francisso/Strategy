@@ -89,8 +89,11 @@ void PlayingObject::AddAction(Action* action,bool replace)
 {
 	//std::cout<<std::endl<<std::endl<<std::endl;
 	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
+	Action* temp;
 	if (replace){
 		while(!ActionQueue.empty()){
+			temp=ActionQueue.front();
+			delete(temp);
 			ActionQueue.pop();
 		}
 	}
@@ -106,6 +109,8 @@ void PlayingObject::AddAction(Action* action,bool replace)
 }
 
 void PlayingObject::NextAction(){
+	Action* temp=currAction;
+	delete(temp);
 	if(this->ActionQueue.empty()){
 		this->currAction=Action::CreateMoveAction(WAIT);
 	} else {
@@ -115,8 +120,13 @@ void PlayingObject::NextAction(){
 }
 
 void PlayingObject::Stop(){
+	Action* temp;
 	while(!ActionQueue.empty())
+	{
+		temp=ActionQueue.front();
+		delete(temp);
 		ActionQueue.pop();
+	}
 }
 
 void PlayingObject::RepeatLastAction(){
