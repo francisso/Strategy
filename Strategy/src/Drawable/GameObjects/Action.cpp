@@ -14,4 +14,3 @@ Action* Action::CreateMoveAction(ActionType type,Direction dir){
 	action->targetObject=nullptr;
 	return action;
 }
-
