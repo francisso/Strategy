@@ -57,6 +57,7 @@ void StatusObject::CreateTextImage(){
 }
 void StatusObject::SetSizeText(int size){
 	size_text = size;
+	CreateTextImage();
 }
 
 void StatusObject::SetColorText(SDL_Color clr){

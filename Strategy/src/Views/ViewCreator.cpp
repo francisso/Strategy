@@ -84,16 +84,16 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 						status_bar->ClearStatusObjects();
 					std::vector<AmountOfUnit> counters = ord->counters;
 
-					if (counters.size() > 0&& counters[0].object_type == BUILDING && flag){
+					if (counters.size() > 0 && counters[0].object_type == BUILDING && flag){
 						SDL_Rect src = {0, 0, 160, 160};
-						SDL_Rect src_text = {200, 95, 80, 80};
+						SDL_Rect src_text = {200, 95, 280, 80};
 						auto buiding_status_draw = new Draw(src, "res/images/test.bmp");
 						buiding_status_draw->SetX(20);
 						buiding_status_draw->SetY(20);
 						StatusObject* building_status = new StatusObject(buiding_status_draw, src_text);
 						building_status->SetText("Castle");
 						building_status->SetColorText(255, 255, 55);
-						building_status->SetSizeText(40);
+						building_status->SetSizeText(30);
 						status_bar->AddStatusObject(building_status);
 					} else
 					for (unsigned int i = 0; i < counters.size() && flag; i++){
@@ -134,7 +134,16 @@ StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
 					if (flag)
 						status_bar->ClearStatusObjects();
 					std::vector<AmountOfUnit> counters = ord->counters;
-					//...
+					if (counters.size() > 0 && counters[0].object_type == BUILDING && flag){
+						SDL_Rect src = {0, 0, 160, 70};
+						SDL_Rect text_src = {35, 45, 140, 30};
+						auto button_status_draw = new Draw(src, "res/images/button.bmp");
+						button_status_draw->SetX(20);
+						button_status_draw->SetY(20);
+						StatusObject* button_status = new StatusObject(button_status_draw, text_src);
+						button_status->SetText("Create unit");
+						status_bar->AddStatusObject(button_status);
+					}
 					flag = false;
 					list_of_orders.erase(ord);
 				}
