@@ -12,6 +12,7 @@
 #include "../Drawable/GameObjects/Unit.h"
 
 struct AmountOfUnit{
+	GameObjectType object_type;
 	UnitType unit_type;
 	unsigned int amount;
 };

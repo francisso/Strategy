@@ -66,6 +66,7 @@ void StatusObject::SetColorText(int red, int green, int blue){
 	color.r = static_cast<Uint8>(red);
 	color.g = static_cast<Uint8>(green);
 	color.b = static_cast<Uint8>(blue);
+	CreateTextImage();
 }
 
 

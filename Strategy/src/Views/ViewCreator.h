@@ -39,6 +39,7 @@ private:
 	static View* CreateGame(Engine* engine);
 	static View* CreateStatusBar(Engine* engine);
 	static StatusBar* CreateStatusBar_Amount(Engine* engine);
+	static StatusBar* CreateStatusBar_Action(Engine* engine);
 	// чтение из xml файла
 	static View* MakeView(xml_node<>* root_node);
 	static Drawable* MakeDrawable(xml_node<>* node);

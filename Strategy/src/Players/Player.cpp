@@ -14,7 +14,7 @@ Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),p
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	selection = new Draw(src, "res/images/playerSelection.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
-	SDL_Rect src1 = {0, 0, 2*CELL_X_PIXELS, 2*CELL_Y_PIXELS};
+	SDL_Rect src1 = {0, 0, 4*CELL_X_PIXELS, 4*CELL_Y_PIXELS};
 	selectionBuilding = new Draw(src1, "res/images/selectionBuilding.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }
@@ -57,6 +57,8 @@ int Player::GetGold(){
 void Player::UpdateStatusBar_selected(){
 	Order order = {STATUS_BAR_AMOUNT, SELECTED, &counter, counter};
 	list_of_orders.push_back(order);
+	order.receiver = STATUS_BAR_ACTION;
+	list_of_orders.push_back(order);
 }
 
 void Player::AddPickedObject(PlayingObject* object, bool replace){
@@ -81,8 +83,13 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 	if(object->IsPicked()) return;
 	else object->SetPicked(true);
 	pickedObjects.push_back(object);
-	if (object->GetObjectType() == BUILDING)
+	if (object->GetObjectType() == BUILDING) {
 		counter.clear();
+		AmountOfUnit amount;
+		amount.object_type = BUILDING;
+		amount.amount = 1;
+		counter.push_back(amount);
+	}
 	else if (object->GetObjectType() == UNIT) {
 		Unit* unit = dynamic_cast<Unit*>(object);
 		bool flag = true;
@@ -95,6 +102,7 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 			}
 		if (flag) {
 			auto amount = new AmountOfUnit;
+			amount->object_type = UNIT;
 			amount->unit_type = unit->WhoIs();
 			amount->amount = 1;
 			counter.push_back(*amount);

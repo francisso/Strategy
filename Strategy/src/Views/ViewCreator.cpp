@@ -83,6 +83,19 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 					if (flag)
 						status_bar->ClearStatusObjects();
 					std::vector<AmountOfUnit> counters = ord->counters;
+
+					if (counters.size() > 0&& counters[0].object_type == BUILDING && flag){
+						SDL_Rect src = {0, 0, 160, 160};
+						SDL_Rect src_text = {200, 95, 80, 80};
+						auto buiding_status_draw = new Draw(src, "res/images/test.bmp");
+						buiding_status_draw->SetX(20);
+						buiding_status_draw->SetY(20);
+						StatusObject* building_status = new StatusObject(buiding_status_draw, src_text);
+						building_status->SetText("Castle");
+						building_status->SetColorText(255, 255, 55);
+						building_status->SetSizeText(40);
+						status_bar->AddStatusObject(building_status);
+					} else
 					for (unsigned int i = 0; i < counters.size() && flag; i++){
 						SDL_Rect src = {0, 0, 80, 80};
 						SDL_Rect src_text = {static_cast<Sint16>(30 + 100*i), 120, 80, 80};
@@ -95,6 +108,7 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 						unit_status->SetText(text);
 						status_bar->AddStatusObject(unit_status);
 					}
+
 					flag = false;
 					list_of_orders.erase(ord);
 				}
@@ -106,7 +120,32 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 	amount_object->SetBackground(engine->CreateBackgroungStatusBar_Amount());
 	return amount_object;
 }
-
+StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
+	// создание action_panel
+	auto make_action_orders = [](StatusBar* status_bar){
+		std::list<Order>::iterator next_ord;
+		std::list<Order>::iterator ord = list_of_orders.begin();
+		bool flag = true;
+		while ( ord != list_of_orders.end()) {
+			next_ord = ++ord;
+			ord--;
+			if (ord->receiver == STATUS_BAR_ACTION){
+				if (ord->order == SELECTED){
+					if (flag)
+						status_bar->ClearStatusObjects();
+					std::vector<AmountOfUnit> counters = ord->counters;
+					//...
+					flag = false;
+					list_of_orders.erase(ord);
+				}
+			}
+			ord = next_ord;
+		}
+	};
+	StatusBar* action_panel = new StatusBar(make_action_orders);
+	action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
+	return action_panel;
+}
 View* ViewCreator::CreateStatusBar(Engine* engine){
 	// создание status bar
 	Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
@@ -114,16 +153,10 @@ View* ViewCreator::CreateStatusBar(Engine* engine){
 	StatusBar* status_bar = new StatusBar([](StatusBar* status_bar){status_bar++;});
 	status_bar->SetBackground(back_status_bar);
 	StatusBar* amount_object = CreateStatusBar_Amount(engine);
-	// создание action_panel
-	auto make_action_orders = [](StatusBar* status_bar){
-		status_bar++;
-	};
-	StatusBar* action_panel = new StatusBar(make_action_orders);
-	action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
-	// Сборка всего в mainView
+	StatusBar* action_panel = CreateStatusBar_Action(engine);
+	// Сборка всего в status_bar
 	status_bar->AddView(amount_object);
 	status_bar->AddView(action_panel);
-
 
 	return status_bar;
 }
