@@ -24,4 +24,6 @@ enum GameObjectType {UNIT,BUILDING,LOOT,ENVIRONMENT};
 
 enum UnitType{ARCHER, SWORDMAN};
 enum BuildingType{TOWER,FORT};
+enum EnvironmentType{TREE,STONE};
+enum LootType{GOLD};
 #endif /* TYPES_H_ */
