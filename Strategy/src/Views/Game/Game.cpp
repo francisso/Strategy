@@ -470,8 +470,24 @@ void Game::UnitHandler(int i, int k, Time t){
 }
 
 void Game::StructureHandler(int i, int k, Time t){
-	if(i*k>0) return;
-	if(t>0) return;
+	Building* building=dynamic_cast<Building*>(field->grid[i][k].object);
+	Action* action=building->GetAction();
+	switch(action->type)
+	{
+	case PRODUCE_UNIT:
+		if(action->timeLeft==0)
+		{
+			Point point=field->FindClosestFreeCell(i,k);
+			Unit* newUnit=ObjectFactory::CreateUnit(action->unit,building->GetOwnerID());
+			AddUnitAtCell(newUnit,point.x,point.y);
+			building->NextAction();
+		} else {
+			action->ReduceTime(t);
+		}
+		return;
+	default:
+		return;
+	}
 }
 
 void Game::LootHandler(int i, int k, Time t){

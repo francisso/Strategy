@@ -25,7 +25,7 @@ void Building::Produce(UnitType type, bool replace){
 		this->Stop();
 	}
 	Action* action=new Action();
-	action->time=100;
+	action->timeLeft=100;
 	action->unit=type;
 	action->building=TOWER;
 	action->type=PRODUCE_UNIT;

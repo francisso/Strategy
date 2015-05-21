@@ -19,6 +19,7 @@
 #include "../../Players/AI.h"
 //#include "../Players/HumanPlayer.h"
 #include "../../Types.h"
+#include "../../Drawable/GameObjects/ObjectFactory.h"
 
 // Размеры окна
 extern float X_SIZE_WINDOW;
