@@ -131,6 +131,7 @@ void PlayingObject::Stop(){
 
 void PlayingObject::RepeatLastAction(){
 	ActionQueue.push(currAction);
+	currAction=Action::CreateMoveAction(WAIT);
 	long unsigned int n=ActionQueue.size();
 	for(long unsigned int i=0;i<n;i++)
 	{
