@@ -13,6 +13,7 @@
 #include "../../Drawable/GameObject.h"
 #include "../../Types.h"
 #include <queue>
+#include <iostream>
 
 const int maxRadiusDefault=5;
 
@@ -37,7 +38,7 @@ struct GameField {
 	};
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 
-	void findPath(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints);
+	void FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints);
 	bool IsWalkable(int x, int y);
 	bool IsInside(int x, int y);
 

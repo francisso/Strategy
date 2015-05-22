@@ -323,7 +323,17 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 				PlayingObject* picked=mainPlayer->GetPicked(i);
 				if (picked->GetObjectType()!=UNIT) break;
 				Unit* unitPicked=dynamic_cast<Unit*>(picked);
-				unitPicked->DirectMoveToCell(cell_x,cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
+
+				/*/================
+				Point start, finish{cell_x,cell_y};
+				start.x=static_cast<int>(unitPicked->GetDestX())/CELL_X_PIXELS;
+				start.y=static_cast<int>(unitPicked->GetDestY())/CELL_Y_PIXELS;
+				std::queue<Point> controlPoints;
+				this->field->FindPath_JPS(start,finish,controlPoints);
+				//================*/
+
+				//unitPicked->DirectMoveToCell(cell_x,cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
+				this->SendUnitTo(unitPicked,cell_x, cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
 				i++;
 			}
 			break;
@@ -413,7 +423,9 @@ void Game::UnitHandler(int i, int k, Time t){
 						unit->ReduceTries();
 						unit->RepeatLastAction();
 						if(unit->GetTries()==0){
-							unit->Stop();
+							int x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
+							int y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
+							this->SendUnitTo(unit,x,y,true);
 							unit->RestoreTries();
 						}
 						return;
@@ -504,15 +516,16 @@ void Game::WritePointQueueInUnit(Unit* unit, std::queue<Point> &controlPoints)
 {
 	while(!controlPoints.empty())
 	{
-		Point currPoint=controlPoints.back();
-		controlPoints.pop();
+		Point currPoint=controlPoints.front();
 		unit->DirectMoveToCell(currPoint.x,currPoint.y,false);
+		controlPoints.pop();
 	}
 }
 
 void Game::SendUnitTo(Unit* unit, int targetX, int targetY, bool replace)
 {
 	if(replace) unit->Stop();
+	if(!this->field->IsWalkable(targetX,targetY)) return;
 	std::queue<Point> controlPoints;
 	Point startPoint;
 	startPoint.x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
@@ -520,6 +533,8 @@ void Game::SendUnitTo(Unit* unit, int targetX, int targetY, bool replace)
 	Point finishPoint;
 	finishPoint.x=targetX;
 	finishPoint.y=targetY;
-	this->field->findPath(startPoint, finishPoint, controlPoints);
+	this->field->FindPath_JPS(startPoint, finishPoint, controlPoints);
+	std::cout<<"controlPoints.size()="<<controlPoints.size()<<std::endl;
 	WritePointQueueInUnit(unit, controlPoints);
+	std::cout<<"controlPoints.size()="<<controlPoints.size()<<std::endl;
 }

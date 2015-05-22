@@ -7,9 +7,60 @@
 
 #include "GameField.h"
 
-void GameField::findPath(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints)
+#include <stdlib.h>
+extern "C" {
+	#include "JumpPointSearch/jps_grid.h"
+	#include "JumpPointSearch/neighbors.h"
+	#include "JumpPointSearch/path.h"
+	#include "JumpPointSearch/heap.h"
+}
+
+extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints)
 {
-	if(controlPoints.size()==0 && startPoint.x>0 && finishPoint.y>0) return;
+	std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
+	std::cout<<"Start point: x="<<startPoint.x<<" y="<<startPoint.y<<std::endl;
+	std::cout<<"Finish point: x="<<finishPoint.x<<" y="<<finishPoint.y<<std::endl;
+	struct grid gd;
+	gd.width=CELL_X_NUMBER;
+	gd.height=CELL_Y_NUMBER;
+	gd.nodes=(struct node**)malloc(gd.height*sizeof(struct node*));
+	for(int i=0;i<gd.height;i++)
+	{
+		gd.nodes[i]=(struct node*)malloc(gd.width*sizeof(struct node));
+		for(int j=0;j<gd.height;j++)
+		{
+			gd.nodes[i][j]=createNode(j,i,this->IsWalkable(j,i));
+		}
+	}
+
+	//===========================================================================================================================
+	struct neighbor_xy_list* path_head=NULL,*path_pos=NULL;
+	path_head=findPath(&gd,startPoint.x, startPoint.y, finishPoint.x, finishPoint.y);
+	path_pos=path_head;
+
+	//path_head=smooth_path(&gd, path_head);
+	//path_pos=path_head;
+
+	int count=0;
+	Point p;
+	while(path_head!=NULL && (path_head!=(path_pos=path_pos->left))){
+		std::cout<<"Step "<<count<<": x="<<path_pos->x<<" y="<<path_pos->y<<std::endl;
+		if(count>0){
+			p.x=path_pos->x;
+			p.y=path_pos->y;
+			controlPoints.push(p);
+		}
+		count++;
+	}
+
+	neighbor_xy_clean(path_head);
+	//===========================================================================================================================
+
+	for(int i=0;i<gd.height;i++){
+		free(gd.nodes[i]);
+	}
+	free(gd.nodes);
+	std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
 	return;
 }
 

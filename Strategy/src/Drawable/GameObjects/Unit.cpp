@@ -24,10 +24,10 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	}
 	int x_curr=(static_cast<int>(GetDestX()))/CELL_X_PIXELS;
 	int y_curr=(static_cast<int>(GetDestY()))/CELL_Y_PIXELS;
-	std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<std::endl;
+	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<std::endl;
 	int x_range=x_target-x_curr;
 	int y_range=y_target-y_curr;
-	std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; y_target="<<y_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
+	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; y_target="<<y_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	Direction dir;
 	if(abs(x_range)>abs(y_range)){
 		if(x_range>0) dir=EAST;
