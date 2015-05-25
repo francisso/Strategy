@@ -140,7 +140,14 @@ StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
 						auto button_status_draw = new Draw(src, "res/images/button.bmp");
 						button_status_draw->SetX(20);
 						button_status_draw->SetY(20);
-						StatusObject* button_status = new StatusObject(button_status_draw, text_src);
+						auto building = static_cast<Building*>(ord->data);
+						auto make_action = [building](SDL_Event* event){
+							if (event->type == SDL_EventType::SDL_MOUSEBUTTONUP) {
+									std::cout << "click on button\n";
+									building->Produce(ARCHER);
+							}
+						};
+						Button* button_status = new Button(button_status_draw, text_src, make_action);
 						button_status->SetText("Create unit");
 						status_bar->AddStatusObject(button_status);
 					}

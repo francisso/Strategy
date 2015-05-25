@@ -42,6 +42,7 @@ public:
 	// Установка цвета
 	void SetColorText(SDL_Color clr);
 	void SetColorText(int red, int green, int blue);
+	bool ContainsCoordinates(Uint16 x, Uint16 y);
 private:
 	/**
 	 * Координаты прямоугольника относительно начала строки состояния

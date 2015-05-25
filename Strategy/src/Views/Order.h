@@ -20,7 +20,7 @@ struct AmountOfUnit{
 struct Order {
 	ReceiverType receiver;
 	OrderType order;
-	const void* data;
+	void* data;
 	std::vector<AmountOfUnit>& counters;
 };
 

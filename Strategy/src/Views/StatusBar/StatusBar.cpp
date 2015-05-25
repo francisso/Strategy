@@ -7,6 +7,25 @@
 
 #include "StatusBar.h"
 
+void StatusBar::OnEvent(SDL_Event* event){
+	if (event->type == SDL_EventType::SDL_MOUSEBUTTONUP ||
+				event->type == SDL_EventType::SDL_MOUSEBUTTONDOWN) {
+		for (auto v: elements){
+			auto but = dynamic_cast<Button*>(v);
+			if (but && but->ContainsCoordinates(static_cast<Uint16>(event->button.x - background->GetX()),
+								static_cast<Uint16>(event->button.y - background->GetY())))
+				but->OnEvent(event);
+		}
+	}
+		//Если не мышь - информируем всех
+	else
+		for(auto v: elements) {
+			auto but = dynamic_cast<Button*>(v);
+			if (but)
+				but->OnEvent(event);
+		}
+	View::OnEvent(event);
+}
 StatusBar::StatusBar(std::function<void (StatusBar* status_bar)> f) {
 	TTF_Init();
 	make_orders = f;
@@ -27,6 +46,8 @@ void StatusBar::AddStatusObject(IStatusObject* object) {
 }
 
 void StatusBar::ClearStatusObjects() {
+	for (auto v: elements)
+		delete v;
 	while (!elements.empty())
 		elements.pop_back();
 }

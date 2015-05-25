@@ -11,6 +11,7 @@
 #include <vector>
 #include <list>
 #include "IStatusObject.h"
+#include "Button.h"
 #include "../View.h"
 #include "../Order.h"
 
@@ -28,6 +29,7 @@ public:
 	void AddStatusObject(IStatusObject* object);
 	void ClearStatusObjects();
 	virtual void Update(Time t);
+	virtual void OnEvent(SDL_Event* event);
 private:
 	//Массив элементов, которые рисуются в строке состояния
 	std::vector<IStatusObject*> elements;

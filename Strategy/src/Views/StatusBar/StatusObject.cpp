@@ -25,6 +25,12 @@ StatusObject::~StatusObject() {
 	delete image;
 	CreateTextImage();
 }
+bool StatusObject::ContainsCoordinates(Uint16 x, Uint16 y){
+	if (image == nullptr)
+			return true;
+	else
+		return image->ContainsCoordinates(x, y);
+}
 void StatusObject::SetText(std::string str) {
 	text = str;
 	CreateTextImage();

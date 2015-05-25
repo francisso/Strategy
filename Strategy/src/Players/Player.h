@@ -15,7 +15,7 @@
 #include "../Constants.h"
 #include "SDL/SDL.h"
 
-#include "../Drawable/GameObjects/PlayingObject.h"
+#include "../Drawable/GameObjects/Building.h"
 #include "../Views/Order.h"
 
 struct EventForPlayer{
@@ -101,6 +101,7 @@ class Player {
 		Draw* selection;
 		Draw* selectionBuilding;
 		std::vector<AmountOfUnit> counter;
+		Building* building;// последнее выделенное здание
 		//bool ShiftPressed;
 };
 

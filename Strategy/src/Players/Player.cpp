@@ -7,7 +7,12 @@
 
 #include "Player.h"
 
-Player::Player(int ID,Color playerColor):PlayerID(ID),playerGold(GOLD_DEFAULT),playerColor(playerColor)/*,ShiftPressed(false)*/{
+Player::Player(int ID,Color playerColor):PlayerID(ID),
+										playerGold(GOLD_DEFAULT),
+										playerColor(playerColor),
+										building(nullptr)
+										/*,ShiftPressed(false)*/
+{
 	this->playerSignature="";
 	this->playerSignature.append("Player ");
 	this->playerSignature.append(std::to_string(PlayerID));
@@ -58,6 +63,8 @@ void Player::UpdateStatusBar_selected(){
 	Order order = {STATUS_BAR_AMOUNT, SELECTED, &counter, counter};
 	list_of_orders.push_back(order);
 	order.receiver = STATUS_BAR_ACTION;
+	if (counter.size() > 0 && counter[0].object_type == BUILDING)
+		order.data = building;
 	list_of_orders.push_back(order);
 }
 
@@ -84,6 +91,7 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 	else object->SetPicked(true);
 	pickedObjects.push_back(object);
 	if (object->GetObjectType() == BUILDING) {
+		building = dynamic_cast<Building*>(object);
 		counter.clear();
 		AmountOfUnit amount;
 		amount.object_type = BUILDING;
