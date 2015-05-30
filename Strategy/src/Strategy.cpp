@@ -20,10 +20,10 @@ float X_SIZE_WINDOW;
 float Y_SIZE_WINDOW;
 std::list<Order> list_of_orders;
 
-const char* ObjectFactory::unitConfigs="ObjectConfigs/Units.xml";
-const char* ObjectFactory::buildingConfigs="ObjectConfigs/Buildings.xml";
-const char* ObjectFactory::lootConfigs="ObjectConfigs/Loot.xml";
-const char* ObjectFactory::environmentConfigs="ObjectConfigs/Environment.xml";
+const char* ObjectFactory::unitConfigs="res/object_configs/Units.xml";
+const char* ObjectFactory::buildingConfigs="res/object_configs/Buildings.xml";
+const char* ObjectFactory::lootConfigs="res/object_configs/Loot.xml";
+const char* ObjectFactory::environmentConfigs="res/object_configs/Environment.xml";
 
 int main() {
 	std::cout << "I'm working" << std::endl;

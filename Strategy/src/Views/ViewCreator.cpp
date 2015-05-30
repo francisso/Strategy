@@ -19,6 +19,7 @@ View* ViewCreator::CreateMainView(Engine* engine)
 }
 
 View* ViewCreator::CreateGame(Engine* engine){
+	std::cout<<"Here?"<<std::endl;
 	Drawable** texture = engine->LoadResources();
 	GameField* field = FieldBuilder::CreateField();
 
@@ -99,7 +100,7 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 					for (unsigned int i = 0; i < counters.size() && flag; i++){
 						SDL_Rect src = {0, 0, 80, 80};
 						SDL_Rect src_text = {static_cast<Sint16>(30 + 100*i), 120, 80, 80};
-						auto unit_status_draw = new Draw(src, "res/images/unit_for_status_bar.bmp");
+						auto unit_status_draw = new Draw(src, "res/images/UI/unit_for_status_bar.bmp");
 						unit_status_draw->SetX(static_cast<float>(20 + 100*i));
 						unit_status_draw->SetY(20);
 						StatusObject* unit_status = new StatusObject(unit_status_draw, src_text);
@@ -137,7 +138,7 @@ StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
 					if (counters.size() > 0 && counters[0].object_type == BUILDING && flag){
 						SDL_Rect src = {0, 0, 160, 70};
 						SDL_Rect text_src = {35, 45, 140, 30};
-						auto button_status_draw = new Draw(src, "res/images/button.bmp");
+						auto button_status_draw = new Draw(src, "res/images/UI/button.bmp");
 						button_status_draw->SetX(20);
 						button_status_draw->SetY(20);
 						auto building = static_cast<Building*>(ord->data);

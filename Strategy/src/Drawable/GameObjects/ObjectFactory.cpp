@@ -45,7 +45,7 @@ UnitProperties ObjectFactory::LoadUnitFromXML(UnitType type)
 	xml_node<> * root_node;
 
 	// Read the xml file into a vector
-	std::ifstream theFile ("ObjectConfigs/Units.xml");
+	std::ifstream theFile ("res/object_configs/Units.xml");
 	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
 	buffer.push_back('\0');
 	// Parse the buffer using the xml file parsing library into doc
@@ -108,7 +108,7 @@ BuildingProperties ObjectFactory::LoadBuildingFromXML(BuildingType type)
 	xml_node<> * root_node;
 
 	// Read the xml file into a vector
-	std::ifstream theFile ("ObjectConfigs/Buildings.xml");
+	std::ifstream theFile ("res/object_configs/Buildings.xml");
 	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
 	buffer.push_back('\0');
 	// Parse the buffer using the xml file parsing library into doc

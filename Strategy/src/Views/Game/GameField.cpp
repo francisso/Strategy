@@ -15,7 +15,7 @@ extern "C" {
 	#include "JumpPointSearch/heap.h"
 }
 
-extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints)
+extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints, std::vector<Point> &forbiddenPoints)
 {
 	std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
 	std::cout<<"Start point: x="<<startPoint.x<<" y="<<startPoint.y<<std::endl;
@@ -31,6 +31,12 @@ extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, s
 		{
 			gd.nodes[i][j]=createNode(j,i,this->IsWalkable(j,i));
 		}
+	}
+	Point point;
+	for(unsigned int i=0;i<forbiddenPoints.size();i++)
+	{
+		point=forbiddenPoints[i];
+		gd.nodes[point.y][point.x].walkable=false;
 	}
 
 	//===========================================================================================================================
@@ -78,9 +84,9 @@ bool GameField::IsWalkable(int x, int y){
 			return false;
 		case OBJECT:
 			switch(this->grid[x][y].object->GetObjectType()){
-			case UNIT: case BUILDING: case ENVIRONMENT:
+			case BUILDING: case ENVIRONMENT:
 				return false;
-			case LOOT:
+			case LOOT: case UNIT:
 				return true;
 			}
 			break;

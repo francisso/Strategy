@@ -16,6 +16,7 @@
 #include "../../Drawable/GameObjects/Action.h"
 #include "PlayingObject.h"
 #include "../../Rotating.h"
+#include "../../Types.h"
 
 
 
@@ -53,12 +54,12 @@ public:
 
 	virtual UnitType WhoIs();
 
-	void ReduceTries();
+	void ReduceTries(Time t);
 	void RestoreTries();
-	int GetTries();
+	Time GetTries();
 private:
 	const UnitType whoIs;
-	int triesLeft;
+	Time triesLeft;
 };
 
 #endif /* UNIT_H_ */

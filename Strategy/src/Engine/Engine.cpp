@@ -28,7 +28,7 @@ Engine::Engine() : view(nullptr) {
 	printf("screen size: %d x %d\n", screen->w, screen->h);
 
 	SDL_Rect src_frame = {0, 0, 120, 80};
-	frame = new Draw(src_frame, "res/images/frame.bmp");
+	frame = new Draw(src_frame, "res/images/gameplay/frame.bmp");
 }
 
 Engine::~Engine() {
@@ -37,12 +37,12 @@ Engine::~Engine() {
 
 Drawable** Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	texture[GROUND] = new Draw(src, "res/images/ground.bmp");
-	texture[WATER]  = new Draw(src, "res/images/water.bmp");
-	texture[SAND]   = new Draw(src, "res/images/sand.bmp");
-	texture[FOREST] = new Draw(src, "res/images/forest.bmp");
-	texture[MOUNTIAN] = new Draw(src, "res/images/mountian.bmp");
-	texture[SWAMP]  = new Draw(src, "res/images/swamp.bmp");
+	texture[GROUND] = new Draw(src, "res/images/textures/ground.bmp");
+	texture[WATER]  = new Draw(src, "res/images/textures/water.bmp");
+	texture[SAND]   = new Draw(src, "res/images/textures/sand.bmp");
+	texture[FOREST] = new Draw(src, "res/images/textures/forest.bmp");
+	texture[MOUNTIAN] = new Draw(src, "res/images/textures/mountian.bmp");
+	texture[SWAMP]  = new Draw(src, "res/images/textures/swamp.bmp");
 	return texture;
 }
 
@@ -55,9 +55,9 @@ Drawable* Engine::CreateBackgroungStatusBar_Amount() const
 	int width = static_cast<int>(X_SIZE_WINDOW)/2 - FRAME - 2*INDENT;
 	SDL_Surface *image = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, 146, 82, 84));
-	SDL_SaveBMP(image, "res/images/background_status_bar_amount.bmp");
+	SDL_SaveBMP(image, "res/images/UI/background_status_bar_amount.bmp");
 	SDL_Rect src = {0, 0, static_cast<Uint16>(width), static_cast<Uint16>(height)};
-	Drawable *back = new Draw(src, "res/images/background_status_bar_amount.bmp");
+	Drawable *back = new Draw(src, "res/images/UI/background_status_bar_amount.bmp");
 	back->SetX(static_cast<float>(FRAME + INDENT));
 	back->SetY(static_cast<float>(Y_SIZE_WINDOW - FRAME - HIGH_STATUS_BAR + INDENT));
 	return back;
@@ -67,9 +67,9 @@ Drawable* Engine::CreateBackgroungStatusBar_Action() const{
 	int width = static_cast<int>(X_SIZE_WINDOW)/2 - FRAME - 2*INDENT;
 	SDL_Surface *image = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
 	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, 146, 82, 84));
-	SDL_SaveBMP(image, "res/images/background_status_bar_action.bmp");
+	SDL_SaveBMP(image, "res/images/UI/background_status_bar_action.bmp");
 	SDL_Rect src = {0, 0, static_cast<Uint16>(width), static_cast<Uint16>(height)};
-	Drawable *back = new Draw(src, "res/images/background_status_bar_action.bmp");
+	Drawable *back = new Draw(src, "res/images/UI/background_status_bar_action.bmp");
 	back->SetX(static_cast<float>(X_SIZE_WINDOW/2 + INDENT));
 	back->SetY(static_cast<float>(Y_SIZE_WINDOW - FRAME - HIGH_STATUS_BAR + INDENT));
 	return back;
@@ -136,9 +136,9 @@ Drawable* Engine::CreateBackgroungStatusBar() const{
 	DrawToScreen(frame, screen);
 
 	// сохранение фона
-	SDL_SaveBMP(screen, "res/images/background_status_bar.bmp");
+	SDL_SaveBMP(screen, "res/images/UI/background_status_bar.bmp");
 	SDL_Rect src = {0, 0, static_cast<Uint16>(X_SIZE_WINDOW), static_cast<Uint16>(Y_SIZE_WINDOW)};
-	PlayingObject* background = new PlayingObject(src, "res/images/background_status_bar.bmp");
+	PlayingObject* background = new PlayingObject(src, "res/images/UI/background_status_bar.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;
@@ -224,9 +224,9 @@ Drawable* Engine::CreateBackgroung(GameField* field) const
 		DrawToScreen(texture[field->grid[i][j].textureType], screen);
 	}
 
-	SDL_SaveBMP(screen, "res/images/background.bmp");
+	SDL_SaveBMP(screen, "res/images/UI/background.bmp");
 	SDL_Rect src = {0, 0, CELL_X_NUMBER*CELL_X_PIXELS, CELL_Y_NUMBER*CELL_Y_PIXELS};
-	PlayingObject* background = new PlayingObject(src, "res/images/background.bmp");
+	PlayingObject* background = new PlayingObject(src, "res/images/UI/background.bmp");
 	if (!background->GetImage())
 		throw("Engine cannot open background");
 	return background;

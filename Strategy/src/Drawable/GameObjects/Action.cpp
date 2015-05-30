@@ -24,3 +24,7 @@ void Action::ReduceTime(Time t){
 	else
 		timeLeft=0;
 }
+
+Time Action::GetTime(){
+	return this->timeLeft;
+}

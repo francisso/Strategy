@@ -112,8 +112,15 @@ void Unit::NextAction(){
 
 UnitType Unit::WhoIs(){return whoIs;}
 
-void Unit::ReduceTries(){triesLeft--;}
+void Unit::ReduceTries(Time t){
+	if(t>triesLeft)
+	{
+		triesLeft-=t;
+	} else {
+		triesLeft=0.0;
+	}
+}
 
 void Unit::RestoreTries(){triesLeft=NUMBER_OF_TRIES;}
 
-int Unit::GetTries(){return triesLeft;}
+Time Unit::GetTries(){return triesLeft;}

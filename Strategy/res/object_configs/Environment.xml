@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tree imageFile="res/environment/tree.bmp" sizeX="1" sizeY="1"/>
+<Stone imageFile="res/environment/stone.bmp" sizeX="2" sizeY="2"/>

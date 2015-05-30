@@ -17,10 +17,10 @@ Player::Player(int ID,Color playerColor):PlayerID(ID),
 	this->playerSignature.append("Player ");
 	this->playerSignature.append(std::to_string(PlayerID));
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	selection = new Draw(src, "res/images/playerSelection.bmp", 150);
+	selection = new Draw(src, "res/images/gameplay/playerSelection.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 	SDL_Rect src1 = {0, 0, 4*CELL_X_PIXELS, 4*CELL_Y_PIXELS};
-	selectionBuilding = new Draw(src1, "res/images/selectionBuilding.bmp", 150);
+	selectionBuilding = new Draw(src1, "res/images/gameplay/selectionBuilding.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
 }
 

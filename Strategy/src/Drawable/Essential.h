@@ -10,7 +10,7 @@
 
 #include "../Drawable/Draw.h"
 
-class Essential: public Drow{
+class Essential: public Draw{
 
 };
 

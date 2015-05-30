@@ -87,17 +87,12 @@ Action* PlayingObject::GetAction(){return currAction;}
 
 void PlayingObject::AddAction(Action* action,bool replace)
 {
-	//std::cout<<std::endl<<std::endl<<std::endl;
-	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
-	Action* temp;
+	std::cout<<std::endl<<std::endl<<std::endl;
+	std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	if (replace){
-		while(!ActionQueue.empty()){
-			temp=ActionQueue.front();
-			delete(temp);
-			ActionQueue.pop();
-		}
+		this->Stop();
 	}
-	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
+	std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	ActionQueue.push(action);
 	/*std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	Action* act = ActionQueue.front();

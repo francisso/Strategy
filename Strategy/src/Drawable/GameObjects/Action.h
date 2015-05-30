@@ -17,12 +17,13 @@ struct Action{
 	ActionType type;
 	Direction moveDir;
 	GameObject* targetObject;
-	Time timeLeft=0;
+	Time timeLeft;
 	UnitType unit;
 	BuildingType building;
 
 	static Action* CreateMoveAction(ActionType type, Direction dir=SOUTH);
 	void ReduceTime(Time t);
+	Time GetTime();
 };
 /*
 const Action* const Wait = new Action(WAIT,true);

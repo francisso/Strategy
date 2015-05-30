@@ -11,7 +11,7 @@
 StatusObject::StatusObject(Drawable* Image, SDL_Rect Rect_text) {
 	image = Image;
 	SDL_Rect src = {0, 0, 200, 200};
-	text_image = new Draw(src, "res/images/for_text.bmp");
+	text_image = new Draw(src, "res/images/UI/for_text.bmp");
 	rect_text = Rect_text;
 	text_image->SetDestRect(&Rect_text);
 	color.b = 255;

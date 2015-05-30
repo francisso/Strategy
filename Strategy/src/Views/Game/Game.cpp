@@ -420,9 +420,9 @@ void Game::UnitHandler(int i, int k, Time t){
 						return;
 					}
 					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==WAIT){
-						unit->ReduceTries();
+						unit->ReduceTries(t);
 						unit->RepeatLastAction();
-						if(unit->GetTries()==0){
+						if(unit->GetTries()==0.0){
 							int x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
 							int y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
 							this->SendUnitTo(unit,x,y,true);
@@ -486,8 +486,11 @@ void Game::StructureHandler(int i, int k, Time t){
 	Action* action=building->GetAction();
 	switch(action->type)
 	{
+	case WAIT:
+		building->NextAction();
+		break;
 	case PRODUCE_UNIT:
-		if(action->timeLeft==0)
+		if(action->GetTime()==0)
 		{
 			Point point=field->FindClosestFreeCell(i,k);
 			Unit* newUnit=ObjectFactory::CreateUnit(action->unit,building->GetOwnerID());
@@ -495,6 +498,7 @@ void Game::StructureHandler(int i, int k, Time t){
 			building->NextAction();
 		} else {
 			action->ReduceTime(t);
+			std::cout<<t<<std::endl;
 		}
 		return;
 	default:
@@ -527,13 +531,14 @@ void Game::SendUnitTo(Unit* unit, int targetX, int targetY, bool replace)
 	if(replace) unit->Stop();
 	if(!this->field->IsWalkable(targetX,targetY)) return;
 	std::queue<Point> controlPoints;
+	std::vector<Point> forbiddenPoints;
 	Point startPoint;
 	startPoint.x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
 	startPoint.y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
 	Point finishPoint;
 	finishPoint.x=targetX;
 	finishPoint.y=targetY;
-	this->field->FindPath_JPS(startPoint, finishPoint, controlPoints);
+	this->field->FindPath_JPS(startPoint, finishPoint, controlPoints, forbiddenPoints);
 	std::cout<<"controlPoints.size()="<<controlPoints.size()<<std::endl;
 	WritePointQueueInUnit(unit, controlPoints);
 	std::cout<<"controlPoints.size()="<<controlPoints.size()<<std::endl;
