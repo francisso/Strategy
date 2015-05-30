@@ -36,43 +36,21 @@ public:
 	Game(Drawable** texture, GameField* field, SDL_Rect windowRect);
 	virtual ~Game();
 
+	/**
+	 * Удаляет любой объект, который занимает клетку
+	 * Если клетка занята частью объекта типа Sizeable, будут очищены также все клетки, принадлежавшие этому объекту
+	 */
 	int CleanFromObjects(int cell_x, int cell_y);
+
+	/**
+	 * Добавляет @newObject на GameField
+	 * Если @cell_x и @cell_y отрицательные или больше размеров карты, будут использованы собственные координаты @newObject
+	 * Если и они не подходят по параметрам, будет совершена попытка поставить @newObject в клетку (0,0)
+	 * При 	@ignore=true юнит будет помещаться по всем правилам проходимости и занятости клетки. Если она занята или непроходима - юнит будет автоматически удален
+	 * 		@ignore=false юнит будет помещаться в клетку в обход правил проходимости. Если клетка занята другим объектом - он будет удален.
+	 */
 	int Add(GameObject* newObject, int cell_x=-1, int cell_y=-1, bool ignore=false);
 
-	/**
-	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
-	 * @return 0, если добавление успешно произведено
-	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
-	 */
-	//int AddUnit(Unit* unit, bool ignore=false);
-
-	/**
-	 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
-	 * @return 0, если добавление успешно произведено
-	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
-	 */
-	//int AddUnitAtCell(Unit* unit, int cell_x, int cell_y, bool ignore=false);
-
-	/**
-	 * @AddBuilding добавляет @building на игровое поле согласно его координатам
-	 * @return 0, если добавление успешно произведено
-	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
-	 */
-	//int AddBuilding(Building* building, bool ignore=false);
-
-	/**
-		 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
-		 * @return 0, если добавление успешно произведено
-		 *         1 если невозможно добавить (например, клетка занята другим юнитом)
-		 */
-	//int AddBuildingAtCell(Building* building, int cell_x, int cell_y, bool ignore=false);
-
-	/*int AddLoot(Loot* loot, bool ignore=false);
-	int AddLootAtCell(Loot* loot, int cell_x, int cell_y, bool ignore=false);
-
-	int AddEnvironment(Environment* environment, bool ignore=false);
-	int AddEnvironmentAtCell(Environment* environment, int cell_x, int cell_y, bool ignore=false);
-	*/
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 
