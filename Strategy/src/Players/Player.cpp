@@ -46,7 +46,8 @@ void Player::DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
 	for (; it != pickedObjects.end(); it++)
 	{
 		if ((*it)->GetObjectType() == UNIT){
-			unsigned int hp = (4*(*it)->GetCurrHP())/(*it)->GetMaxHP() - 1;
+			unsigned int hp = (4*(*it)->GetCurrHP())/(*it)->GetMaxHP();
+			if (hp == 4) hp--;
 			health[hp]->SetX((*it)->GetX());
 			health[hp]->SetY((*it)->GetY() + CELL_Y_PIXELS - 7);
 			f(health[hp], deltaX, deltaY);
