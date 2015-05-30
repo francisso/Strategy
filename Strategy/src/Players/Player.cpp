@@ -22,10 +22,19 @@ Player::Player(int ID,Color playerColor):PlayerID(ID),
 	SDL_Rect src1 = {0, 0, 4*CELL_X_PIXELS, 4*CELL_Y_PIXELS};
 	selectionBuilding = new Draw(src1, "res/images/gameplay/selectionBuilding.bmp", 150);
 	std::cout<<"Created player ID:"<<PlayerID<<"-\""<<playerSignature<<"\""<<std::endl;
+	SDL_Rect h_src = {0, 0, 40, 7};
+	char file_image[150];
+	for (int i = 0; i < 4; i++){
+		sprintf(file_image, "res/images/gameplay/health_%d.bmp", i);
+		health[i] = new Draw(h_src, file_image);
+	}
 }
 
 Player::~Player(){
 	delete selection;
+	delete selectionBuilding;
+	for(int i = 0; i < 4; i++)
+		delete health[i];
 }
 /*TaskForGame Player::OnEvent(EventForPlayer* eventInfo){
 
@@ -37,6 +46,10 @@ void Player::DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
 	for (; it != pickedObjects.end(); it++)
 	{
 		if ((*it)->GetObjectType() == UNIT){
+			unsigned int hp = (4*(*it)->GetCurrHP())/(*it)->GetMaxHP() - 1;
+			health[hp]->SetX((*it)->GetX());
+			health[hp]->SetY((*it)->GetY() + CELL_Y_PIXELS - 7);
+			f(health[hp], deltaX, deltaY);
 			selection->SetX((*it)->GetX());
 			selection->SetY((*it)->GetY());
 			f(selection, deltaX, deltaY);

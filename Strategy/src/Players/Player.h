@@ -102,6 +102,7 @@ class Player {
 		Draw* selectionBuilding;
 		std::vector<AmountOfUnit> counter;
 		Building* building;// последнее выделенное здание
+		Draw* health[4];
 		//bool ShiftPressed;
 };
 

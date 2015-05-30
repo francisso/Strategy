@@ -76,14 +76,18 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 					} else
 					for (unsigned int i = 0; i < counters.size() && flag; i++){
 						SDL_Rect src = {0, 0, 80, 80};
-						SDL_Rect src_text = {static_cast<Sint16>(30 + 100*i), 120, 80, 80};
+						SDL_Rect src_text = {static_cast<Sint16>(15 + 130*i), 110, 110, 80};
 						auto unit_status_draw = new Draw(src, "res/images/UI/unit_for_status_bar.bmp");
-						unit_status_draw->SetX(static_cast<float>(20 + 100*i));
+						unit_status_draw->SetX(static_cast<float>(20 + 130*i));
 						unit_status_draw->SetY(20);
 						StatusObject* unit_status = new StatusObject(unit_status_draw, src_text);
 						char text[80];
-						sprintf(text, "%d", counters[i].amount);
+						if (counters[i].unit_type == ARCHER)
+							sprintf(text, "Archers %d", counters[i].amount);
+						else if (counters[i].unit_type == SWORDMAN)
+							sprintf(text, "Swordman %d", counters[i].amount);
 						unit_status->SetText(text);
+						unit_status->SetSizeText(16);
 						status_bar->AddStatusObject(unit_status);
 					}
 
