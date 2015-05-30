@@ -34,39 +34,16 @@ View* ViewCreator::CreateGame(Engine* engine){
 	game->AddPlayer(Player_1);
 	game->SwitchPlayer(1);
 
-	//Здесь это времеено, создание лучника.
-	/*
-	SDL_Rect src1 = {0,0,40,40};
-	auto archer1 = new Archer(src1, "res/images/archer.bmp",1);
-	game->AddUnitAtCell(archer1,2,2);
-
-	SDL_Rect src2 = {0,0,40,40};
-	auto archer2 = new Archer(src2, "res/images/archer.bmp",1);
-	archer2->SetX(400.0);
-	archer2->SetY(240.0);
-	game->AddUnit(archer2);
-
-	SDL_Rect src3 = {0,0,40,40};
-	auto archer3 = new Archer(src3, "res/images/archer.bmp",1);
-	archer3->SetX(240.0);
-	archer3->SetY(160.0);
-	game->AddUnit(archer3);
-
-	SDL_Rect src4 = {0,0,40,40};
-	auto archer4 = new Archer(src4, "res/images/archer.bmp",1);
-	archer4->SetX(320.0);
-	archer4->SetY(160.0);
-	game->AddUnit(archer4);
-
-	SDL_Rect src5 = {0,0,80,80};
-	auto tower1  = new Tower(src5, "res/images/test.bmp",1);
-	game->AddBuildingAtCell(tower1,8,8);*/
-
-	game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),2,2);
-	game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),2,3);
+	game->Add(ObjectFactory::CreateUnit(ARCHER,1),2,2, true);
+	game->Add(ObjectFactory::CreateUnit(ARCHER,1),2,3, true);
+	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),3,2,true);
+	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),3,3,true);
 	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,2);
 	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,3);
-	game->AddBuildingAtCell(ObjectFactory::CreateBuilding(FORT,1), 5,5);
+	game->Add(ObjectFactory::CreateBuilding(FORT,1), 5,5, true);
+	game->Add(ObjectFactory::CreateLoot(GOLD),0,0,true);
+	game->Add(ObjectFactory::CreateEnvironment(STONE),1,0,true);
+	game->Add(ObjectFactory::CreateEnvironment(TREE),0,1,true);
 
 	return game;
 }

@@ -21,8 +21,8 @@
 
 #include "Unit.h"
 #include "Building.h"
-#include "./Loot.h"
-#include "./Environment.h"
+#include "Loot.h"
+#include "Environment.h"
 
 using namespace rapidxml;
 
@@ -45,17 +45,32 @@ struct BuildingProperties{
 	unsigned int SizeY;
 };
 
+struct LootProperties{
+	LootType type;
+	char* imageFile;
+	int amount;
+};
+
+struct EnvironmentProperties{
+	EnvironmentType type;
+	std::string imageFile;
+	unsigned int SizeX;
+	unsigned int SizeY;
+};
+
 class ObjectFactory{
 private:
 	static const char *unitConfigs, *buildingConfigs, *lootConfigs, *environmentConfigs;
-	//static UnitProperties ArcherProps,SwordmanProps;
+	//static UnitProperties ArcherProps,SwordmanProps
 	//static BuildingProperties TowerProps, FortProps;
 	static const char* abc;
 
 public:
 
-	static UnitProperties LoadUnitFromXML(UnitType unitType);
-	static BuildingProperties LoadBuildingFromXML(BuildingType buildingType);
+	static UnitProperties LoadUnitFromXML(UnitType type);
+	static BuildingProperties LoadBuildingFromXML(BuildingType type);
+	static LootProperties LoadLootFromXML(LootType type);
+	static EnvironmentProperties LoadEnvironmentFromXML(EnvironmentType type);
 
 	/**
 	 * Создание юнита по шаблону
@@ -68,12 +83,14 @@ public:
 	static Building* CreateBuilding(BuildingType type, int ownerID, float x=0.0f, float y=0.0f);
 
 	/**
-	 * Методы создания лута
+	 * Создание лута по шаблону
 	 */
+	static Loot* CreateLoot(LootType type, float x=0.0f, float y=0.0f);
 
 	/**
-	 * Методы создания окружения
+	 * Создание окружения по шаблону
 	 */
+	static Environment* CreateEnvironment(EnvironmentType type, float x=0.0f, float y=0.0f);
 };
 
 #endif /* DRAWABLE_GAMEOBJECTS_OBJECTFACTORY_H_ */

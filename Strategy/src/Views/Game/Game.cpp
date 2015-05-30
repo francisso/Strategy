@@ -124,95 +124,153 @@ void Game::MotionMap(Time t)
 	}
 }
 
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Методы добавления чего-либо на карту
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
 
-int Game::AddUnit(Unit* unit){
-	int cell_x=static_cast<int>(unit->GetX()/CELL_X_PIXELS);
-	int cell_y=static_cast<int>(unit->GetY()/CELL_Y_PIXELS);
-	unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-	unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	unit->SetDestX(unit->GetX());
-	unit->SetDestY(unit->GetY());
-	auto cell=&this->field->grid[cell_x][cell_y];
-	if(cell->usedFor==NOTHING){
-		cell->usedFor=CellType::OBJECT;
-		cell->object=unit;
+int Game::CleanFromObjects(int cell_x, int cell_y){
+	if(!field->IsInside(cell_x, cell_y)) return -1;
+	auto cell=&field->grid[cell_x][cell_y];
+	Building* temp_building=nullptr;
+	Environment* temp_environment=nullptr;
+	switch(cell->usedFor){
+	case NOTHING:
 		return 0;
+	case OBJECT:
+		switch(cell->object->GetObjectType()){
+		case UNIT: case LOOT:
+			delete(cell->object);
+			cell->usedFor=NOTHING;
+			cell->object=nullptr;
+			return 0;
+		case BUILDING:
+			temp_building=dynamic_cast<Building*>(cell->object);
+			for(unsigned int i=cell_x;i<(cell_x+temp_building->GetSizeX());i++)
+			for(unsigned int j=cell_y;j<(cell_y+temp_building->GetSizeY());j++)
+			{
+				field->grid[i][j].usedFor=NOTHING;
+				field->grid[i][j].object=nullptr;
+			}
+			delete(temp_building);
+			return 0;
+		case ENVIRONMENT:
+			temp_environment=dynamic_cast<Environment*>(cell->object);
+			for(unsigned int i=cell_x;i<(cell_x+temp_environment->GetSizeX());i++)
+			for(unsigned int j=cell_y;j<(cell_y+temp_environment->GetSizeY());j++)
+			{
+				field->grid[i][j].usedFor=NOTHING;
+				field->grid[i][j].object=nullptr;
+			}
+			delete(temp_environment);
+			return 0;
+		default:
+			return -1;
+		}
+		break;
+	case CellType::OBJECT_PART:
+		switch(cell->object->GetObjectType()){
+		case BUILDING:
+			temp_building=dynamic_cast<Building*>(cell->object);
+			for(unsigned int i=static_cast<unsigned int>(temp_building->GetX()/CELL_X_PIXELS);i<(cell_x+temp_building->GetSizeX());i++)
+			for(unsigned int j=static_cast<unsigned int>(temp_building->GetY()/CELL_Y_PIXELS);j<(cell_y+temp_building->GetSizeY());j++)
+			{
+				field->grid[i][j].usedFor=NOTHING;
+				field->grid[i][j].object=nullptr;
+			}
+			delete(temp_building);
+			return 0;
+		case ENVIRONMENT:
+			temp_environment=dynamic_cast<Environment*>(cell->object);
+			for(unsigned int i=static_cast<unsigned int>(temp_environment->GetX()/CELL_X_PIXELS);i<(cell_x+temp_environment->GetSizeX());i++)
+			for(unsigned int j=static_cast<unsigned int>(temp_environment->GetY()/CELL_Y_PIXELS);j<(cell_y+temp_environment->GetSizeY());j++)
+			{
+				field->grid[i][j].usedFor=NOTHING;
+				field->grid[i][j].object=nullptr;
+			}
+			delete(temp_environment);
+			return 0;
+		default:
+			return -1;
+		}
+		break;
+	default:
+		return -1;
 	}
-	return 1;
 }
 
-int Game::AddUnitAtCell(Unit* unit, int cell_x, int cell_y) {
-	if (cell_x < 0 || cell_y < 0 || cell_x >= CELL_X_NUMBER || cell_y >= CELL_Y_NUMBER)
-		return 1;
-	auto cell = &this->field->grid[cell_x][cell_y];
-	if (cell->usedFor == CellType::NOTHING) {
-		cell->usedFor = CellType::OBJECT;
-		cell->object = unit;
-		unit->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-		unit->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-		unit->SetDestX(unit->GetX());
-		unit->SetDestY(unit->GetY());
+int Game::Add(GameObject* newObject, int cell_x, int cell_y, bool ignore){
+	if(!field->IsInside(cell_x, cell_y)){
+		cell_x=(static_cast<int>(newObject->GetX()))/CELL_X_PIXELS;
+		cell_y=(static_cast<int>(newObject->GetY()))/CELL_Y_PIXELS;
+		if(!field->IsInside(cell_x, cell_y)){
+			cell_x=0;
+			cell_y=0;
+		}
+	}
+	newObject->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
+	newObject->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	auto cell=&field->grid[cell_x][cell_y];
+	Unit* temp_unit;
+	Building* temp_building;
+	Environment* temp_environment;
+	switch(newObject->GetObjectType()){
+	case LOOT:
+		if(ignore) CleanFromObjects(cell_x,cell_y);
+		cell->usedFor=OBJECT;
+		cell->object=newObject;
 		return 0;
-	}
-	//std::cout<<"GetX()t="<<unit->GetX()<<" ;GetY()="<<unit->GetY()<<" ;GetVirtualX()="<<unit->GetDestinationX()<<" ;GetVirtualY()="<<unit->GetDestinationY()<<std::endl;
-	return 1;
-}
-
-int Game::AddBuilding(Building* building)
-{
-	int cell_x=static_cast<int>(building->GetX()/CELL_X_PIXELS);
-	int cell_y=static_cast<int>(building->GetY()/CELL_Y_PIXELS);
-	building->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-	building->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	building->SetDestX(building->GetX());
-	building->SetDestY(building->GetY());
-	for(unsigned int i=0;i<building->GetSizeX();i++)
-	for(unsigned int j=0;j<building->GetSizeY();j++)
-	{
-		if(field->grid[cell_x+i][cell_y+j].usedFor!=NOTHING) return 1;
-	}
-	for(unsigned int i=0;i<building->GetSizeX();i++)
-	for(unsigned int j=0;j<building->GetSizeY();j++)
-	{
-		field->grid[cell_x+i][cell_y+j].usedFor=OBJECT_PART;
-		field->grid[cell_x+i][cell_y+j].object=building;
+	case UNIT:
+		if(ignore) CleanFromObjects(cell_x, cell_y);
+		temp_unit=dynamic_cast<Unit*>(newObject);
+		temp_unit->SetDestX(temp_unit->GetX());
+		temp_unit->SetDestY(temp_unit->GetY());
+		cell->usedFor=OBJECT;
+		cell->object=temp_unit;
+		return 0;
+	case ENVIRONMENT:
+		temp_environment=dynamic_cast<Environment*>(newObject);
+		if(!field->IsInside(cell_x+temp_environment->GetSizeX(), cell_y+temp_environment->GetSizeY())) return -1;
+		if(ignore) {
+			for(unsigned int i=cell_x;i<cell_x+temp_environment->GetSizeX();i++)
+			for(unsigned int j=cell_y;j<cell_y+temp_environment->GetSizeY();j++){
+				CleanFromObjects(i,j);
+			}
 		}
-	field->grid[cell_x][cell_y].usedFor=OBJECT;
-	return 0;
-}
-
-int Game::AddBuildingAtCell(Building* building, int cell_x, int cell_y){
-	if (cell_x < 0 || cell_y < 0 || cell_x >= (CELL_X_NUMBER-static_cast<int>(building->GetSizeX())) || cell_y >= (CELL_Y_NUMBER-static_cast<int>(building->GetSizeY())))
-		return 1;
-	for(unsigned int i=0;i<building->GetSizeX();i++)
-	for(unsigned int j=0;j<building->GetSizeY();j++)
-	{
-		if(field->grid[cell_x+i][cell_y+j].usedFor!=NOTHING) return 1;
-	}
-	for(unsigned int i=0;i<building->GetSizeX();i++)
-	for(unsigned int j=0;j<building->GetSizeY();j++)
-	{
-		field->grid[cell_x+i][cell_y+j].usedFor=OBJECT_PART;
-		field->grid[cell_x+i][cell_y+j].object=building;
+		for(unsigned int i=cell_x;i<cell_x+temp_environment->GetSizeX();i++)
+		for(unsigned int j=cell_y;j<cell_y+temp_environment->GetSizeY();j++){
+			field->grid[i][j].usedFor=CellType::OBJECT_PART;
+			field->grid[i][j].object=temp_environment;
 		}
-	field->grid[cell_x][cell_y].usedFor=OBJECT;
-
-	building->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
-	building->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
-	building->SetDestX(building->GetX());
-	building->SetDestY(building->GetY());
-	return 0;
+		field->grid[cell_x][cell_y].usedFor=OBJECT;
+		return 0;
+	case BUILDING:
+		temp_building=dynamic_cast<Building*>(newObject);
+		if(!field->IsInside(cell_x+temp_building->GetSizeX(), cell_y+temp_building->GetSizeY())) return -1;
+		if(ignore) {
+			for(unsigned int i=cell_x;i<cell_x+temp_building->GetSizeX();i++)
+			for(unsigned int j=cell_y;j<cell_y+temp_building->GetSizeY();j++){
+				CleanFromObjects(i,j);
+			}
+		}
+		for(unsigned int i=cell_x;i<cell_x+temp_building->GetSizeX();i++)
+		for(unsigned int j=cell_y;j<cell_y+temp_building->GetSizeY();j++){
+			field->grid[i][j].usedFor=CellType::OBJECT_PART;
+			field->grid[i][j].object=temp_building;
+		}
+		field->grid[cell_x][cell_y].usedFor=OBJECT;
+		return 0;
+	default:
+		return -1;
+	}
 }
-/*std::string Game::ActionOut(Action* action){
-	std::string s;
-	if(action->type==WAIT)
-		s="STAY";
-	if(action->type==MOVE_HORIZONTAL)
-		s="MOVE_HORIZONTAL";
-	if(action->type==MOVE_VERTICAL)
-		s="MOVE_VERTICAL";
-	return s;
-}*/
 
 int Game::AddPlayer(Player* newPlayer){
 	for (unsigned int i=0;i<players.size();i++){
@@ -494,7 +552,7 @@ void Game::StructureHandler(int i, int k, Time t){
 		{
 			Point point=field->FindClosestFreeCell(i,k);
 			Unit* newUnit=ObjectFactory::CreateUnit(action->unit,building->GetOwnerID());
-			AddUnitAtCell(newUnit,point.x,point.y);
+			Add(newUnit,point.x,point.y);
 			building->NextAction();
 		} else {
 			action->ReduceTime(t);
@@ -515,6 +573,14 @@ void Game::EnvironmentHandler(int i, int k, Time t){
 	if(i*k>0) return;
 	if(t>0) return;
 }
+
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Определение Handler'ов
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
 
 void Game::WritePointQueueInUnit(Unit* unit, std::queue<Point> &controlPoints)
 {

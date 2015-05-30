@@ -36,34 +36,43 @@ public:
 	Game(Drawable** texture, GameField* field, SDL_Rect windowRect);
 	virtual ~Game();
 
+	int CleanFromObjects(int cell_x, int cell_y);
+	int Add(GameObject* newObject, int cell_x=-1, int cell_y=-1, bool ignore=false);
+
 	/**
 	 * @AddUnit добавляет @unit на игровое поле согласно его координатам
 	 * @return 0, если добавление успешно произведено
 	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
-	int AddUnit(Unit* unit);
+	//int AddUnit(Unit* unit, bool ignore=false);
 
 	/**
 	 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
 	 * @return 0, если добавление успешно произведено
 	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
-	int AddUnitAtCell(Unit* unit, int cell_x, int cell_y);
+	//int AddUnitAtCell(Unit* unit, int cell_x, int cell_y, bool ignore=false);
 
 	/**
 	 * @AddBuilding добавляет @building на игровое поле согласно его координатам
 	 * @return 0, если добавление успешно произведено
 	 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 	 */
-	int AddBuilding(Building* building);
+	//int AddBuilding(Building* building, bool ignore=false);
 
 	/**
 		 * @AddUnitAtCell добавляет поле в клетку и приводит его координаты к требуемым
 		 * @return 0, если добавление успешно произведено
 		 *         1 если невозможно добавить (например, клетка занята другим юнитом)
 		 */
-	int AddBuildingAtCell(Building* building, int cell_x, int cell_y);
+	//int AddBuildingAtCell(Building* building, int cell_x, int cell_y, bool ignore=false);
 
+	/*int AddLoot(Loot* loot, bool ignore=false);
+	int AddLootAtCell(Loot* loot, int cell_x, int cell_y, bool ignore=false);
+
+	int AddEnvironment(Environment* environment, bool ignore=false);
+	int AddEnvironmentAtCell(Environment* environment, int cell_x, int cell_y, bool ignore=false);
+	*/
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 

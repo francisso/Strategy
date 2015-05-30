@@ -15,7 +15,7 @@ class Environment: public GameObject, public Sizeable{
 private:
 	EnvironmentType type;
 public:
-	Environment(SDL_Rect src, char* name_file_image, EnvironmentType type, unsigned int sizeX, unsigned int sizeY, Uint8 transparency=255);
+	Environment(SDL_Rect src, const char* name_file_image, EnvironmentType type, unsigned int sizeX, unsigned int sizeY, Uint8 transparency=255);
 	EnvironmentType WhatIs();
 };
 

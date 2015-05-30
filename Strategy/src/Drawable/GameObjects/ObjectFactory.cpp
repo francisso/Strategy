@@ -132,3 +132,118 @@ BuildingProperties ObjectFactory::LoadBuildingFromXML(BuildingType type)
 
 	return {type,imageFile, MaxHP,Damage,AttackRange,SizeX,SizeY};
 }
+
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Loot
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
+
+Loot* ObjectFactory::CreateLoot(LootType type, float x, float y)
+{
+	LootProperties* currLoot = new LootProperties();
+	static LootProperties GoldProps=LoadLootFromXML(GOLD);
+	switch(type){
+	case GOLD:
+		*currLoot=GoldProps;
+		break;
+	default:
+		return nullptr;
+	}
+	SDL_Rect* src = new SDL_Rect{0,0,CELL_X_PIXELS,CELL_Y_PIXELS};
+	Loot* loot= new Loot(*src,currLoot->imageFile, currLoot->type, currLoot->amount);
+	loot->SetX(x);
+	loot->SetY(y);
+	return loot;
+}
+
+
+
+LootProperties ObjectFactory::LoadLootFromXML(LootType type)
+{
+	xml_document<> doc;
+	xml_node<> * root_node;
+
+	// Read the xml file into a vector
+	std::ifstream theFile ("res/object_configs/Loot.xml");
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	// Parse the buffer using the xml file parsing library into doc
+	doc.parse<0>(&buffer[0]);
+	// Find our root node
+	switch (type) {
+	case GOLD: root_node = doc.first_node("Gold"); break;
+	}
+	if (root_node == nullptr) {
+		throw("Cannot find root node in xml");
+	}
+	printf("Started parsing xml\n");
+
+	auto imageFile = root_node->first_attribute("imageFile")->value();
+	auto Amount = static_cast<int>(strtoul(root_node->first_attribute("amount")->value(),NULL,10));
+
+	return {type,imageFile,Amount};
+}
+
+/**
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ *
+ * Environment
+ *
+ * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+ */
+
+Environment* ObjectFactory::CreateEnvironment(EnvironmentType type, float x, float y)
+{
+	EnvironmentProperties* currEnvironment = new EnvironmentProperties();
+	static EnvironmentProperties StoneProps=LoadEnvironmentFromXML(STONE);
+	static EnvironmentProperties TreeProps=LoadEnvironmentFromXML(TREE);
+	switch(type){
+	case STONE:
+		*currEnvironment=StoneProps;
+		break;
+	case TREE:
+		*currEnvironment=TreeProps;
+		break;
+	default:
+		return nullptr;
+	}
+	SDL_Rect* src = new SDL_Rect{0,0,static_cast<Uint16>(CELL_X_PIXELS*currEnvironment->SizeX),static_cast<Uint16>(CELL_Y_PIXELS*currEnvironment->SizeY)};
+	Environment* environment= new Environment(*src, currEnvironment->imageFile.c_str(), currEnvironment->type, currEnvironment->SizeX, currEnvironment->SizeY);
+	environment->SetX(x);
+	environment->SetY(y);
+	return environment;
+}
+
+
+
+EnvironmentProperties ObjectFactory::LoadEnvironmentFromXML(EnvironmentType type)
+{
+	xml_document<> doc;
+	xml_node<> * root_node;
+
+	// Read the xml file into a vector
+	std::ifstream theFile ("res/object_configs/Environment.xml");
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	// Parse the buffer using the xml file parsing library into doc
+	doc.parse<0>(&buffer[0]);
+	// Find our root node
+	switch (type) {
+	case STONE: root_node = doc.first_node("Stone"); break;
+	case TREE: root_node = doc.first_node("Tree"); break;
+	}
+	if (root_node == nullptr) {
+		throw("Cannot find root node in xml");
+	}
+	printf("Started parsing xml\n");
+
+	auto imageFile =std::string(root_node->first_attribute("imageFile")->value());
+	std::cout<<imageFile<<std::endl;
+	auto SizeX = static_cast<unsigned int>(strtoul(root_node->first_attribute("sizeX")->value(),NULL,10));
+	auto SizeY = static_cast<unsigned int>(strtoul(root_node->first_attribute("sizeY")->value(),NULL,10));
+
+	return {type,imageFile,SizeX, SizeY};
+}

@@ -1,3 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Archer imageFile="res/images/units/archer.bmp" AttackRange="10.0" Damage="5" MaxHP="50" MaxSpeed="2.0"/>
-<Swordman imageFile="res/images/units/unit.bmp" AttackRange="10.0" Damage="5" MaxHP="50" MaxSpeed="2.0"/>
+<Swordman imageFile="res/images/units/swordman.bmp" AttackRange="10.0" Damage="5" MaxHP="50" MaxSpeed="2.0"/>
