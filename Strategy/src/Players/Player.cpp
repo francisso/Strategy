@@ -74,11 +74,9 @@ int Player::GetGold(){
 }
 
 void Player::UpdateStatusBar_selected(){
-	Order order = {STATUS_BAR_AMOUNT, SELECTED, &counter, counter};
+	Order order = {STATUS_BAR_AMOUNT, SELECTED, &counter, counter, &building};
 	list_of_orders.push_back(order);
 	order.receiver = STATUS_BAR_ACTION;
-	if (counter.size() > 0 && counter[0].object_type == BUILDING)
-		order.data = building;
 	list_of_orders.push_back(order);
 }
 
@@ -111,6 +109,7 @@ void Player::AddPickedObject(PlayingObject* object, bool replace){
 		amount.object_type = BUILDING;
 		amount.amount = 1;
 		counter.push_back(amount);
+
 	}
 	else if (object->GetObjectType() == UNIT) {
 		Unit* unit = dynamic_cast<Unit*>(object);

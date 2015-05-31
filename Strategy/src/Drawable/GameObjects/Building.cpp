@@ -23,13 +23,13 @@ void Building::SetY(float y){
 void Building::Produce(UnitType type, bool replace){
 	//std::cout<<"Queue freed"<<std::endl;
 	Action* action=new Action();
-	action->timeLeft=3.0;
+	action->timeLeft=10.0;
 	action->unit=type;
 	action->building=TOWER;
 	action->type=PRODUCE_UNIT;
 	action->targetObject=nullptr;
 	action->moveDir=SOUTH;
 	std::cout<<"Before adding action"<<std::endl;
-	AddAction(action, replace);
+	PlayingObject::AddAction(action, replace);
 	std::cout<<"Action added"<<std::endl;
 }

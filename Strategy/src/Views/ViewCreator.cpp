@@ -40,7 +40,9 @@ View* ViewCreator::CreateGame(Engine* engine){
 	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),3,3,true);
 	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,2);
 	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,3);
-	game->Add(ObjectFactory::CreateBuilding(FORT,1), 5,5, true);
+	Building* building = ObjectFactory::CreateBuilding(FORT,1);
+//	building->Produce(ARCHER);
+	game->Add(dynamic_cast<GameObject*>(building), 5, 5, true);
 	game->Add(ObjectFactory::CreateLoot(GOLD),0,0,true);
 	game->Add(ObjectFactory::CreateEnvironment(STONE),1,0,true);
 	game->Add(ObjectFactory::CreateEnvironment(TREE),0,1,true);
@@ -122,7 +124,7 @@ StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
 						auto button_status_draw = new Draw(src, "res/images/UI/button.bmp");
 						button_status_draw->SetX(20);
 						button_status_draw->SetY(20);
-						auto building = static_cast<Building*>(ord->data);
+						Building* building = *ord->building;
 						auto make_action = [building](SDL_Event* event){
 							if (event->type == SDL_EventType::SDL_MOUSEBUTTONUP) {
 									std::cout << "click on button\n";

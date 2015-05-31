@@ -10,6 +10,7 @@
 
 #include "../Types.h"
 #include "../Drawable/GameObjects/Unit.h"
+#include "../Drawable/GameObjects/Building.h"
 
 struct AmountOfUnit{
 	GameObjectType object_type;
@@ -22,6 +23,7 @@ struct Order {
 	OrderType order;
 	void* data;
 	std::vector<AmountOfUnit>& counters;
+	Building** building;
 };
 
 

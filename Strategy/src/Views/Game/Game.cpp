@@ -556,7 +556,7 @@ void Game::StructureHandler(int i, int k, Time t){
 			building->NextAction();
 		} else {
 			action->ReduceTime(t);
-			std::cout<<t<<std::endl;
+			std::cout<<action->GetTime()<<std::endl;
 		}
 		return;
 	default:
