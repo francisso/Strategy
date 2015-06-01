@@ -65,7 +65,7 @@ GameField* FieldBuilder::CreateField() {
 	//Инициализируем поле. Сначала случайным образом.
 	//Потом переписываем из файла нужные участки
 	InitializeRandomField(field);
-	//LoadFromFile(field, MAP_PATH);
+	LoadFromFile(field, MAP_PATH);
 	return field;
 }
 
