@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Game>
+    <Unit type="ARCHER" owner="1" x="2" y="2" bignore="true"/>
+    <Unit type="ARCHER" owner="1" x="2" y="3" bignore="true"/>
+    <Unit type="SWORDMAN" owner="1" x="3" y="3" bignore="true"/>
+    <Unit type="SWORDMAN" owner="1" x="3" y="4" bignore="true"/>
+    <Building type="FORT" owner="1" x="6" y="6" bignore="true"/>
+    <Loot type="GOLD" x="0" y="0" bignore="true"/>
+    <Environment type="STONE" x="5" y="1" bignore="true"/>
+    <Environment type="TREE" x="3" y="6" bignore="true"/>
+</Game>

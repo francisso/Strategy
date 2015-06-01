@@ -8,18 +8,17 @@
 #include "ViewCreator.h"
 
 
-View* ViewCreator::CreateMainView(Engine* engine)
+View* ViewCreator::CreateMainView(Engine* engine, const char* board_path)
 {
 	View* main_view = new View();
 	View* status_bar = CreateStatusBar(engine);
-	View* game = CreateGame(engine);
+	View* game = CreateGame(engine, board_path);
 	main_view->AddView(game);
 	main_view->AddView(status_bar);
 	return main_view;
 }
 
-View* ViewCreator::CreateGame(Engine* engine){
-	std::cout<<"Here?"<<std::endl;
+View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	Drawable** texture = engine->LoadResources();
 	GameField* field = FieldBuilder::CreateField();
 
@@ -34,19 +33,86 @@ View* ViewCreator::CreateGame(Engine* engine){
 	game->AddPlayer(Player_1);
 	game->SwitchPlayer(1);
 
-	game->Add(ObjectFactory::CreateUnit(ARCHER,1),2,2, true);
-	game->Add(ObjectFactory::CreateUnit(ARCHER,1),2,3, true);
-	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),3,2,true);
-	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),3,3,true);
-	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,2);
-	//game->AddUnitAtCell(ObjectFactory::CreateUnit(ARCHER,1),3,3);
-	Building* building = ObjectFactory::CreateBuilding(FORT,1);
-//	building->Produce(ARCHER);
-	game->Add(dynamic_cast<GameObject*>(building), 5, 5, true);
-	game->Add(ObjectFactory::CreateLoot(GOLD),0,0,true);
-	game->Add(ObjectFactory::CreateEnvironment(STONE),1,0,true);
-	game->Add(ObjectFactory::CreateEnvironment(TREE),0,1,true);
-
+	xml_document<> doc;
+	xml_node<> * root_node;
+	// Read the xml file into a vector
+	std::ifstream theFile (board_path);
+	std::vector<char> buffer((std::istreambuf_iterator<char>(theFile)), std::istreambuf_iterator<char>());
+	buffer.push_back('\0');
+	// Parse the buffer using the xml file parsing library into doc
+	doc.parse<0>(&buffer[0]);
+	// Find our root node
+	root_node = doc.first_node("Game");
+	if (root_node == nullptr) {
+		throw("Cannot find root node in xml");
+	}
+	for (xml_node<> * node = root_node->first_node("Unit");
+					node; node = node->next_sibling("Unit")) {
+			auto owner = atoi(node->first_attribute("owner")->value());
+			auto x = atoi(node->first_attribute("x")->value());
+			auto y = atoi(node->first_attribute("y")->value());
+			auto bignore = false;
+			if (!strcmp("true", node->first_attribute("bignore")->value()))
+				bignore = true;
+			UnitType type;
+			auto s_type= node->first_attribute("type")->value();
+			if (!strcmp("SWORDMAN", s_type)) {
+				type = SWORDMAN;
+			}
+			else if (!strcmp("ARCHER", s_type)) {
+				type = ARCHER;
+			}
+			game->Add(ObjectFactory::CreateUnit(type, owner), x,y, bignore);
+		}
+	for (xml_node<> * node = root_node->first_node("Building");
+						node; node = node->next_sibling("Building")) {
+		auto owner = atoi(node->first_attribute("owner")->value());
+		auto x = atoi(node->first_attribute("x")->value());
+		auto y = atoi(node->first_attribute("y")->value());
+		auto bignore = false;
+		if (!strcmp("true", node->first_attribute("bignore")->value()))
+			bignore = true;
+		BuildingType type;
+		auto s_type= node->first_attribute("type")->value();
+		if (!strcmp("FORT", s_type)) {
+			type = FORT;
+		}
+		else if (!strcmp("TOWER", s_type)) {
+			type = TOWER;
+		}
+		game->Add(ObjectFactory::CreateBuilding(type, owner), x,y, bignore);
+	}
+	for (xml_node<> * node = root_node->first_node("Loot");
+						node; node = node->next_sibling("Loot")) {
+		auto x = atoi(node->first_attribute("x")->value());
+		auto y = atoi(node->first_attribute("y")->value());
+		auto bignore = false;
+				if (!strcmp("true", node->first_attribute("bignore")->value()))
+					bignore = true;
+		LootType type;
+		auto s_type= node->first_attribute("type")->value();
+		if (!strcmp("GOLD", s_type)) {
+			type = GOLD;
+		}
+		game->Add(ObjectFactory::CreateLoot(type), x,y, bignore);
+	}
+	for (xml_node<> * node = root_node->first_node("Environment");
+						node; node = node->next_sibling("Environment")) {
+		auto x = atoi(node->first_attribute("x")->value());
+		auto y = atoi(node->first_attribute("y")->value());
+		auto bignore = false;
+				if (!strcmp("true", node->first_attribute("bignore")->value()))
+					bignore = true;
+		EnvironmentType type;
+		auto s_type= node->first_attribute("type")->value();
+		if (!strcmp("STONE", s_type)) {
+			type = STONE;
+		}
+		else if (!strcmp("TREE", s_type)) {
+			type = TREE;
+		}
+		game->Add(ObjectFactory::CreateEnvironment(type), x,y, bignore);
+	}
 	return game;
 }
 StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){

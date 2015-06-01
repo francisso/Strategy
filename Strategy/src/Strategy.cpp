@@ -25,12 +25,14 @@ const char* ObjectFactory::buildingConfigs="res/object_configs/Buildings.xml";
 const char* ObjectFactory::lootConfigs="res/object_configs/Loot.xml";
 const char* ObjectFactory::environmentConfigs="res/object_configs/Environment.xml";
 
+const char* board_path="Views/board.xml";
+
 int main() {
 	std::cout << "I'm working" << std::endl;
 	try
 	{
 		Engine* engine = new Engine();
-		View* main_view = ViewCreator::CreateMainView(engine);
+		View* main_view = ViewCreator::CreateMainView(engine, board_path);
 		engine->SetView(main_view);
 		engine->Run();
 	}

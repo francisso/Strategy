@@ -32,11 +32,11 @@ using namespace rapidxml;
 // xml файла
 class ViewCreator {
 public:
-	static View* CreateMainView(Engine* engine);
+	static View* CreateMainView(Engine* engine, const char* board_path);
 	//path - путь, по которому лежит xml для парсинга
 	static View* CreateView(const char* path);
 private:
-	static View* CreateGame(Engine* engine);
+	static View* CreateGame(Engine* engine, const char* board_path);
 	static View* CreateStatusBar(Engine* engine);
 	static StatusBar* CreateStatusBar_Amount(Engine* engine);
 	static StatusBar* CreateStatusBar_Action(Engine* engine);
