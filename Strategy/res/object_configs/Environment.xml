@@ -1,3 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Tree imageFile="res/images/environment/tree.bmp" sizeX="1" sizeY="1"/>
+<Trees imageFile="res/images/environment/trees.bmp" sizeX="4" sizeY="3"/>
 <Stone imageFile="res/images/environment/stone.bmp" sizeX="2" sizeY="2"/>
+<Brush imageFile="res/images/environment/tree.bmp" sizeX="1" sizeY="1"/>

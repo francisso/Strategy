@@ -51,6 +51,8 @@ public:
 	 */
 	int Add(GameObject* newObject, int cell_x=-1, int cell_y=-1, bool ignore=false);
 
+	void ManageLoot(GameObject* object, Loot* loot);
+
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 
@@ -75,6 +77,8 @@ public:
 	 *         1 если игрока с таким @PlayerID не существует или @ID==0 (PlayerID нейтрального игрока)
 	 */
 	int SwitchPlayer(int ID);
+
+	Player* FindPlayer(int ID);
 private:
 	float x;
 	float y;
@@ -114,7 +118,7 @@ private:
 
 	//методы касающиеся движения юнитов
 	void WritePointQueueInUnit(Unit* unit,std::queue<Point> &controlPoints);
-	void SendUnitTo(Unit* unit,int targetX, int targetY, bool replace=true);
+	void SendUnitTo(Unit* unit,int targetX, int targetY, std::vector<Point> &forbiddenPoints, bool replace=true);
 };
 
 #endif /* GAME_H_ */

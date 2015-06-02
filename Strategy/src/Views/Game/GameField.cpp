@@ -29,7 +29,7 @@ extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, s
 		gd.nodes[i]=(struct node*)malloc(gd.width*sizeof(struct node));
 		for(int j=0;j<gd.height;j++)
 		{
-			gd.nodes[i][j]=createNode(j,i,this->IsWalkable(j,i));
+			gd.nodes[i][j]=createNode(j,i,this->IsWalkable(j,i,true,true));
 		}
 	}
 	Point point;
@@ -70,7 +70,8 @@ extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, s
 	return;
 }
 
-bool GameField::IsWalkable(int x, int y, bool walkable_loot){
+bool GameField::IsWalkable(int x, int y, bool walkable_loot, bool walkable_unit){
+	Unit* unit;
 	if(!this->IsInside(x,y))
 		return false;
 	switch(this->grid[x][y].textureType){
@@ -87,7 +88,16 @@ bool GameField::IsWalkable(int x, int y, bool walkable_loot){
 			case BUILDING: case ENVIRONMENT:
 				return false;
 			case UNIT:
-				return true;
+				if(walkable_unit)
+					return true;
+				else
+				{
+					unit=dynamic_cast<Unit*>(this->grid[x][y].object);
+					if(unit->GetAction()->type==MOVE)
+						return true;
+					else
+						return false;
+				}
 			case LOOT:
 				if(walkable_loot)
 					return true;
@@ -113,21 +123,18 @@ bool GameField::IsInside(int x, int y){
 
 Point GameField::FindClosestFreeCell(int x, int y, int radius){
 	radius=(radius>0)?radius:maxRadiusDefault;
-	std::cout<<"radius="<<radius<<std::endl;
 	Point point{-1,-1};
 	int currDist, currMinDist=radius*2+1;
-	std::cout<<"currMinDist="<<currMinDist<<std::endl;
 	for(int i=x-radius;i<x+radius+1;i++)
 	for(int j=y-radius;j<y+radius+1;j++)
 	{
 		currDist=std::abs(i-x)+std::abs(j-y);
-		std::cout<<"currDist="<<currDist<<std::endl;
 		if(IsWalkable(i,j, false) && (currDist<currMinDist)){
 			point.x=i;
 			point.y=j;
 			currMinDist=currDist;
 		}
 	}
-	std::cout<<"x="<<point.x<<" y="<<point.y<<std::endl;
+	std::cout<<"Closest point is x="<<point.x<<" y="<<point.y<<std::endl;
 	return point;
 }

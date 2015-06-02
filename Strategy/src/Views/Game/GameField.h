@@ -12,6 +12,8 @@
 #include "../../Drawable/Draw.h"
 #include "../../Drawable/GameObject.h"
 #include "../../Types.h"
+#include "../../Drawable/GameObjects/Unit.h"
+
 #include <queue>
 #include <iostream>
 
@@ -39,7 +41,7 @@ struct GameField {
 	Cell grid[CELL_X_NUMBER][CELL_Y_NUMBER];
 
 	void FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints, std::vector<Point> &forbiddenPoints);
-	bool IsWalkable(int x, int y, bool walkable_loot=true);
+	bool IsWalkable(int x, int y, bool walkable_loot=true, bool walkable_unit=false);
 	bool IsInside(int x, int y);
 
 	/**

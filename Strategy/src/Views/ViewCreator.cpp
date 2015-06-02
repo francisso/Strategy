@@ -109,10 +109,12 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 			type = STONE;
 		}
 		else if (!strcmp("TREE", s_type)) {
-			type = TREE;
+			type = BRUSH;
 		}
 		game->Add(ObjectFactory::CreateEnvironment(type), x,y, bignore);
 	}
+
+	game->Add(ObjectFactory::CreateEnvironment(TREES),8,2);
 	return game;
 }
 StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){

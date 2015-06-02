@@ -199,13 +199,17 @@ Environment* ObjectFactory::CreateEnvironment(EnvironmentType type, float x, flo
 {
 	EnvironmentProperties* currEnvironment = new EnvironmentProperties();
 	static EnvironmentProperties StoneProps=LoadEnvironmentFromXML(STONE);
-	static EnvironmentProperties TreeProps=LoadEnvironmentFromXML(TREE);
+	static EnvironmentProperties TreesProps=LoadEnvironmentFromXML(TREES);
+	static EnvironmentProperties BrushProps=LoadEnvironmentFromXML(BRUSH);
 	switch(type){
 	case STONE:
 		*currEnvironment=StoneProps;
 		break;
-	case TREE:
-		*currEnvironment=TreeProps;
+	case TREES:
+		*currEnvironment=TreesProps;
+		break;
+	case BRUSH:
+		*currEnvironment=BrushProps;
 		break;
 	default:
 		return nullptr;
@@ -233,7 +237,8 @@ EnvironmentProperties ObjectFactory::LoadEnvironmentFromXML(EnvironmentType type
 	// Find our root node
 	switch (type) {
 	case STONE: root_node = doc.first_node("Stone"); break;
-	case TREE: root_node = doc.first_node("Tree"); break;
+	case TREES: root_node = doc.first_node("Trees"); break;
+	case BRUSH: root_node = doc.first_node("Brush"); break;
 	}
 	if (root_node == nullptr) {
 		throw("Cannot find root node in xml");

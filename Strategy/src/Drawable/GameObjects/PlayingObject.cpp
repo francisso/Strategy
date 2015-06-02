@@ -87,8 +87,8 @@ Action* PlayingObject::GetAction(){return currAction;}
 
 void PlayingObject::AddAction(Action* action,bool replace)
 {
-	std::cout<<std::endl;
-	std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
+	//std::cout<<std::endl;
+	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	if (replace){
 		this->Stop();
 	}

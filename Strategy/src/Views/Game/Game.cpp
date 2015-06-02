@@ -6,6 +6,7 @@
  */
 
 #include "Game.h"
+
 #include <string>
 #include <iostream>
 #include <inttypes.h>
@@ -272,10 +273,17 @@ int Game::Add(GameObject* newObject, int cell_x, int cell_y, bool ignore){
 	}
 }
 
+void Game::ManageLoot(GameObject* object, Loot* loot){
+	if(object==nullptr || loot==nullptr)
+		return;
+}
+
 int Game::AddPlayer(Player* newPlayer){
-	for (unsigned int i=0;i<players.size();i++){
+	/*for (unsigned int i=0;i<players.size();i++){
 		if(players[i]->PlayerID==newPlayer->PlayerID) return 1;
-	}
+	}*/
+	Player* player=FindPlayer(newPlayer->PlayerID);
+	if(player!=nullptr) return 1;
 	players.push_back(newPlayer);
 	return 0;
 }
@@ -293,15 +301,26 @@ int Game::RemovePlayer(int ID){
 }
 
 int Game::SwitchPlayer(int ID){
-	for(unsigned int i=0;i<players.size();i++){
-		if(players[i]->PlayerID==ID){
-			mainPlayer=players[i];
-			std::cout<<"player switched to "<<mainPlayer->PlayerID<<std::endl;
-			return 0;
-		}
+	Player* player=FindPlayer(ID);
+	if(player!=nullptr){
+		mainPlayer=player;
+		std::cout<<"player switched to "<<mainPlayer->PlayerID<<std::endl;
+		return 0;
 	}
 	return 1;
 }
+
+Player* Game::FindPlayer(int ID){
+	Player* player=nullptr;
+	for(unsigned int i=0;i<players.size();i++){
+		if(players[i]->PlayerID==ID){
+			player=players[i];
+			break;
+		}
+	}
+	return player;
+}
+
 void Game::TakeOrder(){
 	auto it = list_of_orders.begin();
 	for ( ; it != list_of_orders.end(); it++)
@@ -381,17 +400,8 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 				PlayingObject* picked=mainPlayer->GetPicked(i);
 				if (picked->GetObjectType()!=UNIT) break;
 				Unit* unitPicked=dynamic_cast<Unit*>(picked);
-
-				/*/================
-				Point start, finish{cell_x,cell_y};
-				start.x=static_cast<int>(unitPicked->GetDestX())/CELL_X_PIXELS;
-				start.y=static_cast<int>(unitPicked->GetDestY())/CELL_Y_PIXELS;
-				std::queue<Point> controlPoints;
-				this->field->FindPath_JPS(start,finish,controlPoints);
-				//================*/
-
-				//unitPicked->DirectMoveToCell(cell_x,cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
-				this->SendUnitTo(unitPicked,cell_x, cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
+				std::vector<Point> forbidden;
+				this->SendUnitTo(unitPicked,cell_x, cell_y,forbidden,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
 				i++;
 			}
 			break;
@@ -471,7 +481,7 @@ void Game::UnitHandler(int i, int k, Time t){
 			unit->SetDestX(unit->GetX());
 			unit->SetDestY(unit->GetY());
 		} else if (unit->GetAction()->type==MOVE){
-			if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT || field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT_PART){
+			if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==OBJECT || field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==CellType::OBJECT_PART){
 				if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object->GetObjectType()==UNIT){
 					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==MOVE){
 						unit->RepeatLastAction();
@@ -483,7 +493,12 @@ void Game::UnitHandler(int i, int k, Time t){
 						if(unit->GetTries()==0.0){
 							int x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
 							int y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
-							this->SendUnitTo(unit,x,y,true);
+							std::vector<Point> forbidden;
+							Point point;
+							point.x=i+unit->NextCellDirX();
+							point.y=k+unit->NextCellDirY();
+							forbidden.push_back(point);
+							this->SendUnitTo(unit,x,y,forbidden,true);
 							unit->RestoreTries();
 						}
 						return;
@@ -592,12 +607,13 @@ void Game::WritePointQueueInUnit(Unit* unit, std::queue<Point> &controlPoints)
 	}
 }
 
-void Game::SendUnitTo(Unit* unit, int targetX, int targetY, bool replace)
+void Game::SendUnitTo(Unit* unit, int targetX, int targetY, std::vector<Point> &forbiddenPoints, bool replace)
 {
 	if(replace) unit->Stop();
-	if(!this->field->IsWalkable(targetX,targetY)) return;
+	if(!this->field->IsWalkable(targetX,targetY, true, true)) {
+		return;
+	}
 	std::queue<Point> controlPoints;
-	std::vector<Point> forbiddenPoints;
 	Point startPoint;
 	startPoint.x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
 	startPoint.y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
