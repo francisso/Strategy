@@ -33,6 +33,10 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	game->AddPlayer(Player_1);
 	game->SwitchPlayer(1);
 
+	//компьютерный игрок
+	AI* Player_2=new AI(2,BLUE,"Computer 1");
+	game->AddPlayer(Player_2);
+
 	xml_document<> doc;
 	xml_node<> * root_node;
 	// Read the xml file into a vector
@@ -115,6 +119,9 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	}
 
 	game->Add(ObjectFactory::CreateEnvironment(TREES),8,2);
+
+	game->Add(ObjectFactory::CreateUnit(SWORDMAN,2),14,5);
+	game->Add(ObjectFactory::CreateBuilding(FORT,2),14,0);
 	return game;
 }
 StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){

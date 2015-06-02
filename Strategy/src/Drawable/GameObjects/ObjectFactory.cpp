@@ -94,7 +94,7 @@ Building* ObjectFactory::CreateBuilding(BuildingType type,int ownerID, float x, 
 		return nullptr;
 	}
 	SDL_Rect* src = new SDL_Rect{0,0,static_cast<Uint16>(CELL_X_PIXELS*currBuilding->SizeX),static_cast<Uint16>(CELL_Y_PIXELS*currBuilding->SizeY)};
-	Building* building= new Building(*src,currBuilding->imageFile,type,SPEED_DEFAULT,currBuilding->MaxHP,ownerID, currBuilding->SizeX, currBuilding->SizeY);
+	Building* building= new Building(*src,currBuilding->imageFile.c_str(),type,SPEED_DEFAULT,currBuilding->MaxHP,ownerID, currBuilding->SizeX, currBuilding->SizeY);
 	building->SetX(x);
 	building->SetY(y);
 	return building;
@@ -123,7 +123,7 @@ BuildingProperties ObjectFactory::LoadBuildingFromXML(BuildingType type)
 	}
 	printf("Started parsing xml\n");
 
-	auto imageFile = root_node->first_attribute("imageFile")->value();
+	auto imageFile = std::string(root_node->first_attribute("imageFile")->value());
 	auto AttackRange = strtof (root_node->first_attribute("AttackRange")->value(), NULL);
 	auto Damage = static_cast<unsigned int>(strtoul(root_node->first_attribute("Damage")->value(),NULL,10));
 	auto MaxHP = static_cast<unsigned int>(strtoul(root_node->first_attribute("MaxHP")->value(), NULL,10));
@@ -153,7 +153,7 @@ Loot* ObjectFactory::CreateLoot(LootType type, float x, float y)
 		return nullptr;
 	}
 	SDL_Rect* src = new SDL_Rect{0,0,CELL_X_PIXELS,CELL_Y_PIXELS};
-	Loot* loot= new Loot(*src,currLoot->imageFile, currLoot->type, currLoot->amount);
+	Loot* loot= new Loot(*src,currLoot->imageFile.c_str(), currLoot->type, currLoot->amount);
 	loot->SetX(x);
 	loot->SetY(y);
 	return loot;
@@ -181,7 +181,7 @@ LootProperties ObjectFactory::LoadLootFromXML(LootType type)
 	}
 	printf("Started parsing xml\n");
 
-	auto imageFile = root_node->first_attribute("imageFile")->value();
+	auto imageFile = std::string(root_node->first_attribute("imageFile")->value());
 	auto Amount = static_cast<int>(strtoul(root_node->first_attribute("amount")->value(),NULL,10));
 
 	return {type,imageFile,Amount};

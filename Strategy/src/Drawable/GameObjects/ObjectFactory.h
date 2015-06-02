@@ -37,7 +37,7 @@ struct UnitProperties{
 
 struct BuildingProperties{
 	BuildingType type;
-	char *imageFile;
+	std::string imageFile;
 	unsigned int MaxHP;
 	unsigned int Damage;
 	float AttackRange;
@@ -47,7 +47,7 @@ struct BuildingProperties{
 
 struct LootProperties{
 	LootType type;
-	char* imageFile;
+	std::string imageFile;
 	int amount;
 };
 

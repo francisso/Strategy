@@ -15,7 +15,7 @@ private:
 	LootType type;
 	int amount;
 public:
-	Loot(SDL_Rect src, char* name_file_image, LootType type, int amount, Uint8 transparency=255);
+	Loot(SDL_Rect src, const char* name_file_image, LootType type, int amount, Uint8 transparency=255);
 	LootType WhatIs();
 	int GetAmount();
 };

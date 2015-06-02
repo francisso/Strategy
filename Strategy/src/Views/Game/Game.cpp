@@ -470,6 +470,9 @@ void Game::OnEvent(SDL_Event* event) {
 
 void Game::UnitHandler(int i, int k, Time t){
 	Unit* unit=dynamic_cast<Unit*>(field->grid[i][k].object);
+	if(unit->GetCurrHP()==0u){
+		CleanFromObjects(i,k);
+	}
 	//Action* action=unit->GetAction();
 	float x=unit->GetX();
 	float y=unit->GetY();
@@ -570,6 +573,9 @@ void Game::UnitHandler(int i, int k, Time t){
 
 void Game::StructureHandler(int i, int k, Time t){
 	Building* building=dynamic_cast<Building*>(field->grid[i][k].object);
+	if(building->GetCurrHP()==0u){
+		CleanFromObjects(i,k);
+	}
 	Action* action=building->GetAction();
 	switch(action->type)
 	{

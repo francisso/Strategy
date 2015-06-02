@@ -152,11 +152,9 @@ std::string Player::GetSignature(){
 }
 
 PlayingObject* Player::GetPicked(unsigned int number){
-	if(number>pickedObjects.size()){
-		return nullptr;
-	} else {
-		return pickedObjects[number];
-	}
+	while(pickedObjects[number]==nullptr && number<pickedObjects.size())
+		pickedObjects.erase(pickedObjects.begin()+number);
+	return (number<pickedObjects.size())?pickedObjects[number]:nullptr;
 }
 
 unsigned int Player::GetPickedNumber(){
