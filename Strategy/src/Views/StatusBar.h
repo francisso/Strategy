@@ -24,7 +24,7 @@ public:
 	virtual void Draw(std::function<void (Drawable*, float X0, float Y0)> f) const;
 	void AddStatusObject(IStatusObject* object);
 	void ClearStatusObjects();
-	virtual void OnEvent(SDL_Event* event);
+	virtual bool OnEvent(SDL_Event* event);
 	int GetTextureNumber();
 private:
 	//Массив элементов, которые рисуются в строке состояния

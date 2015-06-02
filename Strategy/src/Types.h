@@ -14,7 +14,7 @@
 typedef float Time;
 
 
-enum TextureType {GROUND, WATER, SAND, FOREST, MOUNTIAN, SWAMP};
+enum TextureType {GROUND, WATER, SAND, SWAMP, MOUNTIAN, FOREST};
 //OCCUPIED - состояние, когда юнит переходит на эту клетку.
 enum CellType{NOTHING, UNIT, OCCUPIED, BUILDING};
 

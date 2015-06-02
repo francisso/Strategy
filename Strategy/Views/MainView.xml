@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<StatusBar x="400" y="600" width="500" height="120" r="84" g="52" b="10">
+<StatusBar x="400" y="600" width="320" height="80" r="84" g="52" b="10">
     <StatusBarObject name="swamp">
-	<Drawable path="res/images/swamp.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
+	<Drawable path="res/images/textures/swamp.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<Drawable path="res/images/gameplay/playerSelection.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
 	<x>0</x>
 	<y>0</y> 
-	<width>120</width> 
-	<height>120</height>
+	<width>80</width> 
+	<height>80</height>
 	<pictureXOffset>20</pictureXOffset>
 	<pictureYOffset>20</pictureYOffset>
     </StatusBarObject>
     <StatusBarObject name="water">
-	<Drawable path="res/images/water.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<x>120</x>
+	<Drawable path="res/images/textures/water.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<Drawable path="res/images/gameplay/playerSelection.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<x>80</x>
 	<y>0</y> 
-	<width>120</width> 
-	<height>120</height>
+	<width>80</width> 
+	<height>80</height>
 	<pictureXOffset>20</pictureXOffset>
 	<pictureYOffset>20</pictureYOffset>
     </StatusBarObject>
     <StatusBarObject name="sand">
-	<Drawable path="res/images/sand.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<x>240</x>
+	<Drawable path="res/images/textures/sand.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<Drawable path="res/images/gameplay/playerSelection.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<x>160</x>
 	<y>0</y> 
-	<width>120</width> 
-	<height>120</height>
+	<width>80</width> 
+	<height>80</height>
 	<pictureXOffset>20</pictureXOffset>
 	<pictureYOffset>20</pictureYOffset>
     </StatusBarObject>
-    <StatusBarObject name="mountian">
-	<Drawable path="res/images/mountian.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<Drawable path="res/images/selection.bmp" x="0" y="0" width="80" height="80" transparency="255"/>
-	<x>360</x>
+    <StatusBarObject name="ground">
+	<Drawable path="res/images/textures/ground.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<Drawable path="res/images/gameplay/playerSelection.bmp" x="0" y="0" width="40" height="40" transparency="255"/>
+	<x>240</x>
 	<y>0</y> 
-	<width>120</width> 
-	<height>120</height>
+	<width>80</width> 
+	<height>80</height>
 	<pictureXOffset>20</pictureXOffset>
 	<pictureYOffset>20</pictureYOffset>
     </StatusBarObject>

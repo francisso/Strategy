@@ -57,7 +57,7 @@ GameField* FieldBuilder::CreateField() {
 	//Загружаем картинку с выделением
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
 	GameField* field = new GameField();
-	field->selection = new GameObject(src, "res/images/selection.bmp", 100);
+	field->selection = new GameObject(src, "res/images/gameplay/playerSelection.bmp", 100);
 	//Инициализируем поле. Сначала случайным образом.
 	//Потом переписываем из файла нужные участки
 	InitializeRandomField(field);

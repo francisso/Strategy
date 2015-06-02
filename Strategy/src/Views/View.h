@@ -33,7 +33,8 @@ public:
 
 	//Функции, к которым обращается Engine
 	// в случае события
-	virtual void OnEvent(SDL_Event* event);
+	//если обработалось, возвращает true
+	virtual bool OnEvent(SDL_Event* event);
 
 	virtual void Update(Time t);
 

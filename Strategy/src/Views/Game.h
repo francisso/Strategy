@@ -27,7 +27,7 @@ public:
 	Game(Drawable** texture);
 	Game(Drawable** texture, GameField* field);
 	virtual ~Game()=default;
-	virtual void OnEvent(SDL_Event* event);
+	virtual bool OnEvent(SDL_Event* event);
 
 	const char* DefaultMapPath = "res/maps/mapSaved";
 	void SetBar(StatusBar* bar);

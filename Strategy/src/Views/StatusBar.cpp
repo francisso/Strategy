@@ -20,10 +20,10 @@ void StatusBar::ClearStatusObjects() {
 	elements.clear();
 }
 
-void StatusBar::OnEvent(SDL_Event* event) {
+bool StatusBar::OnEvent(SDL_Event* event) {
 	if (event == nullptr)
-		return;
-	if (event->type == SDL_MOUSEBUTTONDOWN) {
+		return false;
+	if (event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP) {
 		auto x =event->button.x-size.x;
 		auto y =event->button.y-size.y;
 		for(auto e:elements)
@@ -32,9 +32,11 @@ void StatusBar::OnEvent(SDL_Event* event) {
 				if (selected != nullptr)
 					selected->SetClicked();
 				selected=dynamic_cast<StatusBarElement*>(e);
+				return true;
 			}
 
 	}
+	return false;
 }
 
 
@@ -59,16 +61,16 @@ int StatusBar::GetTextureNumber() {
 	if (selected==nullptr)
 		return 0;
 	if (!selected->GetName().compare("water"))
-		return 1;
+		return WATER;
 	if (!selected->GetName().compare("forest"))
-		return 3;
+		return FOREST;
 	if (!selected->GetName().compare("ground"))
-		return 0;
+		return GROUND;
 	if (!selected->GetName().compare("mountian"))
-		return 4;
+		return MOUNTIAN;
 	if (!selected->GetName().compare("swamp"))
-		return 5;
+		return SWAMP;
 	if (!selected->GetName().compare("sand"))
-		return 2;
+		return SAND;
 	return 0;
 }

@@ -63,8 +63,9 @@ void Game::Update(Time t) {
 }
 
 
-void Game::OnEvent(SDL_Event* event) {
-	View::OnEvent(event);
+bool Game::OnEvent(SDL_Event* event) {
+	if (View::OnEvent(event))
+		return true;
 	//координаты предыдущего нажатия мышки
 	static int lastX,lastY;
 	switch(event->type)
@@ -98,6 +99,7 @@ void Game::OnEvent(SDL_Event* event) {
 		SaveMap(DefaultMapPath); break;
 	}
 	}
+	return true;
 }
 
 

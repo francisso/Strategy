@@ -27,18 +27,21 @@ void View::Draw(std::function<void (Drawable*, float X0, float Y0)> f) const {
 		v->Draw(f);
 }
 
-void View::OnEvent(SDL_Event* event) {
+bool View::OnEvent(SDL_Event* event) {
+	bool res = false;
 	//Если произошло нажатие мышки, то отправляем только одному view
 	if (event->type == SDL_EventType::SDL_MOUSEBUTTONUP ||
 			event->type == SDL_EventType::SDL_MOUSEBUTTONDOWN) {
 		for(auto v: views)
-			if (v->ContainsCoordinates(event->button.x, event->button.y))
-				v->OnEvent(event);
+			if (v->ContainsCoordinates(event->button.x, event->button.y)) {
+				res |= v->OnEvent(event);
+			}
 	}
 	//Если не мышь - информируем всех
 	//else
 		for(auto v: views)
-			v->OnEvent(event);
+			res |= v->OnEvent(event);
+	return res;
 }
 
 bool View::ContainsCoordinates(Uint16 x, Uint16 y) const {

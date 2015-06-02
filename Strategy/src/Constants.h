@@ -14,10 +14,10 @@
 #define CELL_Y_NUMBER 24
 
 //Количество пикселей в клетке
-#define CELL_X_PIXELS 80
-#define CELL_Y_PIXELS 80
+#define CELL_X_PIXELS 40
+#define CELL_Y_PIXELS 40
 
 //Количество текстур
-static const int TEXTURE_COUNT= 6;
+static const int TEXTURE_COUNT= 4;
 
 #endif /* CONSTANTS_H_ */

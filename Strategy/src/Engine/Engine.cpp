@@ -34,9 +34,9 @@ Engine::~Engine() {
 
 Drawable** Engine::LoadResources(){
 	SDL_Rect src = {0, 0, CELL_X_PIXELS, CELL_Y_PIXELS};
-	texture[GROUND] = new GameObject(src, "res/images/ground.bmp");
-	texture[WATER]  = new GameObject(src, "res/images/water.bmp");
-	texture[SAND]   = new GameObject(src, "res/images/sand.bmp");
+	texture[GROUND] = new GameObject(src, "res/images/textures/ground.bmp");
+	texture[WATER]  = new GameObject(src, "res/images/textures/water.bmp");
+	texture[SAND]   = new GameObject(src, "res/images/textures/sand.bmp");
 	texture[FOREST] = new GameObject(src, "res/images/forest.bmp");
 	texture[MOUNTIAN] = new GameObject(src, "res/images/mountian.bmp");
 	texture[SWAMP]  = new GameObject(src, "res/images/swamp.bmp");
