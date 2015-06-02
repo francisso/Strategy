@@ -60,7 +60,11 @@ void Unit::Stop(){
 	float CELL_X=static_cast<float>(CELL_X_PIXELS);
 	float CELL_Y=static_cast<float>(CELL_Y_PIXELS);
 
-	if(currAction->type==WAIT) return;
+	if(currAction->type==WAIT) {
+		SetDestX(GetX());
+		SetDestY(GetY());
+		return;
+	}
 
 	if(this->NextCellDirY()>0){
 		SetDestY(CELL_Y*static_cast<float>(static_cast<int>(GetY()/CELL_Y)+1));

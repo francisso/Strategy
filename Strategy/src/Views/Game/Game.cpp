@@ -485,6 +485,7 @@ void Game::UnitHandler(int i, int k, Time t){
 				if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object->GetObjectType()==UNIT){
 					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==MOVE){
 						unit->RepeatLastAction();
+						std::cout<<"Action repeated"<<std::endl;
 						return;
 					}
 					if(dynamic_cast<Unit*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object)->GetAction()->type==WAIT){
@@ -497,14 +498,27 @@ void Game::UnitHandler(int i, int k, Time t){
 							Point point;
 							point.x=i+unit->NextCellDirX();
 							point.y=k+unit->NextCellDirY();
+							std::cout<<"Forbidden point: x="<<point.x<<" y="<<point.y<<std::endl;
 							forbidden.push_back(point);
 							this->SendUnitTo(unit,x,y,forbidden,true);
 							unit->RestoreTries();
 						}
 						return;
 					}
+				} else {
+					int x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
+					int y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
+					unit->Stop();
+					std::vector<Point> forbidden;
+					Point point;
+					point.x=i+unit->NextCellDirX();
+					point.y=k+unit->NextCellDirY();
+					std::cout<<"Forbidden point: x="<<point.x<<" y="<<point.y<<std::endl;
+					forbidden.push_back(point);
+					this->SendUnitTo(unit,x,y,forbidden,true);
+					unit->RestoreTries();
+					return;
 				}
-				return;
 			} else if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor==NOTHING) {
 				unit->RestoreTries();
 				field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;

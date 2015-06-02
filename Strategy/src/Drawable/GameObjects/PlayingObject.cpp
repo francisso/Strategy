@@ -93,7 +93,7 @@ void PlayingObject::AddAction(Action* action,bool replace)
 		this->Stop();
 	}
 	ActionQueue.push(action);
-	std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
+	//std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	/*std::cout<<"ActionQueue.size()="<<ActionQueue.size()<<std::endl;
 	Action* act = ActionQueue.front();
 	std::cout<<"Current action: actionType="<<currAction->type<<"; current moveDir="<<currAction->moveDir<<std::endl;
@@ -128,7 +128,7 @@ void PlayingObject::RepeatLastAction(){
 	ActionQueue.push(currAction);
 	currAction=Action::CreateMoveAction(WAIT);
 	long unsigned int n=ActionQueue.size();
-	for(long unsigned int i=0;i<n;i++)
+	for(long unsigned int i=0;i<n-1;i++)
 	{
 		ActionQueue.push(ActionQueue.front());
 		ActionQueue.pop();
