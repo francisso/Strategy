@@ -10,8 +10,8 @@
 #include <iostream>
 
 Unit::Unit(SDL_Rect src, const char *name_file_image, UnitType unitType,
-		float maxSpeed,unsigned int maxHP,int ownerID):
-				PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP,ownerID),
+		float maxSpeed,unsigned int maxHP,Time rate, unsigned int damage, float range, int ownerID):
+				PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP, rate, damage, range, ownerID),
 				Rotating(4),whoIs(unitType),triesLeft(NUMBER_OF_TRIES) {}
 
 inline int sign(int x){

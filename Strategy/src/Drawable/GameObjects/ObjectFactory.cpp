@@ -31,7 +31,7 @@ Unit* ObjectFactory::CreateUnit(UnitType type,int ownerID, float x, float y)
 		return nullptr;
 	}
 	SDL_Rect src = {0,0,CELL_X_PIXELS,CELL_Y_PIXELS};
-	Unit* unit= new Unit(src,currUnit.imageFile.c_str(),type,currUnit.MaxSpeed,currUnit.MaxHP,ownerID);
+	Unit* unit= new Unit(src,currUnit.imageFile.c_str(),type,currUnit.MaxSpeed,currUnit.MaxHP,currUnit.AttackRate, currUnit.Damage, currUnit.AttackRange, ownerID);
 	unit->SetX(x);
 	unit->SetY(y);
 	return unit;
@@ -63,10 +63,11 @@ UnitProperties ObjectFactory::LoadUnitFromXML(UnitType type)
 	auto imageFile =std::string(root_node->first_attribute("imageFile")->value());
 	auto AttackRange = strtof (root_node->first_attribute("AttackRange")->value(), NULL);
 	auto Damage = static_cast<unsigned int>(strtoul(root_node->first_attribute("Damage")->value(),NULL,10));
+	auto AttackRate=static_cast<Time>(strtoul(root_node->first_attribute("AttackRate")->value(),NULL,10));
 	auto MaxHP = static_cast<unsigned int>(strtoul(root_node->first_attribute("MaxHP")->value(), NULL,10));
 	auto MaxSpeed = strtof (root_node->first_attribute("MaxSpeed")->value(),  NULL);
 
-	return {type,imageFile, MaxSpeed, MaxHP,Damage,AttackRange};
+	return {type,imageFile, MaxSpeed, MaxHP,AttackRate,Damage,AttackRange};
 }
 
 /**
@@ -94,7 +95,7 @@ Building* ObjectFactory::CreateBuilding(BuildingType type,int ownerID, float x, 
 		return nullptr;
 	}
 	SDL_Rect* src = new SDL_Rect{0,0,static_cast<Uint16>(CELL_X_PIXELS*currBuilding->SizeX),static_cast<Uint16>(CELL_Y_PIXELS*currBuilding->SizeY)};
-	Building* building= new Building(*src,currBuilding->imageFile.c_str(),type,SPEED_DEFAULT,currBuilding->MaxHP,ownerID, currBuilding->SizeX, currBuilding->SizeY);
+	Building* building= new Building(*src,currBuilding->imageFile.c_str(),type,SPEED_DEFAULT,currBuilding->MaxHP,currBuilding->AttackRate, currBuilding->Damage, currBuilding->AttackRange,ownerID, currBuilding->SizeX, currBuilding->SizeY);
 	building->SetX(x);
 	building->SetY(y);
 	return building;
@@ -126,11 +127,12 @@ BuildingProperties ObjectFactory::LoadBuildingFromXML(BuildingType type)
 	auto imageFile = std::string(root_node->first_attribute("imageFile")->value());
 	auto AttackRange = strtof (root_node->first_attribute("AttackRange")->value(), NULL);
 	auto Damage = static_cast<unsigned int>(strtoul(root_node->first_attribute("Damage")->value(),NULL,10));
+	auto AttackRate= static_cast<Time>(strtoul(root_node->first_attribute("AttackRate")->value(),NULL,10));
 	auto MaxHP = static_cast<unsigned int>(strtoul(root_node->first_attribute("MaxHP")->value(), NULL,10));
 	auto SizeX = static_cast<unsigned int>(strtoul(root_node->first_attribute("SizeX")->value(), NULL,10));
 	auto SizeY = static_cast<unsigned int>(strtoul(root_node->first_attribute("SizeY")->value(), NULL,10));
 
-	return {type,imageFile, MaxHP,Damage,AttackRange,SizeX,SizeY};
+	return {type,imageFile, MaxHP,AttackRate,Damage,AttackRange,SizeX,SizeY};
 }
 
 /**

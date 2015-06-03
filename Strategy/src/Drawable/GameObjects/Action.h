@@ -22,7 +22,10 @@ struct Action{
 	BuildingType building;
 
 	static Action* CreateMoveAction(ActionType type, Direction dir=SOUTH);
+
+	static Action* CreateAttackAction(GameObject* target);
 	void ReduceTime(Time t);
+	void SetTime(Time t);
 	Time GetTime();
 };
 /*

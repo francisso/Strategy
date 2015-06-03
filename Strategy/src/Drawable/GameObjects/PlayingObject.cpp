@@ -10,10 +10,14 @@
 
 PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image,
 							GameObjectType type, float maxSpeed, unsigned int maxHP,
+							Time rate, unsigned int damage, float range,
 							int ownerID, Uint8 transparency):
 		GameObject(src, name_file_image, type, transparency),
 		MaxSpeed(maxSpeed),
 		MaxHP(maxHP),
+		AttackRate(rate),
+		Damage(damage),
+		AttackRange(range),
 		currentHP(maxHP),
 		ownerID(ownerID),
 		isPicked(false),
@@ -114,6 +118,16 @@ void PlayingObject::NextAction(){
 	}
 }
 
+void PlayingObject::AddNextAction(Action* action){
+	ActionQueue.push(action);
+	long unsigned int n=ActionQueue.size();
+		for(long unsigned int i=0;i<n-1;i++)
+		{
+			ActionQueue.push(ActionQueue.front());
+			ActionQueue.pop();
+		}
+}
+
 void PlayingObject::Stop(){
 	Action* temp;
 	while(!ActionQueue.empty())
@@ -134,3 +148,9 @@ void PlayingObject::RepeatLastAction(){
 		ActionQueue.pop();
 	}
 }
+
+float PlayingObject::GetRange(){return this->AttackRange;}
+
+Time PlayingObject::GetRate(){return this->AttackRate;}
+
+unsigned int PlayingObject::GetDamage(){return this->Damage;}

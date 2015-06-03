@@ -7,8 +7,8 @@
 
 #include "Building.h"
 
-Building::Building(SDL_Rect src, const char *name_file_image, BuildingType buildingType, float maxSpeed,unsigned int maxHP,int ownerID,int sizeX, int sizeY):
-														PlayingObject(src, name_file_image,BUILDING,maxSpeed,maxHP,ownerID),Sizeable(sizeX, sizeY), whatIs(buildingType){}
+Building::Building(SDL_Rect src, const char *name_file_image, BuildingType buildingType, float maxSpeed,unsigned int maxHP, Time rate, unsigned int damage, float range, int ownerID,int sizeX, int sizeY):
+														PlayingObject(src, name_file_image,BUILDING,maxSpeed,maxHP,rate, damage, range, ownerID),Sizeable(sizeX, sizeY), whatIs(buildingType){}
 
 BuildingType Building::WhatIs(){return whatIs;}
 

@@ -31,6 +31,7 @@ struct UnitProperties{
 	std::string imageFile;
 	float MaxSpeed;
 	unsigned int MaxHP;
+	Time AttackRate;
 	unsigned int Damage;
 	float AttackRange;
 };
@@ -39,6 +40,7 @@ struct BuildingProperties{
 	BuildingType type;
 	std::string imageFile;
 	unsigned int MaxHP;
+	Time AttackRate;
 	unsigned int Damage;
 	float AttackRange;
 	unsigned int SizeX;
