@@ -119,7 +119,6 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	}
 
 	game->Add(ObjectFactory::CreateEnvironment(TREES),8,2);
-	game->Add(ObjectFactory::CreateUnit(SWORDMAN,1),0,0);
 
 	game->Add(ObjectFactory::CreateUnit(SWORDMAN,2),14,5);
 	game->Add(ObjectFactory::CreateBuilding(FORT,2),14,0);
