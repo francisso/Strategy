@@ -96,6 +96,7 @@ class Player {
 		//void SetShiftPressed(bool);
 		// обновление выделенных объектов в строке состояния
 		void UpdateStatusBar_selected();
+		void UpdateStatusBar_Gold();
 
 	protected:
 		int playerGold;
