@@ -40,6 +40,7 @@ public:
 	Drawable* CreateBackgroungStatusBar() const;
 	Drawable* CreateBackgroungStatusBar_Amount() const;
 	Drawable* CreateBackgroungStatusBar_Action() const;
+	Drawable* CreateRectangle(SDL_Rect rect, Uint8 r, Uint8 g, Uint8 b) const;
 
 	//Constructor initializes all the resources
 	Drawable** LoadResources();

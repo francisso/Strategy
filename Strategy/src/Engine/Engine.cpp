@@ -49,6 +49,19 @@ Drawable** Engine::LoadResources(){
 void Engine::FreeResources(){
 	// TODO implement function
 }
+Drawable* Engine::CreateRectangle(SDL_Rect rect, Uint8 r, Uint8 g, Uint8 b) const
+{
+	SDL_Surface *image = SDL_CreateRGBSurface(0, rect.w, rect.h, 32, 0, 0, 0, 0);
+	SDL_FillRect(image, NULL, SDL_MapRGB(image->format, r, g, b));
+	SDL_SaveBMP(image, "res/images/UI/Rectangle.bmp");
+	SDL_Rect src = rect;
+	src.x = 0;
+	src.y = 0;
+	Drawable *back = new Draw(src, "res/images/UI/Rectangle.bmp");
+	back->SetX(static_cast<float>(rect.x));
+	back->SetY(static_cast<float>(rect.y));
+	return back;
+}
 Drawable* Engine::CreateBackgroungStatusBar_Amount() const
 {
 	int height = HIGH_STATUS_BAR - 2*INDENT;

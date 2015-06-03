@@ -24,8 +24,8 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 
 	// создание game
 	Uint16 w_game_window = static_cast<Uint16>(X_SIZE_WINDOW - 2*FRAME);
-	Uint16 h_game_window = static_cast<Uint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 2*FRAME);
-	SDL_Rect gameRect { FRAME, FRAME, w_game_window, h_game_window};
+	Uint16 h_game_window = static_cast<Uint16>(Y_SIZE_WINDOW - HIGH_STATUS_BAR - 3*FRAME);
+	SDL_Rect gameRect { FRAME, 2*FRAME, w_game_window, h_game_window};
 	auto game = new Game(texture, field, gameRect);
 
 	//создание игрока-человека
@@ -142,7 +142,7 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 					if (counters.size() > 0 && counters[0].object_type == BUILDING && flag){
 						SDL_Rect src = {0, 0, 160, 160};
 						SDL_Rect src_text = {200, 95, 280, 80};
-						auto buiding_status_draw = new Draw(src, "res/images/test.bmp");
+						auto buiding_status_draw = new Draw(src, "res/images/buildings/castle.bmp");
 						buiding_status_draw->SetX(20);
 						buiding_status_draw->SetY(20);
 						StatusObject* building_status = new StatusObject(buiding_status_draw, src_text);
@@ -221,6 +221,33 @@ StatusBar* ViewCreator::CreateStatusBar_Action(Engine* engine){
 	action_panel->SetBackground(engine->CreateBackgroungStatusBar_Action());
 	return action_panel;
 }
+StatusBar* ViewCreator::CreateStatusBar_Gold(Engine* engine){
+	auto make_action_orders = [](StatusBar* status_bar){
+		std::list<Order>::iterator next_ord;
+		std::list<Order>::iterator ord = list_of_orders.begin();
+		while ( ord != list_of_orders.end()) {
+			next_ord = ++ord;
+			ord--;
+			if (ord->receiver == STATUS_BAR_GOLD){
+				status_bar->ClearStatusObjects();
+				SDL_Rect src_text = {30, 0, 20, 500};
+				StatusObject* status_object = new StatusObject(nullptr, src_text);
+				char text[200];
+				int* gold = static_cast<int*>(ord->data);
+				sprintf(text, "You are Billionaire!!! (%d)", *gold);
+				status_object->SetText(text);
+				status_object->SetColorText(255, 233, 127);
+				status_object->SetSizeText(18);
+				list_of_orders.erase(ord);
+			}
+			ord = next_ord;
+		}
+	};
+	StatusBar* status_bar_gold = new StatusBar(make_action_orders);
+	SDL_Rect src = {FRAME, FRAME, static_cast<Uint16>(X_SIZE_WINDOW - 2*FRAME), static_cast<Uint16>(FRAME)};
+	status_bar_gold->SetBackground(engine->CreateRectangle(src, 95, 8, 46));
+	return status_bar_gold;
+}
 View* ViewCreator::CreateStatusBar(Engine* engine){
 	// создание status bar
 	Drawable* back_status_bar = engine->CreateBackgroungStatusBar();
@@ -229,10 +256,11 @@ View* ViewCreator::CreateStatusBar(Engine* engine){
 	status_bar->SetBackground(back_status_bar);
 	StatusBar* amount_object = CreateStatusBar_Amount(engine);
 	StatusBar* action_panel = CreateStatusBar_Action(engine);
+	StatusBar* status_bar_gold = CreateStatusBar_Gold(engine);
 	// Сборка всего в status_bar
 	status_bar->AddView(amount_object);
 	status_bar->AddView(action_panel);
-
+	status_bar->AddView(status_bar_gold);
 	return status_bar;
 }
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&

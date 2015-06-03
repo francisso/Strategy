@@ -84,8 +84,14 @@ int Player::AddGold(int	income,bool toZero){
 			return -1;
 		}
 	}
+	UpdateStatusBar_Gold();
 }
-
+void Player::UpdateStatusBar_Gold(){
+	static int* gold = new int;
+	*gold = playerGold;
+	Order order = {STATUS_BAR_GOLD, SELECTED, gold, counter, &building};
+	list_of_orders.push_back(order);
+}
 int Player::GetGold(){
 	return playerGold;
 }
