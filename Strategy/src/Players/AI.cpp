@@ -7,7 +7,7 @@
 
 #include "./AI.h"
 
-AI::AI(int ID,Color color,std::string signature,AIMode mode): Player(ID,color),Mode(mode){
+AI::AI(int ID,Color color,std::string signature,AIMode mode): Player(ID,COMPUTER,color),Mode(mode){
 	SetSignature(signature);
 	std::cout<<"Created "<<ColorToString(playerColor)<<" ";
 	switch(mode){

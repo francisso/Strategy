@@ -51,8 +51,6 @@ public:
 	 */
 	int Add(GameObject* newObject, int cell_x=-1, int cell_y=-1, bool ignore=false);
 
-	void ManageLoot(GameObject* object, Loot* loot);
-
 	virtual void OnEvent(SDL_Event* event);
 	std::string ActionOut(Action* action);
 
@@ -79,6 +77,8 @@ public:
 	int SwitchPlayer(int ID);
 
 	Player* FindPlayer(int ID);
+
+	void HandleMovement(int ID, int cell_x, int cell_y, bool replace=true);
 private:
 	float x;
 	float y;
@@ -119,6 +119,8 @@ private:
 	//методы касающиеся движения юнитов
 	void WritePointQueueInUnit(Unit* unit,std::queue<Point> &controlPoints);
 	void SendUnitTo(Unit* unit,int targetX, int targetY, std::vector<Point> &forbiddenPoints, bool replace=true);
+
+	void ManageLoot(GameObject* object, Loot* loot);
 };
 
 #endif /* GAME_H_ */

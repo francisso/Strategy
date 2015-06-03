@@ -7,7 +7,7 @@
 
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(int ID,Color color,std::string signature):Player(ID,color){
+HumanPlayer::HumanPlayer(int ID,Color color,std::string signature):Player(ID,HUMAN,color){
 	SetSignature(signature);
 	std::cout<<"Created "<<ColorToString(playerColor)<<" with name \""<<GetSignature()<<"\""<<std::endl;
 }

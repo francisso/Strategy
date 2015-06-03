@@ -7,7 +7,8 @@
 
 #include "Player.h"
 
-Player::Player(int ID,Color playerColor):PlayerID(ID),
+Player::Player(int ID,PlayerType type, Color playerColor):PlayerID(ID),
+										type(type),
 										playerGold(GOLD_DEFAULT),
 										playerColor(playerColor),
 										building(nullptr)

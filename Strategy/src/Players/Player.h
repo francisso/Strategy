@@ -27,6 +27,9 @@ struct EventForPlayer{
 enum Color{GREY,RED,BLUE,GREEN,YELLOW,ORANGE,CYAN,BROWN,PURPLE};
 
 enum TaskForGame{NOTHING_TO_DO,PICK_OBJECT,MOVE_PICKED_TO};
+
+enum PlayerType{HUMAN,COMPUTER};
+
 // сообщения, например для строки состояния
 extern std::list<Order> list_of_orders;
 
@@ -36,7 +39,8 @@ extern std::list<Order> list_of_orders;
 class Player {
 	public:
 		const int PlayerID;
-		Player(int ID,Color playerColor=GREY);
+		const PlayerType type;
+		Player(int ID,PlayerType type, Color playerColor=GREY);
 		virtual ~Player();
 
 		/**

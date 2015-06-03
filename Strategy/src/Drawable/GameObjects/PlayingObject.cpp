@@ -149,6 +149,12 @@ void PlayingObject::RepeatLastAction(){
 	}
 }
 
+void PlayingObject::ReplaceLastAction(Action* action){
+	Action* act=ActionQueue.back();
+	delete act;
+	act=action;
+}
+
 float PlayingObject::GetRange(){return this->AttackRange;}
 
 Time PlayingObject::GetRate(){return this->AttackRate;}

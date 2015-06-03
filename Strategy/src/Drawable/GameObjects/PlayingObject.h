@@ -57,6 +57,7 @@ public:
 	virtual void NextAction();
 	virtual void Stop();
 	virtual void RepeatLastAction();
+	virtual void ReplaceLastAction(Action* action);
 
 	virtual float GetRange();
 	virtual Time GetRate();
@@ -73,6 +74,7 @@ protected:
 	float destX,destY;
 	Action* currAction;
 	std::queue<Action*> ActionQueue;
+	std::vector<PlayingObject*> Attackers;
 };
 
 #endif /* DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */

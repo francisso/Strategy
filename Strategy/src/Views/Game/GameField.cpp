@@ -17,7 +17,7 @@ extern "C" {
 
 extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, std::queue<Point> &controlPoints, std::vector<Point> &forbiddenPoints)
 {
-	std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
+	//std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
 	std::cout<<"Start point: x="<<startPoint.x<<" y="<<startPoint.y<<std::endl;
 	std::cout<<"Finish point: x="<<finishPoint.x<<" y="<<finishPoint.y<<std::endl;
 	struct grid gd;
@@ -50,7 +50,7 @@ extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, s
 	int count=0;
 	Point p;
 	while(path_head!=NULL && (path_head!=(path_pos=path_pos->left))){
-		std::cout<<"Step "<<count<<": x="<<path_pos->x<<" y="<<path_pos->y<<std::endl;
+		//std::cout<<"Step "<<count<<": x="<<path_pos->x<<" y="<<path_pos->y<<std::endl;
 		if(count>0){
 			p.x=path_pos->x;
 			p.y=path_pos->y;
@@ -66,7 +66,7 @@ extern "C" void GameField::FindPath_JPS(Point &startPoint, Point &finishPoint, s
 		free(gd.nodes[i]);
 	}
 	free(gd.nodes);
-	std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
+	//std::cout<<"Size of point queue: "<<controlPoints.size()<<std::endl;
 	return;
 }
 
@@ -137,4 +137,43 @@ Point GameField::FindClosestFreeCell(int x, int y, int radius){
 	}
 	std::cout<<"Closest point is x="<<point.x<<" y="<<point.y<<std::endl;
 	return point;
+}
+
+Point GameField::FindPosition(Point target, Point currPos, float radius, std::vector<Point> &forbidden){
+	Point resPoint={currPos.x, currPos.y};
+	float currDist=Distance(target.x-currPos.x, target.y-currPos.y);
+	float min=currDist+radius;
+	if(currDist<=radius) return currPos;
+	int radius_i=static_cast<int>(radius/CELL_X_PIXELS)+1;
+	for(int i=target.x-radius_i;i<target.x+radius_i+1;i++)
+	for(int j=target.y-radius_i;j<target.y+radius_i+1;j++){
+		//std::cout<<i<<" "<<j<<std::endl;
+		if(!IsWalkable(i,j)) continue;
+		bool doIt=true;
+		for(unsigned int k=0;k<forbidden.size();k++){
+			if(i==forbidden[k].x && j==forbidden[k].y){
+				doIt=false;
+				break;
+			}
+		}
+		if(!doIt) continue;
+		float iterDist=Distance(target.x-i,target.y-j);
+		if(iterDist>radius) continue;
+		float currPosDist=Distance(currPos.x-i, currPos.y-j);
+		if(currPosDist<min){
+			min=currPosDist;
+			resPoint.x=i;
+			resPoint.y=j;
+		}
+	}
+	std::cout<<"resPoint.x="<<resPoint.x<<" resPoint.y="<<resPoint.y<<std::endl;
+	return resPoint;
+}
+
+float GameField::Distance(float x, float y){
+	return std::sqrt(x*x+y*y);
+}
+
+float GameField::Distance(int dx, int dy){
+	return Distance(CELL_X_PIXELS*static_cast<float>(dx), CELL_Y_PIXELS*static_cast<float>(dy));
 }

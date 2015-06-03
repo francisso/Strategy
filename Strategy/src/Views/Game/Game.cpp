@@ -408,8 +408,6 @@ void Game::Update(Time t) {
  */
 void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uint8* keystates)
 {
-	GameObject* objectTarget = EventInfo->object;
-
 	switch(mainPlayer->OnEvent(EventInfo)){
 		case NOTHING_TO_DO:
 			break;
@@ -434,20 +432,12 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 			break;
 */
 		case MOVE_PICKED_TO:
-			if(objectTarget!=nullptr && (objectTarget->GetObjectType()==BUILDING || objectTarget->GetObjectType()==ENVIRONMENT)) break;
-			unsigned int i=0;
-			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
-			while (i<mainPlayer->GetPickedNumber()) {
-				PlayingObject* picked=mainPlayer->GetPicked(i);
-				if (picked->GetObjectType()!=UNIT) break;
-				Unit* unitPicked=dynamic_cast<Unit*>(picked);
-				std::vector<Point> forbidden;
-				this->SendUnitTo(unitPicked,cell_x, cell_y,forbidden,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
-				i++;
-			}
+			HandleMovement(mainPlayer->PlayerID,cell_x, cell_y,!(keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]));
 			break;
 	}
 }
+
+
 
 void Game::OnEvent(SDL_Event* event) {
 	int X = static_cast<int>(x);
@@ -501,6 +491,45 @@ void Game::OnEvent(SDL_Event* event) {
 	}
 }
 
+void Game::HandleMovement(int ID, int cell_x, int cell_y, bool replace){
+	Player* player=FindPlayer(ID);
+	GameObject* gameObject=field->grid[cell_x][cell_y].object;
+	if(gameObject!=nullptr && gameObject->GetObjectType()==ENVIRONMENT) return;
+	unsigned int i=0;
+	std::vector<Point> forbidden;
+	if(gameObject!=nullptr && (gameObject->GetObjectType()==BUILDING || gameObject->GetObjectType()==UNIT)){
+		std::cout<<"Creating attack orders"<<std::endl;
+		PlayingObject* object=dynamic_cast<PlayingObject*>(gameObject);
+		if(object->GetOwnerID()!=ID){
+			while(i<player->GetPickedNumber()){
+				PlayingObject* picked=player->GetPicked(i);
+				if (picked->GetObjectType()!=UNIT) break;
+				Unit* unitPicked=dynamic_cast<Unit*>(picked);
+				//unitPicked->AddAction(Action::CreateAttackAction(object),replace);
+				Point currPos={static_cast<int>(unitPicked->GetX())/CELL_X_PIXELS,static_cast<int>(unitPicked->GetY())/CELL_Y_PIXELS};
+				Point targ=field->FindPosition({cell_x,cell_y},currPos,unitPicked->GetRange(),forbidden);
+				std::cout<<targ.x<<" "<<targ.y<<std::endl;
+				this->SendUnitTo(unitPicked,targ.x, targ.y,forbidden,replace);
+				unitPicked->AddAction(Action::CreateAttackAction(object),false);
+				Point forb={static_cast<int>(unitPicked->GetDestX())/CELL_X_PIXELS,static_cast<int>(unitPicked->GetDestY())/CELL_Y_PIXELS};
+				forbidden.push_back(forb);
+				std::cout<<"Forbidden added "<<forb.x<<" "<<forb.y<<std::endl;
+				i++;
+			}
+			return;
+		}
+	}
+	i=0;
+	std::cout<<"Giving orders: Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
+	while (i<player->GetPickedNumber()) {
+		PlayingObject* picked=mainPlayer->GetPicked(i);
+		if (picked->GetObjectType()!=UNIT) break;
+		Unit* unitPicked=dynamic_cast<Unit*>(picked);
+		std::vector<Point> forbidden;
+		this->SendUnitTo(unitPicked,cell_x, cell_y,forbidden,replace);
+		i++;
+	}
+}
 /**
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
  *
@@ -512,7 +541,9 @@ void Game::OnEvent(SDL_Event* event) {
 void Game::UnitHandler(int i, int k, Time t){
 	Unit* unit=dynamic_cast<Unit*>(field->grid[i][k].object);
 	if(unit->GetCurrHP()==0u){
+		std::cout<<"Found unit with 0 HP"<<std::endl;
 		CleanFromObjects(i,k);
+		return;
 	}
 	//Action* action=unit->GetAction();
 	float x=unit->GetX();
@@ -577,6 +608,47 @@ void Game::UnitHandler(int i, int k, Time t){
 				field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object=unit;
 				field->grid[i][k].usedFor=NOTHING;
 				field->grid[i][k].object=nullptr;
+			}
+		} else if(unit->GetAction()->type==ATTACK){
+			GameObject* object=unit->GetAction()->targetObject;
+			if(object==nullptr || object->GetObjectType()==LOOT || object->GetObjectType()==ENVIRONMENT) {
+				unit->Stop();
+				return;
+			}
+			if(object->GetObjectType()==BUILDING){
+				Building* target=dynamic_cast<Building*>(object);
+				if(target->GetSizeX()==0) return;
+				unit->GetAction()->type=WAIT;
+				return;
+			}
+			if(object->GetObjectType()==UNIT){
+				Unit* target=dynamic_cast<Unit*>(object);
+				float distance=std::sqrt((unit->GetX()-target->GetX())*(unit->GetX()-target->GetX())+(unit->GetY()-target->GetY())*(unit->GetY()-target->GetY()));
+				if(distance>unit->GetRange()){
+					Action* act=unit->GetAction();
+					act->timeLeft=0;
+					unit->RepeatLastAction();
+					unit->AddNextAction(Action::CreateMoveAction(MOVE,Rotating::Arctan(target->GetX()-unit->GetX(),target->GetY()-unit->GetY())));
+					unit->AddNextAction(Action::CreateMoveAction(WAIT));
+					unit->NextAction();
+				} else {
+					Action* act=unit->GetAction();
+					if(act->GetTime()==0.0){
+						target->DealDamage(unit->GetDamage());
+						std::cout<<"Target HP is "<<target->GetCurrHP()<<std::endl;
+						if(target->GetCurrHP()==0u){
+
+						}
+						act->SetTime(unit->GetRate());
+						unit->RepeatLastAction();
+						return;
+					} else {
+						act->ReduceTime(t);
+						unit->RepeatLastAction();
+						return;
+					}
+				}
+				return;
 			}
 		}
 	} else {

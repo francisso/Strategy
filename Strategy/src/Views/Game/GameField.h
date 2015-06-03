@@ -51,6 +51,10 @@ struct GameField {
 	 * если указан радиус по умолчанию или отрицательный, будет искать в радиусе maxRadiusDefault
 	 */
 	Point FindClosestFreeCell(int x, int y, int radius=0);
+	Point FindPosition(Point target, Point currPos, float radius, std::vector<Point> &forbidden);
+
+	float Distance(float x, float y);
+	float Distance(int dx, int dy);
 };
 
 #endif /* GAMEFIELD_H_ */
