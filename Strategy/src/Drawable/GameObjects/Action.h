@@ -11,12 +11,15 @@
 #include "../../Rotating.h"
 #include "../GameObject.h"
 
+#include <memory>
+
 enum ActionType{WAIT,MOVE,ATTACK,PRODUCE_UNIT,PRODUCE_BUILDING};
 
 struct Action{
 	ActionType type;
 	Direction moveDir;
-	GameObject* targetObject;
+	//GameObject* targetObject;
+	std::shared_ptr<GameObject> targetObject;
 	Time timeLeft;
 	UnitType unit;
 	BuildingType building;

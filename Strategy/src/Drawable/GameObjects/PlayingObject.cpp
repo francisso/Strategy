@@ -23,7 +23,8 @@ PlayingObject::PlayingObject(SDL_Rect src, const char *name_file_image,
 		isPicked(false),
 		destX(GetX()),
 		destY(GetY()),
-		currAction(Action::CreateMoveAction(WAIT)){}
+		currAction(Action::CreateMoveAction(WAIT)),
+		zombie(false){}
 
 /**
  * &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -160,3 +161,7 @@ float PlayingObject::GetRange(){return this->AttackRange;}
 Time PlayingObject::GetRate(){return this->AttackRate;}
 
 unsigned int PlayingObject::GetDamage(){return this->Damage;}
+
+bool PlayingObject::IsZombie(){return zombie;}
+
+void PlayingObject::Kill(){zombie=true;}

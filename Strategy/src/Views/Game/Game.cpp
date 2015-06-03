@@ -540,9 +540,15 @@ void Game::HandleMovement(int ID, int cell_x, int cell_y, bool replace){
 
 void Game::UnitHandler(int i, int k, Time t){
 	Unit* unit=dynamic_cast<Unit*>(field->grid[i][k].object);
+	if(unit->IsZombie()){
+		std::cout<<"Deleting unit"<<std::endl;
+		field->grid[i][k].object=nullptr;
+		field->grid[i][k].usedFor=NOTHING;
+		return;
+	}
 	if(unit->GetCurrHP()==0u){
 		std::cout<<"Found unit with 0 HP"<<std::endl;
-		CleanFromObjects(i,k);
+		unit->Kill();
 		return;
 	}
 	//Action* action=unit->GetAction();
@@ -610,9 +616,14 @@ void Game::UnitHandler(int i, int k, Time t){
 				field->grid[i][k].object=nullptr;
 			}
 		} else if(unit->GetAction()->type==ATTACK){
-			GameObject* object=unit->GetAction()->targetObject;
+			GameObject* object=unit->GetAction()->targetObject.get();
 			if(object==nullptr || object->GetObjectType()==LOOT || object->GetObjectType()==ENVIRONMENT) {
 				unit->Stop();
+				return;
+			}
+			PlayingObject* plObject=dynamic_cast<PlayingObject*>(object);
+			if(plObject->IsZombie()) {
+				unit->GetAction()->type=WAIT;
 				return;
 			}
 			if(object->GetObjectType()==BUILDING){

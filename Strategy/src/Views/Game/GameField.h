@@ -55,6 +55,19 @@ struct GameField {
 
 	float Distance(float x, float y);
 	float Distance(int dx, int dy);
+
+	GameField* CopyField(){
+		GameField* copy=new GameField();
+		for(int i=0;i<CELL_X_NUMBER;i++)
+		for(int j=0;j<CELL_Y_NUMBER;j++)
+		{
+			copy->grid[i][j]=this->grid[i][j];
+		}
+		for(int i=0;i<4;i++){
+			copy->selection[i]=this->selection[i];
+		}
+		return copy;
+	}
 };
 
 #endif /* GAMEFIELD_H_ */

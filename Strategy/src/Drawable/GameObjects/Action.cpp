@@ -35,7 +35,7 @@ Action* Action::CreateAttackAction(GameObject* target){
 	if(target->GetObjectType()==ENVIRONMENT || target->GetObjectType()==LOOT) return CreateMoveAction(WAIT);
 	Action* action = new Action();
 	action->type=ATTACK;
-	action->targetObject=target;
+	action->targetObject=std::shared_ptr<GameObject>(target);
 	action->timeLeft=0.0;
 	return action;
 }

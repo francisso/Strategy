@@ -62,6 +62,9 @@ public:
 	virtual float GetRange();
 	virtual Time GetRate();
 	virtual unsigned int GetDamage();
+
+	bool IsZombie();
+	void Kill();
 protected:
 	const float MaxSpeed;
 	const unsigned int MaxHP;
@@ -74,7 +77,7 @@ protected:
 	float destX,destY;
 	Action* currAction;
 	std::queue<Action*> ActionQueue;
-	std::vector<PlayingObject*> Attackers;
+	bool zombie;
 };
 
 #endif /* DRAWABLE_GAMEOBJECTS_PLAYINGOBJECT_H_LAYINGOBJECT_H_ */
