@@ -434,7 +434,7 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 			break;
 */
 		case MOVE_PICKED_TO:
-			if (objectTarget!=nullptr) break;
+			if(objectTarget!=nullptr && (objectTarget->GetObjectType()==BUILDING || objectTarget->GetObjectType()==ENVIRONMENT)) break;
 			unsigned int i=0;
 			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
 			while (i<mainPlayer->GetPickedNumber()) {
@@ -549,6 +549,14 @@ void Game::UnitHandler(int i, int k, Time t){
 						}
 						return;
 					}
+				} else if(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object->GetObjectType()==LOOT){
+					Loot* loot=dynamic_cast<Loot*>(field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object);
+					ManageLoot(unit,loot);
+					unit->RestoreTries();
+					field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].usedFor=OBJECT;
+					field->grid[i+unit->NextCellDirX()][k+unit->NextCellDirY()].object=unit;
+					field->grid[i][k].usedFor=NOTHING;
+					field->grid[i][k].object=nullptr;
 				} else {
 					int x=static_cast<int>(unit->GetDestX())/CELL_X_PIXELS;
 					int y=static_cast<int>(unit->GetDestY())/CELL_Y_PIXELS;
