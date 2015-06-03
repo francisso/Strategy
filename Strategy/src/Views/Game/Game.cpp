@@ -218,7 +218,31 @@ int Game::Add(GameObject* newObject, int cell_x, int cell_y, bool ignore){
 	}
 	newObject->SetX(static_cast<float>(cell_x*CELL_X_PIXELS));
 	newObject->SetY(static_cast<float>(cell_y*CELL_Y_PIXELS));
+	Loot* loot;
 	auto cell=&field->grid[cell_x][cell_y];
+	if(cell->textureType==WATER && !ignore){
+		delete newObject;
+		return -1;
+	}
+	switch(cell->usedFor){
+	case CellType::OBJECT_PART:
+		if(!ignore) {
+			delete newObject;
+			return -1;
+		}
+		break;
+	case OBJECT:
+		if(cell->object->GetObjectType()==LOOT){
+			loot=dynamic_cast<Loot*>(cell->object);
+			ManageLoot(newObject,loot);
+		} else if (!ignore){
+			delete newObject;
+			return -1;
+		}
+		break;
+	case NOTHING:
+		break;
+	}
 	Unit* temp_unit;
 	Building* temp_building;
 	Environment* temp_environment;
@@ -274,7 +298,24 @@ int Game::Add(GameObject* newObject, int cell_x, int cell_y, bool ignore){
 }
 
 void Game::ManageLoot(GameObject* object, Loot* loot){
-	if(object==nullptr || loot==nullptr)
+	int gold=loot->GetAmount();
+	int cell_x=static_cast<int>(loot->GetX())/CELL_X_PIXELS;
+	int cell_y=static_cast<int>(loot->GetY())/CELL_Y_PIXELS;
+	PlayingObject* plObject;
+	Player* player;
+	switch(object->GetObjectType()){
+	case ENVIRONMENT: case LOOT:
+		CleanFromObjects(cell_x, cell_y);
+		return;
+	case UNIT: case BUILDING:
+		plObject=dynamic_cast<PlayingObject*>(object);
+		player=FindPlayer(plObject->GetOwnerID());
+		player->AddGold(gold);
+		CleanFromObjects(cell_x,cell_y);
+		return;
+	default:
+		return;
+	}
 		return;
 }
 

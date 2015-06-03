@@ -62,11 +62,28 @@ void Player::DrawToScreen(std::function<void (Drawable*, float X0, float Y0)> f,
 		}
 	}
 }
-int Player::AddGold(int	income){
-	if(playerGold+income>=0){
-		playerGold-=income;
-		return 0;
-	} else return 1;
+int Player::AddGold(int	income,bool toZero){
+	std::cout<<"Player income is "<<income<<std::endl;
+	std::cout<<"Player gold is "<<playerGold<<std::endl;
+	if(toZero){
+		if(playerGold+income>=0){
+			playerGold+=income;
+			std::cout<<"Now player gold is "<<playerGold<<std::endl;
+			return 0;
+		} else {
+			playerGold=0;
+			std::cout<<"Now player gold is "<<playerGold<<std::endl;
+			return 0;
+		}
+	} else {
+		if(playerGold+income>=0){
+			playerGold+=income;
+			std::cout<<"Now player gold is "<<playerGold<<std::endl;
+			return 0;
+		} else {
+			return -1;
+		}
+	}
 }
 
 int Player::GetGold(){

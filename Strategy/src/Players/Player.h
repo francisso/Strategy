@@ -70,7 +70,7 @@ class Player {
 		 * @return возвращает 0 если после вызова метода @Gold больше или равно нулю
 		 *         возвращает 1 если поле вызова метода @Gold должно оказаться меньше нуля; уменьшения Gold в этом слуае не происходит
 		 */
-		int AddGold(int income);
+		int AddGold(int income, bool toZero=false);
 
 		/**
 		 * @return количества золота этого игрока
