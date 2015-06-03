@@ -28,11 +28,5 @@ struct Action{
 	void SetTime(Time t);
 	Time GetTime();
 };
-/*
-const Action* const Wait = new Action(WAIT,true);
-const Action* MoveRight=Action(MOVE_HORIZONTAL,true);
-const Action* MoveLeft=Action(MOVE_HORIZONTAL,false);
-const Action* MoveUp=Action(MOVE_VERTICAL,false);
-const Action* MoveDown=Action(MOVE_VERTICAL,true);*/
 
 #endif /* DRAWABLE_GAMEOBJECTS_ACTION_H_ */

@@ -10,9 +10,13 @@
 #include <iostream>
 
 Unit::Unit(SDL_Rect src, const char *name_file_image, UnitType unitType,
-		float maxSpeed,unsigned int maxHP,Time rate, unsigned int damage, float range, int ownerID):
-				PlayingObject(src, name_file_image,UNIT,maxSpeed,maxHP, rate, damage, range, ownerID),
-				Rotating(4),whoIs(unitType),triesLeft(NUMBER_OF_TRIES) {}
+		float maxSpeed,unsigned int maxHP,Time rate, unsigned int damage,
+		float range, int ownerID):
+				PlayingObject(src, name_file_image,UNIT,maxSpeed,
+						maxHP, rate, damage, range, ownerID),
+				Rotating(4),whoIs(unitType),triesLeft(NUMBER_OF_TRIES) {
+
+}
 
 inline int sign(int x){
 	return (x>0) ? 1: -1;
@@ -24,10 +28,8 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	}
 	int x_curr=(static_cast<int>(GetDestX()))/CELL_X_PIXELS;
 	int y_curr=(static_cast<int>(GetDestY()))/CELL_Y_PIXELS;
-	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<std::endl;
 	int x_range=x_target-x_curr;
 	int y_range=y_target-y_curr;
-	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; y_target="<<y_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 	Direction dir;
 	if(abs(x_range)>abs(y_range)){
 		if(x_range>0) dir=EAST;
@@ -52,14 +54,12 @@ void Unit::DirectMoveToCell(int x_target,int y_target,bool replace){
 	}
 	SetDestX(static_cast<float>(CELL_X_PIXELS*x_target));
 	SetDestY(static_cast<float>(CELL_Y_PIXELS*y_target));
-	//std::cout<<"x_curr="<<x_curr<<"; y_curr="<<y_curr<<"; x_target="<<x_target<<"; x_target="<<x_target<<"; x_range="<<x_range<<"; y_range="<<y_range<<std::endl;
 }
 
 void Unit::Stop(){
 	PlayingObject::Stop();
 	float CELL_X=static_cast<float>(CELL_X_PIXELS);
 	float CELL_Y=static_cast<float>(CELL_Y_PIXELS);
-
 	if(currAction->type==WAIT) {
 		SetDestX(GetX());
 		SetDestY(GetY());
@@ -85,12 +85,10 @@ void Unit::Stop(){
 
 void Unit::SetX(float x){
 	PlayingObject::SetX(x);
-	//SetDestX(x);
 }
 
 void Unit::SetY(float y){
 	PlayingObject::SetY(y);
-	//SetDestY(y);
 }
 
 float Unit::GetXSpeed(){

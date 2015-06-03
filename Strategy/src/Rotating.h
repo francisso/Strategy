@@ -10,6 +10,8 @@
 
 #include <cmath>
 
+
+//Константы для поворота объектов
 const float tanPi1of8=0.414214f;
 const float tanPi3of8=2.414214f;
 const float sqrtOneSecond=0.707106f;

@@ -29,7 +29,9 @@ Time Action::GetTime(){
 	return this->timeLeft;
 }
 
-void Action::SetTime(Time t){this->timeLeft=t;}
+void Action::SetTime(Time t) {
+	this->timeLeft=t;
+}
 
 Action* Action::CreateAttackAction(GameObject* target){
 	if(target->GetObjectType()==ENVIRONMENT || target->GetObjectType()==LOOT) return CreateMoveAction(WAIT);

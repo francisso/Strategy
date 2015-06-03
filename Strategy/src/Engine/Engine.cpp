@@ -47,7 +47,12 @@ Drawable** Engine::LoadResources(){
 }
 
 void Engine::FreeResources(){
-	// TODO implement function
+	delete texture[GROUND];
+	delete texture[WATER];
+	delete 	texture[SAND];
+	delete texture[FOREST];
+	delete texture[MOUNTIAN];
+	delete 	texture[SWAMP];
 }
 Drawable* Engine::CreateRectangle(SDL_Rect rect, Uint8 r, Uint8 g, Uint8 b) const
 {

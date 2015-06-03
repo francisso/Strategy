@@ -13,14 +13,17 @@
 //Временные типы, переопределить по необходимости
 typedef float Time;
 
-
+//Виды текстур на поле
 enum TextureType {GROUND, WATER, SAND, FOREST, MOUNTIAN, SWAMP};
 
+//Возможные состояния клетки
 enum CellType {NOTHING, OBJECT, OBJECT_PART};
 
+//Кому может быть адресованно событие
 enum ReceiverType {GAME, STATUS_BAR_AMOUNT, STATUS_BAR_ACTION, STATUS_BAR_GOLD};
 enum OrderType {SELECTED};
 
+//Возможные классы объектов на карте
 enum GameObjectType {UNIT,BUILDING,LOOT,ENVIRONMENT};
 
 enum UnitType{ARCHER, SWORDMAN};

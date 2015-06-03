@@ -11,7 +11,8 @@
 #include <iostream>
 #include <inttypes.h>
 
-Game::Game(Drawable** texture, SDL_Rect windowRect) : Game(texture, new GameField(), windowRect) {
+Game::Game(Drawable** texture, SDL_Rect windowRect) :
+					Game(texture, new GameField(), windowRect) {
 }
 
 Game::Game(Drawable** texture, GameField* field, SDL_Rect windowRect) :
@@ -102,7 +103,6 @@ void Game::MotionMap(Time t)
 	float WindowW = static_cast<float>(WindowRect.w);
 	float WindowH = static_cast<float>(WindowRect.h);
 	SDL_GetMouseState(&X, &Y);
-	// TODO убрать константу 5
 	if (X < 5) {
 		if (x >= delta)
 			x -= delta;
@@ -320,9 +320,6 @@ void Game::ManageLoot(GameObject* object, Loot* loot){
 }
 
 int Game::AddPlayer(Player* newPlayer){
-	/*for (unsigned int i=0;i<players.size();i++){
-		if(players[i]->PlayerID==newPlayer->PlayerID) return 1;
-	}*/
 	Player* player=FindPlayer(newPlayer->PlayerID);
 	if(player!=nullptr) return 1;
 	players.push_back(newPlayer);
@@ -416,23 +413,6 @@ void Game::WorkWithPlayer(EventForPlayer* EventInfo, int cell_x, int cell_y, Uin
 
 		case PICK_OBJECT:
 			break;
-/*
-			if (objectTarget==nullptr) {
-				mainPlayer->FreePickedObjects();
-				std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
-				break;
-			}
-			if (objectTarget->GetObjectType() == UNIT || objectTarget->GetObjectType() == BUILDING) {
-				PlayingObject *PlayObjectTarget = dynamic_cast<PlayingObject*>(objectTarget);
-				if (PlayObjectTarget->GetOwnerID()==mainPlayer->PlayerID) {
-					if (keystates[SDLK_LSHIFT] || keystates[SDLK_RSHIFT]) mainPlayer->AddPickedObject(PlayObjectTarget,false);
-						else mainPlayer->AddPickedObject(PlayObjectTarget,true);
-				}
-			}
-
-			std::cout<<"Number of picked is "<<mainPlayer->GetPickedNumber()<<std::endl;
-			break;
-*/
 		case MOVE_PICKED_TO:
 			if(objectTarget!=nullptr && (objectTarget->GetObjectType()==BUILDING || objectTarget->GetObjectType()==ENVIRONMENT)) break;
 			unsigned int i=0;
@@ -467,7 +447,7 @@ void Game::OnEvent(SDL_Event* event) {
 	if (event->type==SDL_MOUSEBUTTONUP) {
 		int cell_x=(X + event->button.x-WindowRect.x) / CELL_X_PIXELS;
 		int cell_y=(Y + event->button.y-WindowRect.y) / CELL_Y_PIXELS;
-		//TODO добавить новые инициализации при изменении структуры EventForPlayer
+		//TO DO добавить новые инициализации при изменении структуры EventForPlayer
 		EventForPlayer* EventInfo=new EventForPlayer();
 		EventInfo->event=event;
 		GameObject* objectTarget=field->grid[cell_x][cell_y].object;
@@ -514,11 +494,9 @@ void Game::UnitHandler(int i, int k, Time t){
 	if(unit->GetCurrHP()==0u){
 		CleanFromObjects(i,k);
 	}
-	//Action* action=unit->GetAction();
 	float x=unit->GetX();
 	float y=unit->GetY();
 	float cell_x=static_cast<float>(CELL_X_PIXELS*i), cell_y=static_cast<float>(CELL_Y_PIXELS*k);
-	//std::cout<<"x="<<x<<"; y="<<y<<"; cell_x="<<cell_x<<"; cell_y="<<cell_y<<std::endl;
 	if(x==cell_x && y==cell_y){
 		unit->NextAction();
 		if(unit->GetAction()->type==WAIT){

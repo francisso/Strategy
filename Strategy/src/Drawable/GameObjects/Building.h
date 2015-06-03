@@ -15,8 +15,12 @@
 
 class Building: public PlayingObject, public Sizeable{
 public:
-	Building(SDL_Rect src, const char *name_file_image, BuildingType buildingType, float maxSpeed=SPEED_DEFAULT,unsigned int maxHP=HP_BUILDING_DEFAULT,
-			Time rate=RATE_DEFAULT, unsigned int damage=DAMAGE_DEFAULT, float range=RANGE_DEFAULT, int ownerID=0,int SizeX=X_BUILDING_DEFAULT, int SizeY=Y_BUILDING_DEFAULT);
+	Building(SDL_Rect src, const char *name_file_image,
+			BuildingType buildingType, float maxSpeed=SPEED_DEFAULT,
+			unsigned int maxHP=HP_BUILDING_DEFAULT,
+			Time rate=RATE_DEFAULT, unsigned int damage=DAMAGE_DEFAULT,
+			float range=RANGE_DEFAULT, int ownerID=0,int SizeX=X_BUILDING_DEFAULT,
+			int SizeY=Y_BUILDING_DEFAULT);
 	~Building()=default;
 
 	virtual BuildingType WhatIs();

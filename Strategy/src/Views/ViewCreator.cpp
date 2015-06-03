@@ -7,7 +7,10 @@
 
 #include "ViewCreator.h"
 
-
+/**
+ * Создание корневого view.
+ * @param const char* board_path - путь к сохраненной игре
+ */
 View* ViewCreator::CreateMainView(Engine* engine, const char* board_path)
 {
 	View* main_view = new View();
@@ -18,6 +21,9 @@ View* ViewCreator::CreateMainView(Engine* engine, const char* board_path)
 	return main_view;
 }
 
+/**
+ * Создание view с полем боя
+ */
 View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	Drawable** texture = engine->LoadResources();
 	GameField* field = FieldBuilder::CreateField();
@@ -37,6 +43,7 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	AI* Player_2=new AI(2,BLUE,"Computer 1");
 	game->AddPlayer(Player_2);
 
+	//Загрузка карты
 	xml_document<> doc;
 	xml_node<> * root_node;
 	// Read the xml file into a vector
@@ -50,6 +57,7 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 	if (root_node == nullptr) {
 		throw("Cannot find root node in xml");
 	}
+	// Loading units from file
 	for (xml_node<> * node = root_node->first_node("Unit");
 					node; node = node->next_sibling("Unit")) {
 			auto owner = atoi(node->first_attribute("owner")->value());
@@ -68,6 +76,7 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 			}
 			game->Add(ObjectFactory::CreateUnit(type, owner), x,y, bignore);
 		}
+	// Loading buildings from file
 	for (xml_node<> * node = root_node->first_node("Building");
 						node; node = node->next_sibling("Building")) {
 		auto owner = atoi(node->first_attribute("owner")->value());
@@ -86,6 +95,7 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 		}
 		game->Add(ObjectFactory::CreateBuilding(type, owner), x,y, bignore);
 	}
+	// Loading loot from file
 	for (xml_node<> * node = root_node->first_node("Loot");
 						node; node = node->next_sibling("Loot")) {
 		auto x = atoi(node->first_attribute("x")->value());
@@ -100,6 +110,7 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 		}
 		game->Add(ObjectFactory::CreateLoot(type), x,y, bignore);
 	}
+	// Loading environment objects from file
 	for (xml_node<> * node = root_node->first_node("Environment");
 						node; node = node->next_sibling("Environment")) {
 		auto x = atoi(node->first_attribute("x")->value());
@@ -118,12 +129,16 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 		game->Add(ObjectFactory::CreateEnvironment(type), x,y, bignore);
 	}
 
+	//Некоторые дополнительные объекты
 	game->Add(ObjectFactory::CreateEnvironment(TREES),8,2);
-
 	game->Add(ObjectFactory::CreateUnit(SWORDMAN,2),14,5);
 	game->Add(ObjectFactory::CreateBuilding(FORT,2),14,0);
 	return game;
 }
+
+/**
+ * Создание прогресс бара
+ */
 StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 	// создание amount_object
 	auto make_amount_orders = [](StatusBar* status_bar){
@@ -266,6 +281,9 @@ View* ViewCreator::CreateStatusBar(Engine* engine){
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 // Чтение из xml файла
 //&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+/**
+ * Создание объекта view из xml файла
+ */
 View* ViewCreator::CreateView(const char* path) {
 	xml_document<> doc;
 	xml_node<> * root_node;
@@ -284,6 +302,9 @@ View* ViewCreator::CreateView(const char* path) {
 	return MakeView(root_node);
 }
 
+/**
+ * Создание объекта типа view из ноды xml файла
+ */
 View* ViewCreator::MakeView(xml_node<>* root_node) {
 	printf("Making a view\n");
 	View* view = new View();
@@ -299,6 +320,9 @@ View* ViewCreator::MakeView(xml_node<>* root_node) {
 	return view;
 }
 
+/**
+ * Создание объекта типа drawable из ноды xml файла
+ */
 Drawable* ViewCreator::MakeDrawable(xml_node<>* node) {
 	printf("Making a drawable\n");
 	auto path = node->first_attribute("path")->value();
