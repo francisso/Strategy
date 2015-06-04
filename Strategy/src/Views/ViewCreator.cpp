@@ -131,8 +131,6 @@ View* ViewCreator::CreateGame(Engine* engine, const char* board_path){
 
 	//Некоторые дополнительные объекты
 	game->Add(ObjectFactory::CreateEnvironment(TREES),8,2);
-	game->Add(ObjectFactory::CreateUnit(SWORDMAN,2),14,5);
-	game->Add(ObjectFactory::CreateBuilding(FORT,2),14,0);
 	return game;
 }
 
@@ -159,7 +157,7 @@ StatusBar* ViewCreator::CreateStatusBar_Amount(Engine* engine){
 						SDL_Rect src_text = {200, 95, 280, 80};
 						auto buiding_status_draw = new Draw(src, "res/images/buildings/castle.bmp");
 						buiding_status_draw->SetX(20);
-						buiding_status_draw->SetY(20);
+						buiding_status_draw->SetY(10);
 						StatusObject* building_status = new StatusObject(buiding_status_draw, src_text);
 						building_status->SetText("Castle");
 						building_status->SetColorText(255, 255, 55);
@@ -247,20 +245,29 @@ StatusBar* ViewCreator::CreateStatusBar_Gold(Engine* engine){
 				status_bar->ClearStatusObjects();
 				SDL_Rect src_text = {30, 0, 20, 500};
 				StatusObject* status_object = new StatusObject(nullptr, src_text);
-				char text[200];
+				char text[100];
 				int* gold = static_cast<int*>(ord->data);
 				sprintf(text, "You are Billionaire!!! (%d)", *gold);
 				status_object->SetText(text);
 				status_object->SetColorText(255, 233, 127);
 				status_object->SetSizeText(18);
+				status_bar->AddStatusObject(status_object);
 				list_of_orders.erase(ord);
 			}
 			ord = next_ord;
 		}
 	};
+	SDL_Rect src_text = {30, 2, 500, 20};
+	StatusObject* status_object = new StatusObject(nullptr, src_text);
+	char text[100];
+	sprintf(text, "You are Billionaire!!!");
+	status_object->SetText(text);
+	status_object->SetColorText(255, 233, 127);
+	status_object->SetSizeText(18);
 	StatusBar* status_bar_gold = new StatusBar(make_action_orders);
 	SDL_Rect src = {FRAME, FRAME, static_cast<Uint16>(X_SIZE_WINDOW - 2*FRAME), static_cast<Uint16>(FRAME)};
 	status_bar_gold->SetBackground(engine->CreateRectangle(src, 95, 8, 46));
+	status_bar_gold->AddStatusObject(status_object);
 	return status_bar_gold;
 }
 View* ViewCreator::CreateStatusBar(Engine* engine){
